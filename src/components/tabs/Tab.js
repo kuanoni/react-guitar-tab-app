@@ -32,7 +32,7 @@ const Tab = () => {
     return (
         <div className="tab">
             <div className="tunings">
-                { tunings.map((tuning, i) => <div key={i}>{TUNINGS[tuning].slice(0, 1)}</div>).reverse() }
+                { tunings.map((tuning, i) => <div key={i}>{TUNINGS[tuning].slice(0, 1) + '|'}</div>).reverse() }
             </div>
             { tabColumns }
         </div>

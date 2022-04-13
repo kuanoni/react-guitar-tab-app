@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { TUNINGS } from "../../GUITAR";
 import AddHammerOnButton from "../controller/AddHammerOnButton";
+import AddPullOffButton from "../controller/AddPullOffButton";
 import FretButton from "./FretButton";
 
 const selectTuning = state => state.tabMaker.tuning;
@@ -36,6 +37,7 @@ const FretboardString = (props) => {
                 return <FretButton key={fret} fretNum={i} fretNote={fret} guitarString={props.guitarString} />
             })}
             <AddHammerOnButton guitarString={props.guitarString}/>
+            <AddPullOffButton guitarString={props.guitarString}/>
         </div>
     )
 }

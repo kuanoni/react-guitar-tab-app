@@ -1,8 +1,7 @@
 const initialState = {
-    selectedColumn: 0,
+    selectedColumn: 2,
     tuning: [28, 33, 38, 43, 47, 52],
     tablature: [
-        ['—', '—', '—', '—', '—', '—'],
         ['—', '—', '—', '—', '—', '—'],
         ['—', '—', '—', '—', '—', '—'],
         ['—', '—', '—', '—', '—', '—'],
@@ -12,7 +11,7 @@ const initialState = {
 
 export default function tabMakerReducer(state = initialState, action) {
     // create deep copies of tablature
-    const changedTablature = JSON.parse(JSON.stringify(state.tablature));
+    let changedTablature = JSON.parse(JSON.stringify(state.tablature));
     const tablatureCopy = JSON.parse(JSON.stringify(state.tablature));
     const previousState = state.history.at(-1);
 
@@ -113,12 +112,21 @@ export default function tabMakerReducer(state = initialState, action) {
         }
 
         // payload: guitarString, value
-        case 'tabMaker/setTabFret': {
+        case 'tabMaker/setStringNote': {
             if (changedTablature[state.selectedColumn][action.payload.guitarString] === '—')
                 changedTablature[state.selectedColumn][action.payload.guitarString] = action.payload.value;
+
+            let newSelectedColumn = state.selectedColumn;
+            let newColumns = [];
+            if (state.selectedColumn === state.tablature.length-1) {
+                newColumns = createEmptyColumns(2);
+                changedTablature = [...changedTablature, ...newColumns];
+                newSelectedColumn = changedTablature.length - 1;
+            }
             
             return {
                 ...state,
+                selectedColumn: newSelectedColumn,
                 tablature: changedTablature,
                 history: [
                     ...state.history,

@@ -7,7 +7,7 @@
     padding: 2rem;
 
     $l-height: 1.3;
-    $rowW: 1.3rem;
+    $rowW: .8rem;
 
     .tunings {
         display: flex;
@@ -15,6 +15,13 @@
         font-weight: 900;
         line-height: $l-height;
         width: $rowW;
+
+        div {
+            height: $rowW;
+            font-size: calc($rowW * 0.8);
+            text-align: center;
+            font-weight: 600;
+        }
     }
 
     .tab-column {
