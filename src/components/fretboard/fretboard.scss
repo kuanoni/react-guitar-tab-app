@@ -1,0 +1,53 @@
+.fretboard-wrapper {
+    $fret-width: 2rem;
+
+    .fretboard {
+        position: absolute;
+        bottom: 0%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 10px;
+        background-color: rgb(204 226 245);
+        padding: 1rem;
+        margin: 1rem;
+        overflow-x: auto;
+
+        .fretboard-labels {
+            display: flex;
+            gap: .5rem;
+
+            .first {
+                width: calc($fret-width * 1.6);
+            }
+
+            span {
+                text-align: center;
+                font-weight: 600;
+                min-width: $fret-width;
+            }
+        }
+
+        .fretboard-string {
+            display: flex;
+            gap: .5rem;
+            margin-block: .5rem;
+
+            .fretboard-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                background-color: aliceblue;
+                border-radius: 50%;
+                min-width: $fret-width;
+                min-height: $fret-width;
+                user-select: none;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #b2cfe9;
+                }
+            }
+        }
+    }
+}
