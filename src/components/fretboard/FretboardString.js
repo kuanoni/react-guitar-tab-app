@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { TUNINGS } from "../../GUITAR";
 import AddHammerOnButton from "../controller/AddHammerOnButton";
@@ -16,9 +15,6 @@ const FretboardString = (props) => {
             guitarString: props.guitarString, tuning: parseInt(e.target.value) 
         }});
     }
-
-    useEffect(() => {
-    }, [tunings[props.guitarString]])
 
     const stringTuningOptions = [...Array(84).keys()].map(num => {
         return <option key={num} value={num}>{TUNINGS[num]}</option>

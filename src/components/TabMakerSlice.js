@@ -23,14 +23,6 @@ const updateAllItemsInSelectedColumn = (tablature, selectedCol, value) => {
     return changedTablature;
 }
 
-const createEmptyColumns = (amount=1) => {
-    let newColumns = [];
-    for (let i = 0; i < amount; i++) {
-        newColumns.push(EMPTY_COLUMN);
-    }
-
-    return newColumns;
-} 
 
 const addEmptyColumns = (tablature, amount) => {
     const newColumns = createEmptyColumns(amount);
@@ -39,6 +31,15 @@ const addEmptyColumns = (tablature, amount) => {
         ...newColumns
     ]
 }
+
+const createEmptyColumns = (amount=1) => {
+    let newColumns = [];
+    for (let i = 0; i < amount; i++) {
+        newColumns.push(EMPTY_COLUMN);
+    }
+
+    return newColumns;
+} 
 
 const saveChangesToHistory = (oldState, updatedState) => {
     return {
@@ -200,25 +201,16 @@ const setStringNote = (state, guitarString, note, spaces) => {
 
 const snapStringNoteToPrevious = (state, guitarString, note, spaces) => {
     if (state.selectedColumn < 3) return setStringNote(state, guitarString, note, spaces);
-
-    let columns = [
-        state.tablature[state.selectedColumn],
-        state.tablature[state.selectedColumn - 1],
-        state.tablature[state.selectedColumn - 2],
-    ];
-
+    
     let columnToSnapTo = state.tablature[state.selectedColumn - 3];
 
-    for (let i = 0; i < columns.length; i++) {
-        if (columns[i] !== EMPTY_COLUMN) {
+    if (state.tablature[state.selectedColumn] !== EMPTY_COLUMN ||
+        state.tablature[state.selectedColumn] !== EMPTY_COLUMN ||
+        state.tablature[state.selectedColumn] !== EMPTY_COLUMN ||
+        typeof columnToSnapTo[guitarString] !== 'number') {
             return setStringNote(state, guitarString, note, spaces);
-        }
     }
-
-    if (typeof columnToSnapTo[guitarString] !== 'number') {
-        return setStringNote(state, guitarString, note, spaces);
-    }
-
+    
     let newTablature = state.tablature.slice(0, state.selectedColumn - 1);
 
     let newState = changeSelectedColumn(state, newTablature.length - 1);
@@ -226,7 +218,6 @@ const snapStringNoteToPrevious = (state, guitarString, note, spaces) => {
         ...newState,
         tablature: newTablature
     }
-    newState = setStringNote(newState, guitarString, note, 1);
 
-    return newState;
+    return setStringNote(newState, guitarString, note, 1);
 }

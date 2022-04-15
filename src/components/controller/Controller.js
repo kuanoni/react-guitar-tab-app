@@ -1,5 +1,4 @@
 import React from 'react'
-import AddHammerOnButton from './AddHammerOnButton'
 import ChangeToDivider from './ChangeToDividerButton'
 import ClearColumnButton from './ClearColumnButton'
 import MoveSelectionLeftButton from './MoveSelectionLeftButton'
