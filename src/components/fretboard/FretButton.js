@@ -6,7 +6,7 @@ const FretButton = (props) => {
 
   const onClick = () => {
     // payload: guitarString, value
-    dispatch({ type: 'tabMaker/setStringNote', payload: { guitarString: props.guitarString, note: props.fretNum, spaces: 3 } });
+    dispatch({ type: 'tabMaker/setStringNote', payload: { guitarString: props.guitarString, note: props.fretNum, spaces: 2 } });
   }
 
 
