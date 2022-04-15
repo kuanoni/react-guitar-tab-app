@@ -1,10 +1,12 @@
+const EMPTY_COLUMN = ['—', '—', '—', '—', '—', '—'];
+
 const initialState = {
     selectedColumn: 2,
     tuning: [28, 33, 38, 43, 47, 52],
     tablature: [
-        ['—', '—', '—', '—', '—', '—'],
-        ['—', '—', '—', '—', '—', '—'],
-        ['—', '—', '—', '—', '—', '—'],
+        EMPTY_COLUMN,
+        EMPTY_COLUMN,
+        EMPTY_COLUMN
     ],
     history: []
 }
@@ -24,7 +26,7 @@ const updateAllItemsInSelectedColumn = (tablature, selectedCol, value) => {
 const createEmptyColumns = (amount=1) => {
     let newColumns = [];
     for (let i = 0; i < amount; i++) {
-        newColumns.push(['—', '—', '—', '—', '—', '—']);
+        newColumns.push(EMPTY_COLUMN);
     }
 
     return newColumns;
@@ -66,7 +68,6 @@ export default function tabMakerReducer(state = initialState, action) {
             return clearColumn(state);
 
         case 'tabMaker/changeColumnToDivider': 
-
             return changeColumnToDivider(state);
 
         case 'tabMaker/setStringNote': 
@@ -74,6 +75,12 @@ export default function tabMakerReducer(state = initialState, action) {
                 action.payload.guitarString, 
                 action.payload.note,
                 action.payload.spaces
+            );
+
+        case 'tabMaker/snapStringNoteToPrevious':
+            return snapStringNoteToPrevious(state,
+                action.payload.guitarString,
+                action.payload.note
             );
 
         default:
@@ -88,22 +95,26 @@ const undoToHistory = (state) => {
         return state;
     }
 
-    return {
+    const updatedState = {
         ...state,
         selectedColumn: previousState.selectedColumn,
         tablature: previousState.tablature,
         history: state.history.slice(0, -1)
     }
+
+    return updatedState;
 }
 
 const changeStringTuning = (state, guitarString, tuning) => {
     let newTuning = [...state.tuning];
     newTuning[guitarString] = tuning;
 
-    return {
+    const updatedState = {
         ...state, 
         tuning: newTuning
     }
+
+    return updatedState;
 }
 
 const changeSelectedColumn = (state, columnIndex) => {
@@ -141,15 +152,23 @@ const clearColumn = (state) => {
 }
 
 const changeColumnToDivider = (state) => {
-    const newTablature = updateAllItemsInSelectedColumn(
+    let newTablature = updateAllItemsInSelectedColumn(
         state.tablature,
         state.selectedColumn,
         '|'
     );
 
+    let newSelectedColumn = state.selectedColumn;
+
+    if (state.selectedColumn === state.tablature.length - 1) {
+        newTablature = addEmptyColumns(newTablature, 3);
+        newSelectedColumn = newTablature.length - 1;
+    }
+
     const updatedState = {
         ...state,
-        tablature: newTablature
+        tablature: newTablature,
+        selectedColumn: newSelectedColumn
     }
 
     return saveChangesToHistory(state, updatedState);
@@ -170,7 +189,7 @@ const setStringNote = (state, guitarString, note, spaces) => {
         newSelectedColumn = newTablature.length - 1;
     }
 
-    let updatedState = {
+    const updatedState = {
         ...state,
         tablature: newTablature,
         selectedColumn: newSelectedColumn
@@ -179,3 +198,35 @@ const setStringNote = (state, guitarString, note, spaces) => {
     return saveChangesToHistory(state, updatedState);
 }
 
+const snapStringNoteToPrevious = (state, guitarString, note, spaces) => {
+    if (state.selectedColumn < 3) return setStringNote(state, guitarString, note, spaces);
+
+    let columns = [
+        state.tablature[state.selectedColumn],
+        state.tablature[state.selectedColumn - 1],
+        state.tablature[state.selectedColumn - 2],
+    ];
+
+    let columnToSnapTo = state.tablature[state.selectedColumn - 3];
+
+    for (let i = 0; i < columns.length; i++) {
+        if (columns[i] !== EMPTY_COLUMN) {
+            return setStringNote(state, guitarString, note, spaces);
+        }
+    }
+
+    if (typeof columnToSnapTo[guitarString] !== 'number') {
+        return setStringNote(state, guitarString, note, spaces);
+    }
+
+    let newTablature = state.tablature.slice(0, state.selectedColumn - 1);
+
+    let newState = changeSelectedColumn(state, newTablature.length - 1);
+    newState = {
+        ...newState,
+        tablature: newTablature
+    }
+    newState = setStringNote(newState, guitarString, note, 1);
+
+    return newState;
+}
