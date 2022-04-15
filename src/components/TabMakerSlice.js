@@ -65,6 +65,9 @@ export default function tabMakerReducer(state = initialState, action) {
         case 'tabMaker/changeSelectedColumn': 
             return changeSelectedColumn(state, action.payload);
 
+        case 'tabMaker/moveSelectedColumn': 
+            return moveSelectedColumn(state, action.payload);
+
         case 'tabMaker/clearSelectedColumn': 
             return clearColumn(state);
 
@@ -135,6 +138,10 @@ const changeSelectedColumn = (state, columnIndex) => {
     }
 
     return updatedState;
+}
+
+const moveSelectedColumn = (state, direction) => {
+    return changeSelectedColumn(state, direction + state.selectedColumn);
 }
 
 const clearColumn = (state) => {
