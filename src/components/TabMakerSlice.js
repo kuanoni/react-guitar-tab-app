@@ -7,137 +7,18 @@ const initialState = {
         ['—', '—', '—', '—', '—', '—'],
     ],
     history: []
-  }
+}
 
-export default function tabMakerReducer(state = initialState, action) {
-    // create deep copies of tablature
-    let changedTablature = JSON.parse(JSON.stringify(state.tablature));
-    const tablatureCopy = JSON.parse(JSON.stringify(state.tablature));
-    const previousState = state.history.at(-1);
+const updateItemInSelectedColumn = (tablature, selectedCol, guitarString, value) => {
+    let changedTablature = JSON.parse(JSON.stringify(tablature));
+    changedTablature[selectedCol][guitarString] = value;
+    return changedTablature;
+}
 
-    switch (action.type) {
-        // payload: none
-        case 'tabMaker/undoToHistory': {
-            if (previousState === undefined) {
-                return state;
-            }
-
-            return {
-                ...state,
-                selectedColumn: previousState.selectedColumn,
-                tablature: previousState.tablature,
-                history: state.history.slice(0, -1)
-            }
-        }
-
-        case 'tabMaker/changeStringTuning': {
-            let newTuning = [...state.tuning];
-            newTuning[action.payload.guitarString] = action.payload.tuning;
-
-            return {
-                ...state, 
-                tuning: newTuning
-            }
-        }
-
-        //=====================================================
-        //                   COLUMNS
-        // ====================================================
-
-        // payload: columnId
-        case 'tabMaker/changeSelectedColumn': {
-            if (action.payload < 0) return state;
-            let mutableTabHistory = null;
-
-            // creates new columns if newly selected column does not exist
-            let newColumns = [];
-            // difference between selected column and tab column amount
-            const selectionDiff = action.payload - state.tablature.length + 1; 
-            if (selectionDiff > 0) {
-                newColumns = createEmptyColumns(selectionDiff);
-                mutableTabHistory = tablatureCopy; // save to history when creating new columns
-            }
-
-            if (mutableTabHistory) {
-                return {
-                    ...state,
-                    selectedColumn: action.payload,
-                    tablature: [
-                        ...state.tablature,
-                        ...newColumns
-                    ],
-                    history: [
-                        ...state.history,
-                        {selectedColumn: state.selectedColumn, tablature: mutableTabHistory}
-                    ]
-                }
-            } else {
-                return {
-                    ...state,
-                    selectedColumn: action.payload,
-                    tablature: [
-                        ...state.tablature,
-                        ...newColumns
-                    ]
-                }
-            }
-        }
-
-        // payload: none
-        case 'tabMaker/clearSelectedColumn': {
-            changedTablature[state.selectedColumn] = createEmptyColumns().flat();
-
-            return {
-                ...state,
-                tablature: changedTablature,
-                history: [
-                    ...state.history,
-                    {selectedColumn: state.selectedColumn, tablature: tablatureCopy}
-                ]
-            }
-        }
-
-        // payload: none
-        case 'tabMaker/changeColumnToDivider': {
-            changedTablature[state.selectedColumn] = ['|', '|', '|', '|', '|', '|'];
-
-            return {
-                ...state,
-                tablature: changedTablature,
-                history: [
-                    ...state.history,
-                    {selectedColumn: state.selectedColumn, tablature: tablatureCopy}
-                ]
-            }
-        }
-
-        // payload: guitarString, value
-        case 'tabMaker/setStringNote': {
-            if (changedTablature[state.selectedColumn][action.payload.guitarString] === '—')
-                changedTablature[state.selectedColumn][action.payload.guitarString] = action.payload.value;
-
-            let newSelectedColumn = state.selectedColumn;
-            let newColumns = [];
-            if (state.selectedColumn === state.tablature.length-1) {
-                newColumns = createEmptyColumns(2);
-                changedTablature = [...changedTablature, ...newColumns];
-                newSelectedColumn = changedTablature.length - 1;
-            }
-            
-            return {
-                ...state,
-                selectedColumn: newSelectedColumn,
-                tablature: changedTablature,
-                history: [
-                    ...state.history,
-                    {selectedColumn: state.selectedColumn, tablature: tablatureCopy}
-                ]
-            }
-        }
-
-        default:
-            return state
-        }
+const updateAllItemsInSelectedColumn = (tablature, selectedCol, value) => {
+    let changedTablature = JSON.parse(JSON.stringify(tablature));
+    changedTablature[selectedCol] = tablature[selectedCol].map(() => value);
+    return changedTablature;
 }
 
 const createEmptyColumns = (amount=1) => {
@@ -148,3 +29,153 @@ const createEmptyColumns = (amount=1) => {
 
     return newColumns;
 } 
+
+const addEmptyColumns = (tablature, amount) => {
+    const newColumns = createEmptyColumns(amount);
+    return [
+        ...tablature,
+        ...newColumns
+    ]
+}
+
+const saveChangesToHistory = (oldState, updatedState) => {
+    return {
+        ...updatedState,
+        history: [
+            ...updatedState.history,
+            { 
+                selectedColumn: oldState.selectedColumn,
+                tablature: JSON.parse(JSON.stringify(oldState.tablature))
+            }           
+        ]
+    }
+}
+
+export default function tabMakerReducer(state = initialState, action) {
+    switch (action.type) {
+        case 'tabMaker/undoToHistory':
+            return undoToHistory(state);
+
+        case 'tabMaker/changeStringTuning':
+            return changeStringTuning(state, action.payload.guitarString, action.payload.tuning);
+
+        case 'tabMaker/changeSelectedColumn': 
+            return changeSelectedColumn(state, action.payload);
+
+        case 'tabMaker/clearSelectedColumn': 
+            return clearColumn(state);
+
+        case 'tabMaker/changeColumnToDivider': 
+
+            return changeColumnToDivider(state);
+
+        case 'tabMaker/setStringNote': 
+            return setStringNote(state, 
+                action.payload.guitarString, 
+                action.payload.note,
+                action.payload.spaces
+            );
+
+        default:
+            return state
+    }
+}
+
+const undoToHistory = (state) => {
+    const previousState = state.history.at(-1);
+
+    if (previousState === undefined) {
+        return state;
+    }
+
+    return {
+        ...state,
+        selectedColumn: previousState.selectedColumn,
+        tablature: previousState.tablature,
+        history: state.history.slice(0, -1)
+    }
+}
+
+const changeStringTuning = (state, guitarString, tuning) => {
+    let newTuning = [...state.tuning];
+    newTuning[guitarString] = tuning;
+
+    return {
+        ...state, 
+        tuning: newTuning
+    }
+}
+
+const changeSelectedColumn = (state, columnIndex) => {
+    if (columnIndex < 0) return state;
+
+    let newTablature = state.tablature;
+
+    const selectionDifference = columnIndex - state.tablature.length + 1;
+    if (selectionDifference > 0) {
+        newTablature = addEmptyColumns(state.tablature, selectionDifference);
+    }
+
+    const updatedState = {
+        ...state,
+        tablature: newTablature,
+        selectedColumn: columnIndex
+    }
+
+    return updatedState;
+}
+
+const clearColumn = (state) => {
+    const newTablature = updateAllItemsInSelectedColumn(
+        state.tablature,
+        state.selectedColumn,
+        '—'
+    );
+
+    const updatedState = {
+        ...state,
+        tablature: newTablature
+    }
+
+    return saveChangesToHistory(state, updatedState);
+}
+
+const changeColumnToDivider = (state) => {
+    const newTablature = updateAllItemsInSelectedColumn(
+        state.tablature,
+        state.selectedColumn,
+        '|'
+    );
+
+    const updatedState = {
+        ...state,
+        tablature: newTablature
+    }
+
+    return saveChangesToHistory(state, updatedState);
+}
+
+const setStringNote = (state, guitarString, note, spaces) => {
+    let newTablature = updateItemInSelectedColumn(
+        state.tablature, 
+        state.selectedColumn, 
+        guitarString, 
+        note
+    );
+
+    let newSelectedColumn = state.selectedColumn;
+
+    if (state.selectedColumn === state.tablature.length - 1) {
+        newTablature = addEmptyColumns(newTablature, spaces);
+        newSelectedColumn = newTablature.length - 1;
+    }
+
+    let updatedState = {
+        ...state,
+        tablature: newTablature,
+        selectedColumn: newSelectedColumn
+    } 
+
+    return saveChangesToHistory(state, updatedState);
+}
+

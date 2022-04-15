@@ -4,7 +4,7 @@ const AddHammerOnButton = (props) => {
     const dispatch = useDispatch();
 
     const onClick = () => {
-        dispatch({ type: 'tabMaker/setStringNote', payload: { guitarString: props.guitarString, value: 'h' } })
+        dispatch({ type: 'tabMaker/setStringNote', payload: { guitarString: props.guitarString, note: 'h', spaces: 1 }})
     }
 
     return (
