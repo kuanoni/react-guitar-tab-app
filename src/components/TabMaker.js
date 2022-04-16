@@ -21,6 +21,18 @@ const TabMaker = () => {
                 break;
             }
 
+            case 32: {
+              // Space
+              dispatch({ type: "tabMaker/addSpaceColumns", payload: 1 });
+              break;
+            }
+
+            case 90: {
+              if (e.ctrlKey) {
+                dispatch({ type: "tabMaker/undoToHistory"});
+              }
+            }
+
             case 16: {
                 dispatch({ type: "tabMaker/setHoldingShift", payload: false });
                 break;
@@ -39,7 +51,7 @@ const TabMaker = () => {
             }
 
             default:
-              return;
+                return;
         }
     };
 

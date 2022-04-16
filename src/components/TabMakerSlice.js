@@ -1,4 +1,12 @@
-const EMPTY_COLUMN = ["—", "—", "—", "—", "—", "—"];
+const EMPTY_NOTE_CHAR = '-'
+const EMPTY_COLUMN = [
+    EMPTY_NOTE_CHAR,
+    EMPTY_NOTE_CHAR,
+    EMPTY_NOTE_CHAR,
+    EMPTY_NOTE_CHAR,
+    EMPTY_NOTE_CHAR,
+    EMPTY_NOTE_CHAR
+];
 const SPACE_BETWEEN_NOTES = 3;
 
 const initialState = {
@@ -59,6 +67,9 @@ export default function tabMakerReducer(state = initialState, action) {
         case "tabMaker/setHoldingShift":
             return { ...state, holdingShift: action.payload };
 
+        case "tabMaker/setHoldingCtrl":
+            return { ...state, holdingCtrl: action.payload };
+
         case "tabMaker/undoToHistory":
             return undoToHistory(state);
 
@@ -79,7 +90,7 @@ export default function tabMakerReducer(state = initialState, action) {
             return clearColumn(state);
 
         case "tabMaker/addSpaceColumns":
-            return addSpaceColumns(state, action.payload);
+            return addSpaceColumns(state);
 
         case "tabMaker/changeColumnToDivider":
             return changeColumnToDivider(state);
@@ -89,7 +100,6 @@ export default function tabMakerReducer(state = initialState, action) {
                 state,
                 action.payload.guitarString,
                 action.payload.note,
-                action.payload.spaces
             );
 
         case "tabMaker/snapStringNoteToPrevious":
@@ -171,7 +181,7 @@ const clearColumn = (state) => {
     return saveChangesToHistory(state, updatedState);
 };
 
-const addSpaceColumns = (state, spaces = 3) => {
+const addSpaceColumns = (state, spaces = SPACE_BETWEEN_NOTES) => {
     const newTablature = addEmptyColumns(state.tablature, spaces);
 
     const updatedState = {
@@ -180,7 +190,7 @@ const addSpaceColumns = (state, spaces = 3) => {
         selectedColumn: newTablature.length - 1,
     };
 
-    return updatedState;
+    return saveChangesToHistory(state, updatedState);
 };
 
 const changeColumnToDivider = (state) => {
@@ -206,14 +216,14 @@ const changeColumnToDivider = (state) => {
     return saveChangesToHistory(state, updatedState);
 };
 
-const setStringNote = (state, guitarString, note, spaces) => {
+const setStringNote = (state, guitarString, note, spaces=SPACE_BETWEEN_NOTES) => {
     let newTablature = updateItemInSelectedColumn(
         state.tablature,
         state.selectedColumn,
         guitarString,
         note
     );
-    
+
     let newSelectedColumn = state.selectedColumn;
     if (!state.holdingShift) {
         if (state.selectedColumn === state.tablature.length - 1) {
@@ -231,16 +241,16 @@ const setStringNote = (state, guitarString, note, spaces) => {
     return saveChangesToHistory(state, updatedState);
 };
 
-const snapStringNoteToPrevious = (state, guitarString, note, spaces) => {
-    if (state.selectedColumn < 3)
+const snapStringNoteToPrevious = (state, guitarString, note, spaces=SPACE_BETWEEN_NOTES) => {
+    if (state.selectedColumn < SPACE_BETWEEN_NOTES)
         return setStringNote(state, guitarString, note, spaces);
 
-    let columnToSnapTo = state.tablature[state.selectedColumn - 3];
+    let columnToSnapTo = state.tablature[state.selectedColumn - SPACE_BETWEEN_NOTES];
 
     if (
         state.tablature[state.selectedColumn] !== EMPTY_COLUMN ||
-        state.tablature[state.selectedColumn] !== EMPTY_COLUMN ||
-        state.tablature[state.selectedColumn] !== EMPTY_COLUMN ||
+        state.tablature[state.selectedColumn - 1] !== EMPTY_COLUMN ||
+        state.tablature[state.selectedColumn - 2] !== EMPTY_COLUMN ||
         typeof columnToSnapTo[guitarString] !== "number"
     ) {
         return setStringNote(state, guitarString, note, spaces);

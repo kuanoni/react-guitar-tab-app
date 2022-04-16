@@ -14,7 +14,7 @@
 
         .fretboard-labels {
             display: flex;
-            gap: .5rem;
+            gap: .25rem;
 
             .first {
                 width: calc($fret-width * 1.6);
@@ -29,7 +29,7 @@
 
         .fretboard-string {
             display: flex;
-            gap: .5rem;
+            gap: .25rem;
             margin-block: .5rem;
 
             .fretboard-btn {
