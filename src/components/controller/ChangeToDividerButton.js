@@ -1,17 +1,13 @@
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 
 const ChangeToDivider = () => {
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-    const onClick = () => {
-        dispatch({ type: 'tabMaker/changeColumnToDivider' })
-    }
+	const onClick = () => {
+		dispatch({ type: 'tabMaker/changeColumnToDivider' });
+	};
 
-    return (
-        <div onClick={onClick}>
-            ChangeToDivider
-        </div>
-    )
-}
+	return <div onClick={onClick}>ChangeToDivider</div>;
+};
 
-export default ChangeToDivider
+export default ChangeToDivider;

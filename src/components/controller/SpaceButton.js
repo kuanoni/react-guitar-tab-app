@@ -1,17 +1,13 @@
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 
 const SpaceButton = () => {
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-    const onClick = () => {
-        dispatch({ type: 'tabMaker/addSpaceColumns'})
-    }
+	const onClick = () => {
+		dispatch({ type: 'tabMaker/addSpaceColumns' });
+	};
 
-    return (
-        <div onClick={onClick}>
-            SpaceButton
-        </div>
-    )
-}
+	return <div onClick={onClick}>SpaceButton</div>;
+};
 
-export default SpaceButton
+export default SpaceButton;

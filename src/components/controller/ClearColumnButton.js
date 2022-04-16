@@ -1,17 +1,13 @@
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 
 const ClearColumnButton = () => {
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-    const onClick = () => {
-        dispatch({ type: 'tabMaker/clearSelectedColumn' })
-    }
+	const onClick = () => {
+		dispatch({ type: 'tabMaker/clearSelectedColumn' });
+	};
 
-    return (
-        <div onClick={onClick}>
-            ClearColumnButton
-        </div>
-    )
-}
+	return <div onClick={onClick}>ClearColumnButton</div>;
+};
 
-export default ClearColumnButton
+export default ClearColumnButton;

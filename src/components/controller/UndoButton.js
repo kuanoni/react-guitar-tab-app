@@ -1,17 +1,13 @@
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 
 const UndoButton = () => {
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-    const onClick = () => {
-        dispatch({ type: 'tabMaker/undoToHistory' })
-    }
+	const onClick = () => {
+		dispatch({ type: 'tabMaker/undoToHistory' });
+	};
 
-    return (
-        <div onClick={onClick}>
-            UndoButton
-        </div>
-    )
-}
+	return <div onClick={onClick}>UndoButton</div>;
+};
 
-export default UndoButton
+export default UndoButton;

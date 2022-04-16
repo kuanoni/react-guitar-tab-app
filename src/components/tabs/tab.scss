@@ -1,45 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap');
 
 .tab {
-    display: flex;
-    user-select: none;
-    font-family: 'Nanum Gothic Coding', monospace;
-    padding: 2rem;
+	display: flex;
+	user-select: none;
+	font-family: 'Nanum Gothic Coding', monospace;
+	padding: 2rem;
 
-    $note-width: 8px;
-    $note-height: 12px;
-    $note-font-size: 14px;
+	$note-width: 8px;
+	$note-height: 12px;
+	$note-font-size: 14px;
 
-    .tunings {
-        display: flex;
-        flex-direction: column;
-        font-weight: 900;
-        width: $note-width;
-        margin-right: 8px;
-        letter-spacing: 2px;
+	.tunings {
+		display: flex;
+		flex-direction: column;
+		font-weight: 900;
+		width: $note-width;
+		margin-right: 8px;
+		letter-spacing: 2px;
 
-        div {
-            height: $note-height;
-            font-size: $note-font-size;
-            text-align: center;
-            font-weight: 600;
-        }
-    }
+		div {
+			height: $note-height;
+			font-size: $note-font-size;
+			text-align: center;
+			font-weight: 600;
+		}
+	}
 
-    .tab-column {
-        display: flex;
-        flex-direction: column;
-        width: $note-width;
+	.tab-column {
+		display: flex;
+		flex-direction: column;
+		width: $note-width;
 
-        div {
-            height: $note-height;
-            font-size: $note-font-size;
-            text-align: center;
-            font-weight: 400;
-        }
+		div {
+			height: $note-height;
+			font-size: $note-font-size;
+			text-align: center;
+			font-weight: 400;
+		}
 
-        &.selected {
-            background-color: cadetblue;
-        }
-    }
+		&.selected {
+			background-color: cadetblue;
+		}
+	}
 }
