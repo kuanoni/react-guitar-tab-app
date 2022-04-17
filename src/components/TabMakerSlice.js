@@ -44,6 +44,13 @@ const createEmptyColumns = (amount = 1) => {
 	return newColumns;
 };
 
+const insertEmptyColumn = (tablature, index) => {
+    let changedTablature = JSON.parse(JSON.stringify(tablature));
+    changedTablature.splice(index, 0, createEmptyColumns(1).flat());
+
+    return changedTablature;
+}
+
 const saveChangesToHistory = (oldState, updatedState) => {
 	return {
 		...updatedState,
@@ -85,6 +92,9 @@ export default function tabMakerReducer(state = initialState, action) {
 
 		case 'tabMaker/changeColumnToDivider':
 			return changeColumnToDivider(state);
+
+		case 'tabMaker/changeColumnToLineBreak':
+			return changeColumnToLineBreak(state);
 
 		case 'tabMaker/setStringNote':
 			return setStringNote(state, action.payload.guitarString, action.payload.note);
@@ -176,6 +186,27 @@ const changeColumnToDivider = (state) => {
 	let newTablature = updateAllItemsInSelectedColumn(state.tablature, state.selectedColumn, '|');
 
 	let newSelectedColumn = state.selectedColumn;
+
+	if (state.selectedColumn === state.tablature.length - 1) {
+		newTablature = addEmptyColumns(newTablature, 3);
+		newSelectedColumn = newTablature.length - 1;
+	}
+
+	const updatedState = {
+		...state,
+		tablature: newTablature,
+		selectedColumn: newSelectedColumn,
+	};
+
+	return saveChangesToHistory(state, updatedState);
+};
+
+const changeColumnToLineBreak = (state) => {
+	let newSelectedColumn = state.selectedColumn;
+    let newTablature = insertEmptyColumn(state.tablature, newSelectedColumn + 1);
+    newSelectedColumn += 1;
+
+	newTablature = updateAllItemsInSelectedColumn(newTablature, newSelectedColumn, '%');
 
 	if (state.selectedColumn === state.tablature.length - 1) {
 		newTablature = addEmptyColumns(newTablature, 3);

@@ -2,44 +2,56 @@
 
 .tab {
 	display: flex;
+    flex-direction: column;
 	user-select: none;
-	font-family: 'Nanum Gothic Coding', monospace;
 	padding: 2rem;
+    font-family: 'Nanum Gothic Coding', monospace;
+    
+    $note-width: 8px;
+    $note-height: 12px;
+    $note-font-size: 14px;
+    
+    &-line {
+        display: flex;
+        margin: .5rem 0;
+        
+        .tunings {
+            display: flex;
+            flex-direction: column;
+            font-weight: 900;
+            width: $note-width;
+            margin-right: 8px;
+            letter-spacing: 2px;
+    
+            div {
+                height: $note-height;
+                font-size: $note-font-size;
+                text-align: center;
+                font-weight: 600;
+            }
+        }
+    
+        .tab-column {
+            display: flex;
+            flex-direction: column;
+            width: $note-width;
+            cursor: pointer;
+    
+            div {
+                height: $note-height;
+                font-size: $note-font-size;
+                text-align: center;
+                font-weight: 400;
+            }
+    
+            &:hover {
+                background-color: rgb(132, 218, 221);
+            }
+    
+            &.selected {
+                background-color: cadetblue;
+            }
+        }
+    }
 
-	$note-width: 8px;
-	$note-height: 12px;
-	$note-font-size: 14px;
-
-	.tunings {
-		display: flex;
-		flex-direction: column;
-		font-weight: 900;
-		width: $note-width;
-		margin-right: 8px;
-		letter-spacing: 2px;
-
-		div {
-			height: $note-height;
-			font-size: $note-font-size;
-			text-align: center;
-			font-weight: 600;
-		}
-	}
-
-	.tab-column {
-		display: flex;
-		flex-direction: column;
-		width: $note-width;
-
-		div {
-			height: $note-height;
-			font-size: $note-font-size;
-			text-align: center;
-			font-weight: 400;
-		}
-
-		&.selected {
-			background-color: cadetblue;
-		}
-	}
 }

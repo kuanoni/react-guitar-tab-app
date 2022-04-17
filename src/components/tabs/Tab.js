@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { TUNINGS } from '../../GUITAR';
 import TabColumn from './TabColumn';
 import './tab.scss';
@@ -8,43 +8,54 @@ const selectSelectedColumn = (state) => state.tabMaker.selectedColumn;
 const selectTuning = (state) => state.tabMaker.tuning;
 
 const Tab = () => {
-	const dispatch = useDispatch();
 	const tablature = useSelector(selectTablature);
 	const selectedColumn = useSelector(selectSelectedColumn);
 	const tunings = useSelector(selectTuning);
 
-	const setSelectedColumn = (columnId) => {
-		dispatch({ type: 'tabMaker/changeSelectedColumn', payload: columnId });
-	};
+	const tuningsElement = (
+		<div className='tunings'>
+			{tunings.map((tuning, i) => <div key={i}>{TUNINGS[tuning].slice(0, 1) + '|'}</div>).reverse()}
+		</div>
+	);
 
-	const getTabColumns = () => {
-		let columns = [];
-		if (tablature) {
-			for (let i = 0; i < tablature.length; i++) {
-				columns.push(
-					<TabColumn
-						key={i}
-						id={i}
-						column={tablature[i]}
-						selectedColumn={selectedColumn}
-						setSelectedColumn={setSelectedColumn}
-						tuning={tunings}
-					/>
-				);
-			}
-		}
+	const getTabLineColumns = (tab, previousLineLength) => {
+		let columns = tab.map((column, i) => {
+			return <TabColumn key={i} id={i+previousLineLength} column={column} selectedColumn={selectedColumn} tuning={tunings} />;
+		});
 
 		return columns;
 	};
 
-	const tabColumns = getTabColumns();
+    const getTabLines = () => {
+        let tablatureLines = [];
+        let _i = 0;
+
+        // slice tablature into chunks, separated by line-break markers: %
+        tablature.forEach((column, i) => {
+            if (column[0] === '%') {
+                tablatureLines.push(tablature.slice(_i, i)); 
+                _i = i + 1;
+            }
+        });
+        tablatureLines.push(tablature.slice(_i, tablature.length));
+
+        let previousLineLength = 0;
+        return tablatureLines.map((line, i) => {
+            const tabLineElement = (
+                <div key={i} className='tab-line'>
+                    {tuningsElement}
+                    {getTabLineColumns(line, previousLineLength)}
+                </div>
+            )
+            previousLineLength += line.length + 1;
+
+            return tabLineElement
+        });
+    }
 
 	return (
 		<div className='tab'>
-			<div className='tunings'>
-				{tunings.map((tuning, i) => <div key={i}>{TUNINGS[tuning].slice(0, 1) + '|'}</div>).reverse()}
-			</div>
-			{tabColumns}
+            {getTabLines()}
 		</div>
 	);
 };

@@ -1,8 +1,18 @@
+import { useDispatch } from "react-redux";
+
 const TabColumn = (props) => {
+    const dispatch = useDispatch();
+
+    const setSelectedColumn = (columnId) => {
+		dispatch({ type: 'tabMaker/changeSelectedColumn', payload: columnId });
+	};
+
+    // console.log(props.selectedColumn, props.id);
+
 	return (
 		<div
 			className={props.selectedColumn === props.id ? 'tab-column selected' : 'tab-column'}
-			onClick={() => props.setSelectedColumn(props.id)}
+			onClick={() => setSelectedColumn(props.id)}
 		>
 			<div>{props.column[5]}</div>
 			<div>{props.column[4]}</div>

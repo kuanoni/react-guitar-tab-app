@@ -31,6 +31,7 @@ const TabMaker = () => {
 				if (e.ctrlKey) {
 					dispatch({ type: 'tabMaker/undoToHistory' });
 				}
+                break;
 			}
 
 			case 16: {
