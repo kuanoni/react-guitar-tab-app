@@ -1,6 +1,7 @@
 import React from 'react';
 import ChangeToDivider from './ChangeToDividerButton';
 import ClearColumnButton from './ClearColumnButton';
+import DeleteBreakButton from './DeleteBreakButton';
 import LineBreakButton from './LineBreakButton';
 import MoveSelectionLeftButton from './MoveSelectionLeftButton';
 import MoveSelectionRightButton from './MoveSelectionRightButton';
@@ -17,6 +18,7 @@ const Controller = () => {
 			<ChangeToDivider />
 			<SpaceButton />
             <LineBreakButton />
+            <DeleteBreakButton />
 		</div>
 	);
 };

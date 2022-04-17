@@ -4,7 +4,7 @@ const LineBreakButton = () => {
 	const dispatch = useDispatch();
 
 	const onClick = () => {
-		dispatch({ type: 'tabMaker/changeColumnToLineBreak' });
+		dispatch({ type: 'tabMaker/newLineBreak' });
 	};
 
 	return <div onClick={onClick}>LineBreak</div>;
