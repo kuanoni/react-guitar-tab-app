@@ -198,7 +198,28 @@ const changeSelectedColumn = (state, columnIndex) => {
 };
 
 const moveSelectedColumn = (state, direction) => {
-	return changeSelectedColumn(state, direction + state.selectedColumn);
+    let newTablature = JSON.parse(JSON.stringify(state.tablature));
+    let newSelectedColumn = state.selectedColumn;
+    let {prevLineBreak, nextLineBreak} = findClosestLineBreakIndexes(newTablature, state.selectedColumn);
+
+    if (direction + newSelectedColumn === prevLineBreak && direction + newSelectedColumn !== 0) {
+        return state;
+    } 
+
+    if (newSelectedColumn + direction === nextLineBreak) {
+        newTablature = insertEmptyColumn(newTablature, direction + newSelectedColumn);
+        newSelectedColumn += 1;
+    } else {
+        return changeSelectedColumn(state, direction + state.selectedColumn);
+    }
+
+    const updatedState = {
+        ...state,
+        tablature: newTablature,
+        selectedColumn: newSelectedColumn
+    }
+
+    return updatedState;
 };
 
 const clearColumn = (state) => {
@@ -348,7 +369,7 @@ const snapStringNoteToPrevious = (state, guitarString, note, spaces = SPACE_BETW
 };
 
 
-// TODO: left and right movement need to add spaces to line rather than move to next line
+// TODO: left and right movement need to add spaces to line rather than move to next line (DONE)
 //       change to divider needs to add spaces when on a line
 //       space button needs to add spaces to proper line
 //       move EMPTY_COLUMN and the rest to GUITAR.js
