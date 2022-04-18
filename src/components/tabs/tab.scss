@@ -7,9 +7,9 @@
 	padding: 2rem;
     font-family: 'Nanum Gothic Coding', monospace;
     
-    $note-width: 10px;
+    $note-width: 8px;
     $note-height: 12px;
-    $note-font-size: 14px;
+    $note-font-size: 12px;
     
     &-line {
         display: flex;
@@ -30,32 +30,39 @@
                 font-weight: 600;
             }
         }
-    
-        .tab-column {
-            display: flex;
-            flex-direction: column;
-            width: $note-width;
-            cursor: pointer;
 
-            .double-digit {
-                font-size: 10px;
+        .columns {
+            display: flex;
+
+            &:nth-child(odd) {
+                // background-color: rgb(243, 243, 243);
             }
-    
-            div {
-                height: $note-height;
-                font-size: $note-font-size;
-                text-align: center;
-                font-weight: 400;
-            }
-    
+
             &:hover {
-                background-color: rgb(132, 218, 221);
+                background-color: rgb(156, 156, 156);
             }
-    
+
             &.selected {
-                background-color: cadetblue;
+                background-color: black;
+                color: white;
+            }
+
+            .tab-column {
+                display: flex;
+                flex-direction: column;
+                width: $note-width;
+                cursor: pointer;
+        
+                .note {
+                    height: $note-height;
+                    font-size: $note-font-size;
+                    text-align: center;
+                    font-weight: 400;
+                }
             }
         }
+    
+        
     }
 
 }

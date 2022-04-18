@@ -7,7 +7,7 @@ const MoveSelectionRightButton = () => {
 	const selectedColumn = useSelector(selectedColumnSelector);
 
 	const onClick = () => {
-		dispatch({ type: 'tabMaker/changeSelectedColumn', payload: selectedColumn + 1 });
+		dispatch({ type: 'tabMaker/moveSelectedColumn', payload: 1 });
 	};
 
 	return <div onClick={onClick}>MoveRight</div>;

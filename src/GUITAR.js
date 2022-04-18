@@ -20,7 +20,7 @@ export const LINE_BREAK_COLUMN = [
     LINE_BREAK_CHAR,
     LINE_BREAK_CHAR
 ]
-export const SPACE_BETWEEN_NOTES = 3;
+export const SPACE_BETWEEN_NOTES = 1;
 
 function getTunings() {
 	let tunings = [];

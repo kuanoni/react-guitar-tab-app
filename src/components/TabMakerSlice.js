@@ -10,30 +10,34 @@ import {
 } from './TabMakerSliceUtilities';
 
 const testTablature = [
-    EMPTY_COLUMN,
-    EMPTY_COLUMN,
-    EMPTY_COLUMN,
-    LINE_BREAK_COLUMN,
-    EMPTY_COLUMN,
-    EMPTY_COLUMN,
-    EMPTY_COLUMN,
-    LINE_BREAK_COLUMN,
-    EMPTY_COLUMN,
-    EMPTY_COLUMN,
-    EMPTY_COLUMN,
+	EMPTY_COLUMN,
+	EMPTY_COLUMN,
+	EMPTY_COLUMN,
+	LINE_BREAK_COLUMN,
+	EMPTY_COLUMN,
+	EMPTY_COLUMN,
+	EMPTY_COLUMN,
+	LINE_BREAK_COLUMN,
+	EMPTY_COLUMN,
+	EMPTY_COLUMN,
+	EMPTY_COLUMN,
 ];
 
 const initialState = {
-	selectedColumn: 2,
+	selectedColumn: 1,
 	tuning: [28, 33, 38, 43, 47, 52],
-	tablature: [
-		EMPTY_COLUMN,
-		EMPTY_COLUMN,
-		EMPTY_COLUMN
-	],
+	tablature: [EMPTY_COLUMN, EMPTY_COLUMN],
 	history: [],
 	holdingShift: false,
 	holdingCtrl: false,
+};
+
+const destructureState = (state) => {
+	const newTablature = JSON.parse(JSON.stringify(state.tablature));
+	const newSelectedColumn = state.selectedColumn;
+	const { prevLineBreak, nextLineBreak } = findClosestLineBreakIndexes(state.tablature, state.selectedColumn);
+
+	return { newTablature, newSelectedColumn, prevLineBreak, nextLineBreak };
 };
 
 export default function tabMakerReducer(state = initialState, action) {
@@ -114,7 +118,7 @@ const changeStringTuning = (state, guitarString, tuning) => {
 const changeSelectedColumn = (state, columnIndex) => {
 	if (columnIndex < 0) return state;
 
-	let newTablature = state.tablature;
+	let { newTablature } = destructureState(state);
 
 	const selectionDifference = columnIndex - state.tablature.length + 1;
 	if (selectionDifference > 0) {
@@ -131,9 +135,7 @@ const changeSelectedColumn = (state, columnIndex) => {
 };
 
 const moveSelectedColumn = (state, direction) => {
-	let newTablature = JSON.parse(JSON.stringify(state.tablature));
-	let newSelectedColumn = state.selectedColumn;
-	let { prevLineBreak, nextLineBreak } = findClosestLineBreakIndexes(newTablature, state.selectedColumn);
+    let { newTablature, newSelectedColumn, prevLineBreak, nextLineBreak } = destructureState(state);
 
 	if (direction + newSelectedColumn === prevLineBreak && direction + newSelectedColumn !== 0) {
 		return state;
@@ -141,7 +143,7 @@ const moveSelectedColumn = (state, direction) => {
 
 	if (newSelectedColumn + direction === nextLineBreak) {
 		newTablature = insertEmptyColumn(newTablature, direction + newSelectedColumn);
-		newSelectedColumn += 1;
+		newSelectedColumn += direction;
 	} else {
 		return changeSelectedColumn(state, direction + state.selectedColumn);
 	}
@@ -179,11 +181,9 @@ const addSpaceColumns = (state, spaces = SPACE_BETWEEN_NOTES) => {
 };
 
 const changeColumnToDivider = (state) => {
-	let newTablature = JSON.parse(JSON.stringify(state.tablature));
-	let newSelectedColumn = state.selectedColumn;
-	let { _, nextLineBreak } = findClosestLineBreakIndexes(newTablature, state.selectedColumn);
+    let { newTablature, newSelectedColumn, nextLineBreak } = destructureState(state);
 
-	newTablature = updateAllItemsInSelectedColumn(state.tablature, state.selectedColumn, '|');
+	newTablature = updateAllItemsInSelectedColumn(newTablature, newSelectedColumn, '|');
 
 	if (newSelectedColumn + 1 === nextLineBreak) {
 		newTablature = insertEmptyColumn(newTablature, newSelectedColumn + 1, SPACE_BETWEEN_NOTES);
@@ -200,14 +200,10 @@ const changeColumnToDivider = (state) => {
 };
 
 const newLineBreak = (state) => {
-	let newTablature = JSON.parse(JSON.stringify(state.tablature));
-	let newSelectedColumn = state.selectedColumn;
-	let { _, nextLineBreak } = findClosestLineBreakIndexes(newTablature, state.selectedColumn);
+    let { newTablature, newSelectedColumn, nextLineBreak } = destructureState(state);
 
-	if (nextLineBreak === null) {
-		// end chunk
+	if (nextLineBreak === null)
 		nextLineBreak = newTablature.length;
-	}
 
 	newTablature = insertEmptyColumn(newTablature, nextLineBreak);
 	newSelectedColumn = nextLineBreak;
@@ -225,9 +221,7 @@ const newLineBreak = (state) => {
 };
 
 const deleteLastLineBreak = (state) => {
-	let newTablature = JSON.parse(JSON.stringify(state.tablature));
-	let newSelectedColumn = state.selectedColumn;
-	let { prevLineBreak, nextLineBreak } = findClosestLineBreakIndexes(newTablature, state.selectedColumn);
+    let { newTablature, newSelectedColumn, prevLineBreak, nextLineBreak } = destructureState(state);
 
 	if (nextLineBreak === null && prevLineBreak === 0) return state;
 

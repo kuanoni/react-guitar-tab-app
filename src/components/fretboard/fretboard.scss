@@ -2,10 +2,8 @@
 	$fret-width: 2rem;
 
 	.fretboard {
-		position: absolute;
+		position: fixed;
 		bottom: 0%;
-		left: 50%;
-		transform: translateX(-50%);
 		border-radius: 10px;
 		background-color: rgb(204 226 245);
 		padding: 1rem;
