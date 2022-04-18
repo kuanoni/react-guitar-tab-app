@@ -1,106 +1,33 @@
-import { shallowEqual } from "react-redux";
-
-const EMPTY_NOTE_CHAR = '-';
-const EMPTY_COLUMN = [
-	EMPTY_NOTE_CHAR,
-	EMPTY_NOTE_CHAR,
-	EMPTY_NOTE_CHAR,
-	EMPTY_NOTE_CHAR,
-	EMPTY_NOTE_CHAR,
-	EMPTY_NOTE_CHAR,
-];
-const LINE_BREAK_CHAR = ')';
-const LINE_BREAK_COLUMN = [
-    LINE_BREAK_CHAR,
-    LINE_BREAK_CHAR,
-    LINE_BREAK_CHAR,
-    LINE_BREAK_CHAR,
-    LINE_BREAK_CHAR,
-    LINE_BREAK_CHAR
-]
-const SPACE_BETWEEN_NOTES = 3;
+import { shallowEqual } from 'react-redux';
+import { EMPTY_COLUMN, EMPTY_NOTE_CHAR, LINE_BREAK_CHAR, LINE_BREAK_COLUMN, SPACE_BETWEEN_NOTES } from '../GUITAR';
+import {
+	updateItemInSelectedColumn,
+	updateAllItemsInSelectedColumn,
+	findClosestLineBreakIndexes,
+	appendEmptyColumns,
+	insertEmptyColumn,
+	saveChangesToHistory,
+} from './TabMakerSliceUtilities';
 
 const initialState = {
 	selectedColumn: 2,
 	tuning: [28, 33, 38, 43, 47, 52],
-	tablature: [EMPTY_COLUMN, EMPTY_COLUMN, EMPTY_COLUMN, LINE_BREAK_COLUMN, EMPTY_COLUMN, EMPTY_COLUMN, EMPTY_COLUMN, LINE_BREAK_COLUMN, EMPTY_COLUMN, EMPTY_COLUMN, EMPTY_COLUMN],
+	tablature: [
+		EMPTY_COLUMN,
+		EMPTY_COLUMN,
+		EMPTY_COLUMN,
+		LINE_BREAK_COLUMN,
+		EMPTY_COLUMN,
+		EMPTY_COLUMN,
+		EMPTY_COLUMN,
+		LINE_BREAK_COLUMN,
+		EMPTY_COLUMN,
+		EMPTY_COLUMN,
+		EMPTY_COLUMN,
+	],
 	history: [],
 	holdingShift: false,
 	holdingCtrl: false,
-};
-
-const updateItemInSelectedColumn = (tablature, selectedCol, guitarString, value) => {
-	let changedTablature = JSON.parse(JSON.stringify(tablature));
-	changedTablature[selectedCol][guitarString] = value;
-	return changedTablature;
-};
-
-const updateAllItemsInSelectedColumn = (tablature, selectedCol, value) => {
-	let changedTablature = JSON.parse(JSON.stringify(tablature));
-	changedTablature[selectedCol] = tablature[selectedCol].map(() => value);
-	return changedTablature;
-};
-
-const findClosestLineBreakIndexes = (tablature, selectedCol) => {
-    let prevLineBreak = null;
-    let nextLineBreak = null;
-
-    let lineBreakIndexes = [];
-	tablature.forEach((column, i) => {
-		if (shallowEqual(column, LINE_BREAK_COLUMN)) {
-			lineBreakIndexes.push(i);
-		}
-	});
-
-    lineBreakIndexes.every((i) => {
-    if (i < selectedCol) {
-        prevLineBreak = i;
-        return true;
-    } else {
-        nextLineBreak = i;
-        return false;
-    }
-	});
-
-    if (prevLineBreak === null) prevLineBreak = 0;
-
-    return { prevLineBreak, nextLineBreak }
-}
-
-const appendEmptyColumns = (tablature, amount) => {
-	const newColumns = createEmptyColumns(amount);
-	return [...tablature, ...newColumns];
-};
-
-const createEmptyColumns = (amount = 1) => {
-	let newColumns = [];
-	for (let i = 0; i < amount; i++) {
-		newColumns.push(EMPTY_COLUMN);
-	}
-
-	return newColumns;
-};
-
-const insertEmptyColumn = (tablature, index, amount=1) => {
-	let changedTablature = JSON.parse(JSON.stringify(tablature));
-    for (let i = 0; i < amount; i++) {
-        changedTablature.splice(index, 0, createEmptyColumns(1).flat());
-    }
-
-	return changedTablature;
-};
-
-const saveChangesToHistory = (oldState, updatedState) => {
-	return {
-		...updatedState,
-		history: [
-			...updatedState.history,
-			{
-				selectedColumn: oldState.selectedColumn,
-				tablature: JSON.parse(JSON.stringify(oldState.tablature)),
-			},
-		],
-	};
 };
 
 export default function tabMakerReducer(state = initialState, action) {
@@ -198,28 +125,28 @@ const changeSelectedColumn = (state, columnIndex) => {
 };
 
 const moveSelectedColumn = (state, direction) => {
-    let newTablature = JSON.parse(JSON.stringify(state.tablature));
-    let newSelectedColumn = state.selectedColumn;
-    let {prevLineBreak, nextLineBreak} = findClosestLineBreakIndexes(newTablature, state.selectedColumn);
+	let newTablature = JSON.parse(JSON.stringify(state.tablature));
+	let newSelectedColumn = state.selectedColumn;
+	let { prevLineBreak, nextLineBreak } = findClosestLineBreakIndexes(newTablature, state.selectedColumn);
 
-    if (direction + newSelectedColumn === prevLineBreak && direction + newSelectedColumn !== 0) {
-        return state;
-    } 
+	if (direction + newSelectedColumn === prevLineBreak && direction + newSelectedColumn !== 0) {
+		return state;
+	}
 
-    if (newSelectedColumn + direction === nextLineBreak) {
-        newTablature = insertEmptyColumn(newTablature, direction + newSelectedColumn);
-        newSelectedColumn += 1;
-    } else {
-        return changeSelectedColumn(state, direction + state.selectedColumn);
-    }
+	if (newSelectedColumn + direction === nextLineBreak) {
+		newTablature = insertEmptyColumn(newTablature, direction + newSelectedColumn);
+		newSelectedColumn += 1;
+	} else {
+		return changeSelectedColumn(state, direction + state.selectedColumn);
+	}
 
-    const updatedState = {
-        ...state,
-        tablature: newTablature,
-        selectedColumn: newSelectedColumn
-    }
+	const updatedState = {
+		...state,
+		tablature: newTablature,
+		selectedColumn: newSelectedColumn,
+	};
 
-    return updatedState;
+	return saveChangesToHistory(state, updatedState);
 };
 
 const clearColumn = (state) => {
@@ -234,25 +161,27 @@ const clearColumn = (state) => {
 };
 
 const addSpaceColumns = (state, spaces = SPACE_BETWEEN_NOTES) => {
-	const newTablature = insertEmptyColumn(state.tablature, state.selectedColumn, spaces);
+	const newTablature = insertEmptyColumn(state.tablature, state.selectedColumn + 1, spaces);
 
 	const updatedState = {
 		...state,
 		tablature: newTablature,
-		selectedColumn: state.selectedColumn + spaces
+		selectedColumn: state.selectedColumn + spaces,
 	};
 
 	return saveChangesToHistory(state, updatedState);
 };
 
 const changeColumnToDivider = (state) => {
-	let newTablature = updateAllItemsInSelectedColumn(state.tablature, state.selectedColumn, '|');
-
+	let newTablature = JSON.parse(JSON.stringify(state.tablature));
 	let newSelectedColumn = state.selectedColumn;
+	let { _, nextLineBreak } = findClosestLineBreakIndexes(newTablature, state.selectedColumn);
 
-	if (state.selectedColumn === state.tablature.length - 1) {
-		newTablature = appendEmptyColumns(newTablature, 3);
-		newSelectedColumn = newTablature.length - 1;
+	newTablature = updateAllItemsInSelectedColumn(state.tablature, state.selectedColumn, '|');
+
+	if (newSelectedColumn + 1 === nextLineBreak) {
+		newTablature = insertEmptyColumn(newTablature, newSelectedColumn + 1, SPACE_BETWEEN_NOTES);
+		newSelectedColumn += SPACE_BETWEEN_NOTES;
 	}
 
 	const updatedState = {
@@ -265,50 +194,50 @@ const changeColumnToDivider = (state) => {
 };
 
 const newLineBreak = (state) => {
-    let newTablature = JSON.parse(JSON.stringify(state.tablature));
-    let newSelectedColumn = state.selectedColumn;
-    let {_, nextLineBreak} = findClosestLineBreakIndexes(newTablature, state.selectedColumn);
+	let newTablature = JSON.parse(JSON.stringify(state.tablature));
+	let newSelectedColumn = state.selectedColumn;
+	let { _, nextLineBreak } = findClosestLineBreakIndexes(newTablature, state.selectedColumn);
 
-    if (nextLineBreak === null) {
-        // end chunk
-        nextLineBreak = newTablature.length;
-    }
+	if (nextLineBreak === null) {
+		// end chunk
+		nextLineBreak = newTablature.length;
+	}
 
-    newTablature = insertEmptyColumn(newTablature, nextLineBreak);
-    newSelectedColumn = nextLineBreak;
-    newTablature = updateAllItemsInSelectedColumn(newTablature, newSelectedColumn, LINE_BREAK_CHAR);
-    newTablature = insertEmptyColumn(newTablature, newSelectedColumn+1, SPACE_BETWEEN_NOTES);
-    newSelectedColumn += SPACE_BETWEEN_NOTES;
+	newTablature = insertEmptyColumn(newTablature, nextLineBreak);
+	newSelectedColumn = nextLineBreak;
+	newTablature = updateAllItemsInSelectedColumn(newTablature, newSelectedColumn, LINE_BREAK_CHAR);
+	newTablature = insertEmptyColumn(newTablature, newSelectedColumn + 1, SPACE_BETWEEN_NOTES);
+	newSelectedColumn += SPACE_BETWEEN_NOTES;
 
-    const updatedState = {
+	const updatedState = {
 		...state,
 		tablature: newTablature,
 		selectedColumn: newSelectedColumn,
 	};
 
-    return saveChangesToHistory(state, updatedState);
-}
+	return saveChangesToHistory(state, updatedState);
+};
 
 const deleteLastLineBreak = (state) => {
-    let newTablature = JSON.parse(JSON.stringify(state.tablature));
-    let newSelectedColumn = state.selectedColumn;
-    let {prevLineBreak, nextLineBreak} = findClosestLineBreakIndexes(newTablature, state.selectedColumn);
+	let newTablature = JSON.parse(JSON.stringify(state.tablature));
+	let newSelectedColumn = state.selectedColumn;
+	let { prevLineBreak, nextLineBreak } = findClosestLineBreakIndexes(newTablature, state.selectedColumn);
 
-    if (nextLineBreak === null && prevLineBreak === 0) return state;
+	if (nextLineBreak === null && prevLineBreak === 0) return state;
 
-    if (prevLineBreak === 0) {
-        // beginning chunk
-        newTablature.splice(prevLineBreak, nextLineBreak-prevLineBreak+1);
-        newSelectedColumn = 0;
-    } else if (nextLineBreak === null) {
-        // end chunk
-        newTablature.splice(prevLineBreak, (newTablature.length-1)-prevLineBreak+1);
-        newSelectedColumn = prevLineBreak-1;
-    } else {
-        // middle chunk
-        newTablature.splice(prevLineBreak+1, nextLineBreak-prevLineBreak);
-        newSelectedColumn = prevLineBreak-1;
-    }
+	if (prevLineBreak === 0) {
+		// beginning chunk
+		newTablature.splice(prevLineBreak, nextLineBreak - prevLineBreak + 1);
+		newSelectedColumn = 0;
+	} else if (nextLineBreak === null) {
+		// end chunk
+		newTablature.splice(prevLineBreak, newTablature.length - 1 - prevLineBreak + 1);
+		newSelectedColumn = prevLineBreak - 1;
+	} else {
+		// middle chunk
+		newTablature.splice(prevLineBreak + 1, nextLineBreak - prevLineBreak);
+		newSelectedColumn = prevLineBreak - 1;
+	}
 
 	const updatedState = {
 		...state,
@@ -367,9 +296,3 @@ const snapStringNoteToPrevious = (state, guitarString, note, spaces = SPACE_BETW
 
 	return setStringNote(newState, guitarString, note, 1);
 };
-
-
-// TODO: left and right movement need to add spaces to line rather than move to next line (DONE)
-//       change to divider needs to add spaces when on a line
-//       space button needs to add spaces to proper line
-//       move EMPTY_COLUMN and the rest to GUITAR.js
