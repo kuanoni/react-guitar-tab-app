@@ -234,12 +234,12 @@ const clearColumn = (state) => {
 };
 
 const addSpaceColumns = (state, spaces = SPACE_BETWEEN_NOTES) => {
-	const newTablature = appendEmptyColumns(state.tablature, spaces);
+	const newTablature = insertEmptyColumn(state.tablature, state.selectedColumn, spaces);
 
 	const updatedState = {
 		...state,
 		tablature: newTablature,
-		selectedColumn: newTablature.length - 1,
+		selectedColumn: state.selectedColumn + spaces
 	};
 
 	return saveChangesToHistory(state, updatedState);
