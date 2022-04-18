@@ -24,9 +24,9 @@ const testTablature = [
 ];
 
 const initialState = {
-	selectedColumn: 2,
+	selectedColumn: 1,
 	tuning: [28, 33, 38, 43, 47, 52],
-	tablature: [EMPTY_COLUMN, EMPTY_COLUMN, EMPTY_COLUMN],
+	tablature: [EMPTY_COLUMN, EMPTY_COLUMN],
 	history: [],
 	holdingShift: false,
 	holdingCtrl: false,
@@ -222,7 +222,7 @@ const newLineBreak = (state) => {
 
 const deleteLastLineBreak = (state) => {
     let { newTablature, newSelectedColumn, prevLineBreak, nextLineBreak } = destructureState(state);
-    
+
 	if (nextLineBreak === null && prevLineBreak === 0) return state;
 
 	if (prevLineBreak === 0) {
