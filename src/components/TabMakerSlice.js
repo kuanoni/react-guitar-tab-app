@@ -9,21 +9,27 @@ import {
 	saveChangesToHistory,
 } from './TabMakerSliceUtilities';
 
+const testTablature = [
+    EMPTY_COLUMN,
+    EMPTY_COLUMN,
+    EMPTY_COLUMN,
+    LINE_BREAK_COLUMN,
+    EMPTY_COLUMN,
+    EMPTY_COLUMN,
+    EMPTY_COLUMN,
+    LINE_BREAK_COLUMN,
+    EMPTY_COLUMN,
+    EMPTY_COLUMN,
+    EMPTY_COLUMN,
+];
+
 const initialState = {
 	selectedColumn: 2,
 	tuning: [28, 33, 38, 43, 47, 52],
 	tablature: [
 		EMPTY_COLUMN,
 		EMPTY_COLUMN,
-		EMPTY_COLUMN,
-		LINE_BREAK_COLUMN,
-		EMPTY_COLUMN,
-		EMPTY_COLUMN,
-		EMPTY_COLUMN,
-		LINE_BREAK_COLUMN,
-		EMPTY_COLUMN,
-		EMPTY_COLUMN,
-		EMPTY_COLUMN,
+		EMPTY_COLUMN
 	],
 	history: [],
 	holdingShift: false,

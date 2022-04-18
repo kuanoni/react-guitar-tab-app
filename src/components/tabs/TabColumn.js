@@ -7,19 +7,20 @@ const TabColumn = (props) => {
 		dispatch({ type: 'tabMaker/changeSelectedColumn', payload: columnId });
 	};
 
-    // console.log(props.selectedColumn, props.id);
+    const notes = props.column.map((note, i) => {
+        if (note.toString().length > 1) {
+            return <div key={i} className='double-digit'>{note}</div>
+        } else {
+            return <div key={i}>{note}</div>
+        }
+    }).reverse();
 
 	return (
 		<div
 			className={props.selectedColumn === props.id ? 'tab-column selected' : 'tab-column'}
 			onClick={() => setSelectedColumn(props.id)}
 		>
-			<div>{props.column[5]}</div>
-			<div>{props.column[4]}</div>
-			<div>{props.column[3]}</div>
-			<div>{props.column[2]}</div>
-			<div>{props.column[1]}</div>
-			<div>{props.column[0]}</div>
+        {notes}
 		</div>
 	);
 };

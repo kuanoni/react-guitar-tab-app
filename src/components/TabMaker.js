@@ -8,6 +8,7 @@ const TabMaker = () => {
 	const dispatch = useDispatch();
 
 	const keyUpHandler = (e) => {
+		e.preventDefault();
 		switch (e.keyCode) {
 			case 39: {
 				// ArrowRight
@@ -21,9 +22,27 @@ const TabMaker = () => {
 				break;
 			}
 
+			case 68: {
+				// D
+				dispatch({ type: 'tabMaker/moveSelectedColumn', payload: 1 });
+				break;
+			}
+
+			case 65: {
+				// A
+				dispatch({ type: 'tabMaker/moveSelectedColumn', payload: -1 });
+				break;
+			}
+
 			case 32: {
 				// Space
 				dispatch({ type: 'tabMaker/addSpaceColumns', payload: 1 });
+				break;
+			}
+
+			case 13: {
+				// Enter
+				dispatch({ type: 'tabMaker/newLineBreak' });
 				break;
 			}
 
@@ -31,7 +50,7 @@ const TabMaker = () => {
 				if (e.ctrlKey) {
 					dispatch({ type: 'tabMaker/undoToHistory' });
 				}
-                break;
+				break;
 			}
 
 			case 16: {
@@ -45,6 +64,7 @@ const TabMaker = () => {
 	};
 
 	const keyDownHandler = (e) => {
+		e.preventDefault();
 		switch (e.keyCode) {
 			case 16: {
 				dispatch({ type: 'tabMaker/setHoldingShift', payload: true });

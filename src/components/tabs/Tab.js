@@ -1,5 +1,5 @@
-import { useSelector } from 'react-redux';
-import { TUNINGS } from '../../GUITAR';
+import { shallowEqual, useSelector } from 'react-redux';
+import { LINE_BREAK_COLUMN, TUNINGS } from '../../GUITAR';
 import TabColumn from './TabColumn';
 import './tab.scss';
 
@@ -32,7 +32,7 @@ const Tab = () => {
 
         // slice tablature into chunks, separated by line-break markers: %
         tablature.forEach((column, i) => {
-            if (column[0] === ')') {
+            if (shallowEqual(column, LINE_BREAK_COLUMN)) {
                 tablatureLines.push(tablature.slice(_i, i)); 
                 _i = i + 1;
             }

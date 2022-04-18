@@ -7,7 +7,7 @@
 	padding: 2rem;
     font-family: 'Nanum Gothic Coding', monospace;
     
-    $note-width: 8px;
+    $note-width: 10px;
     $note-height: 12px;
     $note-font-size: 14px;
     
@@ -36,6 +36,10 @@
             flex-direction: column;
             width: $note-width;
             cursor: pointer;
+
+            .double-digit {
+                font-size: 10px;
+            }
     
             div {
                 height: $note-height;
