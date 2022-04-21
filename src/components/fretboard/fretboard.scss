@@ -1,5 +1,6 @@
 .fretboard-wrapper {
-	$fret-width: 2rem;
+	$fret-width: 2.75rem;
+    $fret-height: 1.5rem;
 
 	.fretboard {
 		position: fixed;
@@ -12,10 +13,9 @@
 
 		.fretboard-labels {
 			display: flex;
-			gap: 0.25rem;
 
 			.first {
-				width: calc($fret-width * 1.6);
+				width: 3.25rem;
 			}
 
 			span {
@@ -27,20 +27,33 @@
 
 		.fretboard-string {
 			display: flex;
-			gap: 0.25rem;
-			margin-block: 0.5rem;
+            height: $fret-height;
 
 			.fretboard-btn {
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				font-size: 14px;
-				background-color: aliceblue;
-				border-radius: 50%;
+				background-color: transparent;
+                border-left: 2px black solid;
 				min-width: $fret-width;
-				min-height: $fret-width;
+				min-height: $fret-height;
 				user-select: none;
 				cursor: pointer;
+
+                &::before {
+                    content: "";
+                    width: 100%;
+                    height: 1px;
+                    background-color: #333;
+                }
+
+                &::after {
+                    content: "";
+                    width: 100%;
+                    height: 1px;
+                    background-color: #333;
+                }
 
 				&:hover {
 					background-color: #b2cfe9;

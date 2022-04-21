@@ -5,8 +5,8 @@ const AddHammerOnButton = (props) => {
 
 	const onClick = () => {
 		dispatch({
-			type: 'tabMaker/snapStringNoteToPrevious',
-			payload: { guitarString: props.guitarString, note: 'h', spaces: 1 },
+			type: 'tabMaker/addLetterToNote',
+			payload: 'h',
 		});
 	};
 

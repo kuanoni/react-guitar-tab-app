@@ -1,4 +1,7 @@
 import React from 'react';
+import './controller.scss'
+import AddHammerOnButton from './AddHammerOnButton';
+import AddPullOffButton from './AddPullOffButton';
 import ChangeToDivider from './ChangeToDividerButton';
 import ClearColumnButton from './ClearColumnButton';
 import DeleteBreakButton from './DeleteBreakButton';
@@ -10,7 +13,7 @@ import UndoButton from './UndoButton';
 
 const Controller = () => {
 	return (
-		<div>
+		<div className='controller'>
 			<ClearColumnButton />
 			<UndoButton />
 			<MoveSelectionRightButton />
@@ -19,6 +22,8 @@ const Controller = () => {
 			<SpaceButton />
             <LineBreakButton />
             <DeleteBreakButton />
+            <AddHammerOnButton />
+            <AddPullOffButton />
 		</div>
 	);
 };

@@ -5,8 +5,8 @@ const AddPullOffButton = (props) => {
 
 	const onClick = () => {
 		dispatch({
-			type: 'tabMaker/snapStringNoteToPrevious',
-			payload: { guitarString: props.guitarString, note: 'p', spaces: 1 },
+			type: 'tabMaker/addLetterToNote',
+			payload: 'p',
 		});
 	};
 
