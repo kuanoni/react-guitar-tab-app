@@ -2,6 +2,14 @@ export const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#'
 
 export const TUNINGS = getTunings();
 
+export const TUNING_SOUNDS = {};
+
+TUNINGS.forEach(tuning => {
+    try {
+        TUNING_SOUNDS[tuning] = new Audio(require('./sounds/guitar-' + tuning.replace('#', 's') + '.wav'));
+	} catch (ex) {}
+})
+
 export const EMPTY_NOTE_CHAR = '-';
 export const EMPTY_COLUMN = [
 	EMPTY_NOTE_CHAR,
