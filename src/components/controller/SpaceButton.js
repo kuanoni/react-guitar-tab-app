@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { RiInsertColumnLeft } from "react-icons/ri";
 
 const SpaceButton = () => {
 	const dispatch = useDispatch();
@@ -7,7 +8,7 @@ const SpaceButton = () => {
 		dispatch({ type: 'tabMaker/addSpaceColumns' });
 	};
 
-	return <div onClick={onClick}>SpaceButton</div>;
+	return <div className='control-button' onClick={onClick}><RiInsertColumnLeft /></div>;
 };
 
 export default SpaceButton;

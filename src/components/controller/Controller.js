@@ -14,13 +14,13 @@ import UndoButton from './UndoButton';
 const Controller = () => {
 	return (
 		<div className='controller'>
-			<ClearColumnButton />
-			<UndoButton />
+			<UndoButton /> 
+			<MoveSelectionLeftButton /> 
 			<MoveSelectionRightButton />
-			<MoveSelectionLeftButton />
+			<ClearColumnButton /> 
 			<ChangeToDivider />
-			<SpaceButton />
-            <LineBreakButton />
+			<SpaceButton /> 
+            <LineBreakButton /> 
             <DeleteBreakButton />
             <AddHammerOnButton />
             <AddPullOffButton />

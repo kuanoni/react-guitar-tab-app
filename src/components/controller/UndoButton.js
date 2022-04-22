@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { RiArrowGoBackLine } from "react-icons/ri";
 
 const UndoButton = () => {
 	const dispatch = useDispatch();
@@ -7,7 +8,7 @@ const UndoButton = () => {
 		dispatch({ type: 'tabMaker/undoToHistory' });
 	};
 
-	return <div onClick={onClick}>UndoButton</div>;
+	return <div className='control-button' onClick={onClick}><RiArrowGoBackLine /></div>;
 };
 
 export default UndoButton;
