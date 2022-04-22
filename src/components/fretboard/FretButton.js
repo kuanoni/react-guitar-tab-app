@@ -13,9 +13,24 @@ const FretButton = (props) => {
 		if (TUNING_SOUNDS[TUNINGS[props.fretNote]]) TUNING_SOUNDS[TUNINGS[props.fretNote]].play();
 	};
 
+    const addDot = () => {
+        if (props.guitarString === 3 && props.fretNum === 3) return <div className="fret-dot"></div>;
+        if (props.guitarString === 3 && props.fretNum === 5) return <div className="fret-dot"></div>;
+        if (props.guitarString === 3 && props.fretNum === 7) return <div className="fret-dot"></div>;
+        if (props.guitarString === 3 && props.fretNum === 9) return <div className="fret-dot"></div>;
+        if (props.guitarString === 3 && props.fretNum === 15) return <div className="fret-dot"></div>;
+        if (props.guitarString === 3 && props.fretNum === 17) return <div className="fret-dot"></div>;
+        if (props.guitarString === 3 && props.fretNum === 19) return <div className="fret-dot"></div>;
+        if (props.guitarString === 3 && props.fretNum === 21) return <div className="fret-dot"></div>;
+
+        if (props.guitarString === 4 && props.fretNum === 12) return <div className="fret-dot middle"></div>;
+        if (props.guitarString === 1 && props.fretNum === 12) return <div className="fret-dot middle"></div>;
+    }
+
 	return (
 		<div className='fretboard-btn' onClick={onClick}>
-			{TUNINGS[props.fretNote]}
+            { addDot() }
+			{props.showNoteLabel && TUNINGS[props.fretNote]}
 		</div>
 	);
 };

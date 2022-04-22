@@ -26,17 +26,18 @@ const FretboardString = (props) => {
 		);
 	});
 
-	const fretNotes = [...Array(26).keys()].map((num) => {
+	const fretNotes = [...Array(22).keys()].map((num) => {
 		return num + tunings[props.guitarString];
 	});
 
 	return (
 		<div className='fretboard-string'>
-			<select defaultValue={tunings[props.guitarString]} onChange={changeStringTuning}>
+			<select className='tuning-selector' defaultValue={tunings[props.guitarString]} onChange={changeStringTuning}>
 				{stringTuningOptions}
 			</select>
+            <div className={"string-line string-line-" + props.guitarString}></div>
 			{fretNotes.map((fret, i) => {
-				return <FretButton key={fret} fretNum={i} fretNote={fret} guitarString={props.guitarString} />;
+				return <FretButton key={fret} fretNum={i} fretNote={fret} guitarString={props.guitarString} showNoteLabel={props.showNoteLabels} />;
 			})}
 		</div>
 	);

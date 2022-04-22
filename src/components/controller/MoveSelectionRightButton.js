@@ -1,10 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
-
-const selectedColumnSelector = (state) => state.tabMaker.selectedColumn;
+import { useDispatch } from 'react-redux';
 
 const MoveSelectionRightButton = () => {
 	const dispatch = useDispatch();
-	const selectedColumn = useSelector(selectedColumnSelector);
 
 	const onClick = () => {
 		dispatch({ type: 'tabMaker/moveSelectedColumn', payload: 1 });
