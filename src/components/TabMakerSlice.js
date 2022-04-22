@@ -35,7 +35,8 @@ const initialState = {
 const destructureState = (state) => {
 	const newTablature = JSON.parse(JSON.stringify(state.tablature));
 	const newSelectedColumn = state.selectedColumn;
-	const { prevLineBreak, nextLineBreak } = findClosestLineBreakIndexes(state.tablature, state.selectedColumn);
+	let { prevLineBreak, nextLineBreak } = findClosestLineBreakIndexes(state.tablature, state.selectedColumn);
+    if (prevLineBreak === 0) prevLineBreak -= 1;
 
 	return { newTablature, newSelectedColumn, prevLineBreak, nextLineBreak };
 };
@@ -145,9 +146,10 @@ const changeSelectedColumn = (state, columnIndex) => {
 const moveSelectedColumn = (state, direction) => {
 	let { newTablature, newSelectedColumn, prevLineBreak, nextLineBreak } = destructureState(state);
 
-	if (direction + newSelectedColumn === prevLineBreak && direction + newSelectedColumn !== 0) {
+    console.log(direction + newSelectedColumn);
+
+	if (direction + newSelectedColumn === prevLineBreak)
 		return state;
-	}
 
 	if (newSelectedColumn + direction === nextLineBreak || newTablature[newSelectedColumn + direction] === undefined) {
 		newTablature = insertEmptyColumn(newTablature, direction + newSelectedColumn);
@@ -215,8 +217,8 @@ const newLineBreak = (state) => {
 	newTablature = insertEmptyColumn(newTablature, nextLineBreak);
 	newSelectedColumn = nextLineBreak;
 	newTablature = updateAllItemsInSelectedColumn(newTablature, newSelectedColumn, LINE_BREAK_CHAR);
-	newTablature = insertEmptyColumn(newTablature, newSelectedColumn + 1, SPACE_BETWEEN_NOTES);
-	newSelectedColumn += SPACE_BETWEEN_NOTES;
+	newTablature = insertEmptyColumn(newTablature, newSelectedColumn + 1, SPACE_BETWEEN_NOTES + 1);
+	newSelectedColumn += SPACE_BETWEEN_NOTES + 1;
 
 	const updatedState = {
 		...state,
@@ -258,25 +260,17 @@ const deleteLastLineBreak = (state) => {
 const setStringNote = (state, guitarString, note, spaces = SPACE_BETWEEN_NOTES) => {
 	let newTablature = updateItemInSelectedColumn(state.tablature, state.selectedColumn, guitarString, note);
 
-	let newSelectedColumn = state.selectedColumn;
-	if (!state.holdingShift) {
-		if (state.selectedColumn === state.tablature.length - 1) {
-			newTablature = appendEmptyColumns(newTablature, spaces);
-			newSelectedColumn = newTablature.length - 1;
-		} else if (shallowEqual(state.tablature[state.selectedColumn + 1], LINE_BREAK_COLUMN)) {
-			newTablature = insertEmptyColumn(newTablature, newSelectedColumn + 1);
-			newTablature = insertEmptyColumn(newTablature, newSelectedColumn + 2);
-			newSelectedColumn += 2;
-		}
-	}
-
 	const updatedState = {
-		...state,
+        ...state,
 		tablature: newTablature,
-		selectedColumn: newSelectedColumn,
 	};
+    
+    if (!state.holdingShift) {
+        return moveSelectedColumn(updatedState, spaces);
+    }
 
-	return saveChangesToHistory(state, updatedState);
+    return saveChangesToHistory(state, updatedState);
+
 };
 
 const addLetterToNote = (state, letter) => {

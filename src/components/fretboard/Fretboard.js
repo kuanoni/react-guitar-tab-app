@@ -7,7 +7,7 @@ const selectTuning = (state) => state.tabMaker.tuning;
 
 const Fretboard = () => {
 	const tuning = useSelector(selectTuning);
-    const [showNoteLabels, setShowNoteLabels] = useState(true);
+    const [showNoteLabels, setShowNoteLabels] = useState(false);
 
 	return (
 		<div className='fretboard-wrapper'>

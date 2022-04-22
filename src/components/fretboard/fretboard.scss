@@ -1,15 +1,19 @@
 .fretboard-wrapper {
+    grid-area: fretboard;
     $fret-min-width: 2.5rem;
 	$fret-width: 3.5rem;
     $fret-height: 1.8rem;
     $fret-gap: 3px;
+
     overflow-x: auto;
+    display: flex;
+    padding-bottom: 1rem;
     
 	.fretboard {
+        border-radius: 5px 5px 23px 0;
         position: relative;
-		background: linear-gradient(180deg, #2C1202 0%, #0D0601 100%);
-        margin: auto;
-        width: fit-content;
+		background: radial-gradient(72.66% 49.73% at 81.86% 50.27%, #46240F 0%, #0D0601 100%);
+        box-shadow: -10px 4px 6px black;
 
 		.fretboard-labels {
 			display: flex;
@@ -30,8 +34,6 @@
 			}
 		}
 
-
-
 		.fretboard-string {
             position: relative;
 			display: flex;
@@ -45,6 +47,7 @@
 				width: $fret-width;
                 background-color: #0D0601;
                 color: #fff;
+                border: none;
             }
 
             .string-line {

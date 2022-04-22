@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap');
 
 .tab {
+    grid-area: tab;
 	display: flex;
     flex-direction: column;
 	user-select: none;
-	padding: 2rem;
     font-family: 'Nanum Gothic Coding', monospace;
     
     $note-width: 8px;
@@ -13,7 +13,11 @@
     
     &-line {
         display: flex;
-        margin: .5rem 0;
+        width: fit-content;
+        margin: 0.5rem 0;
+        box-shadow: 1px 2px 7px 0px #9b9b9b;
+        padding: 0.4rem 1rem 0.4rem 0.5rem;
+        border-radius: 4px 0 0 4px;
         
         .tunings {
             display: flex;
@@ -33,9 +37,10 @@
 
         .columns {
             display: flex;
+            color: #767676;
 
             &:nth-child(odd) {
-                // background-color: rgb(243, 243, 243);
+                //background-color: rgb(243, 243, 243);
             }
 
             &:hover {

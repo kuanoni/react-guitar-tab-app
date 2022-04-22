@@ -17,15 +17,36 @@ const Controller = () => {
 			<UndoButton /> 
 			<MoveSelectionLeftButton /> 
 			<MoveSelectionRightButton />
+            <AddHammerOnButton />
+            <AddPullOffButton />
 			<ClearColumnButton /> 
 			<ChangeToDivider />
 			<SpaceButton /> 
             <LineBreakButton /> 
             <DeleteBreakButton />
-            <AddHammerOnButton />
-            <AddPullOffButton />
 		</div>
 	);
 };
 
 export default Controller;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// add box shadow under tab strip
+// tab font color to grey
+// controller button label on hover
+// 

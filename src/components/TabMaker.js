@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import Controller from './controller/Controller';
 import Fretboard from './fretboard/Fretboard';
 import Tab from './tabs/Tab';
+import './tabMaker.scss'
 
 const TabMaker = () => {
 	const dispatch = useDispatch();
@@ -86,7 +87,7 @@ const TabMaker = () => {
 	});
 
 	return (
-		<div>
+		<div className='tab-maker'>
 			<Tab />
 			<Controller />
 			<Fretboard />
