@@ -1,73 +1,79 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap');
+.tab-wrapper {
+	grid-area: tab;
+    width: fit-content;
+    max-width: 90vw;
+
+}
 
 .tab {
-    grid-area: tab;
 	display: flex;
-    flex-direction: column;
+	flex-direction: column;
+    max-width: 90vw;
+    overflow-x: auto;
+    padding: 1rem;
+    border: 1px #767676 solid;
 	user-select: none;
-    font-family: 'Nanum Gothic Coding', monospace;
-    
-    $note-width: 8px;
-    $note-height: 12px;
-    $note-font-size: 12px;
-    
-    &-line {
-        display: flex;
-        width: fit-content;
-        margin: 0.5rem 0;
-        box-shadow: 1px 2px 7px 0px #9b9b9b;
-        padding: 0.4rem 1rem 0.4rem 0.5rem;
-        border-radius: 4px 0 0 4px;
-        
-        .tunings {
-            display: flex;
-            flex-direction: column;
-            font-weight: 900;
-            width: $note-width;
-            margin-right: 8px;
-            letter-spacing: 2px;
-    
-            div {
-                height: $note-height;
-                font-size: $note-font-size;
-                text-align: center;
-                font-weight: 600;
-            }
-        }
+	font-family: 'Nanum Gothic Coding', monospace;
 
-        .columns {
-            display: flex;
-            color: #767676;
+	$note-width: 8px;
+	$note-height: 12px;
+	$note-font-size: 12px;
 
-            &:nth-child(odd) {
-                //background-color: rgb(243, 243, 243);
-            }
+	&-line {
+		display: flex;
+		width: fit-content;
+		margin: 0.5rem 0;
+		box-shadow: 1px 2px 7px 0px #9b9b9b;
+		padding: 0.4rem 1rem 0.4rem 0.5rem;
+		border-radius: 4px 0 0 4px;
 
-            &:hover {
-                background-color: rgb(156, 156, 156);
-            }
+		.tunings {
+			display: flex;
+			flex-direction: column;
+			font-weight: 900;
+			width: $note-width;
+			margin-right: 8px;
+			letter-spacing: 2px;
 
-            &.selected {
-                background-color: black;
-                color: white;
-            }
+			div {
+				height: $note-height;
+				font-size: $note-font-size;
+				text-align: center;
+				font-weight: 600;
+			}
+		}
 
-            .tab-column {
-                display: flex;
-                flex-direction: column;
-                width: $note-width;
-                cursor: pointer;
-        
-                .note {
-                    height: $note-height;
-                    font-size: $note-font-size;
-                    text-align: center;
-                    font-weight: 400;
-                }
-            }
-        }
-    
-        
-    }
+		.columns {
+			display: flex;
+			color: #767676;
 
+			&:nth-child(odd) {
+				//background-color: rgb(243, 243, 243);
+			}
+
+			&:hover {
+				background-color: rgb(156, 156, 156);
+			}
+
+			&.selected {
+				background-color: black;
+				color: white;
+			}
+
+			.tab-column {
+				display: flex;
+				flex-direction: column;
+				width: $note-width;
+				cursor: pointer;
+
+				.note {
+					height: $note-height;
+					font-size: $note-font-size;
+					text-align: center;
+					font-weight: 400;
+				}
+			}
+		}
+	}
 }

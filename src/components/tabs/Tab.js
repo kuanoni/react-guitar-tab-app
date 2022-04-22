@@ -2,6 +2,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { LINE_BREAK_COLUMN, TUNINGS } from '../../GUITAR';
 import TabColumn from './TabColumn';
 import './tab.scss';
+import Controller from '../controller/Controller';
 
 const selectTablature = (state) => state.tabMaker.tablature;
 const selectSelectedColumn = (state) => state.tabMaker.selectedColumn;
@@ -20,42 +21,51 @@ const Tab = () => {
 
 	const getTabLineColumns = (tab, previousLineLength) => {
 		let columns = tab.map((column, i) => {
-			return <TabColumn key={i} id={i+previousLineLength} column={column} selectedColumn={selectedColumn} tuning={tunings} />;
+			return (
+				<TabColumn
+					key={i}
+					id={i + previousLineLength}
+					column={column}
+					selectedColumn={selectedColumn}
+					tuning={tunings}
+				/>
+			);
 		});
 
 		return columns;
 	};
 
-    const getTabLines = () => {
-        let tablatureLines = [];
-        let _i = 0;
+	const getTabLines = () => {
+		let tablatureLines = [];
+		let _i = 0;
 
-        // slice tablature into chunks, separated by line-break markers: %
-        tablature.forEach((column, i) => {
-            if (shallowEqual(column, LINE_BREAK_COLUMN)) {
-                tablatureLines.push(tablature.slice(_i, i)); 
-                _i = i + 1;
-            }
-        });
-        tablatureLines.push(tablature.slice(_i, tablature.length));
+		// slice tablature into chunks, separated by line-break markers: %
+		tablature.forEach((column, i) => {
+			if (shallowEqual(column, LINE_BREAK_COLUMN)) {
+				tablatureLines.push(tablature.slice(_i, i));
+				_i = i + 1;
+			}
+		});
+		tablatureLines.push(tablature.slice(_i, tablature.length));
 
-        let previousLineLength = 0;
-        return tablatureLines.map((line, i) => {
-            const tabLineElement = (
-                <div key={i} className='tab-line'>
-                    {tuningsElement}
-                    {getTabLineColumns(line, previousLineLength)}
-                </div>
-            )
-            previousLineLength += line.length + 1;
+		let previousLineLength = 0;
+		return tablatureLines.map((line, i) => {
+			const tabLineElement = (
+				<div key={i} className='tab-line'>
+					{tuningsElement}
+					{getTabLineColumns(line, previousLineLength)}
+				</div>
+			);
+			previousLineLength += line.length + 1;
 
-            return tabLineElement
-        });
-    }
+			return tabLineElement;
+		});
+	};
 
 	return (
-		<div className='tab'>
-            {getTabLines()}
+		<div className='tab-wrapper'>
+        <Controller />
+			<div className='tab'>{getTabLines()}</div>
 		</div>
 	);
 };

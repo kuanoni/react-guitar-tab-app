@@ -89,7 +89,7 @@ const TabMaker = () => {
 	return (
 		<div className='tab-maker'>
 			<Tab />
-			<Controller />
+			{/* <Controller /> */}
 			<Fretboard />
 		</div>
 	);

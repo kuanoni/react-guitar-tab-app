@@ -1,5 +1,5 @@
 import React from 'react';
-import './controller.scss'
+import './controller.scss';
 import AddHammerOnButton from './AddHammerOnButton';
 import AddPullOffButton from './AddPullOffButton';
 import ChangeToDivider from './ChangeToDividerButton';
@@ -13,40 +13,21 @@ import UndoButton from './UndoButton';
 
 const Controller = () => {
 	return (
-		<div className='controller'>
-			<UndoButton /> 
-			<MoveSelectionLeftButton /> 
-			<MoveSelectionRightButton />
-            <AddHammerOnButton />
-            <AddPullOffButton />
-			<ClearColumnButton /> 
-			<ChangeToDivider />
-			<SpaceButton /> 
-            <LineBreakButton /> 
-            <DeleteBreakButton />
+		<div className='controller-wrapper'>
+			<div className='controller'>
+				<UndoButton />
+				<MoveSelectionLeftButton />
+				<MoveSelectionRightButton />
+				<AddHammerOnButton />
+				<AddPullOffButton />
+				<ClearColumnButton />
+				<ChangeToDivider />
+				<SpaceButton />
+				<LineBreakButton />
+				<DeleteBreakButton />
+			</div>
 		</div>
 	);
 };
 
 export default Controller;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// add box shadow under tab strip
-// tab font color to grey
-// controller button label on hover
-// 
