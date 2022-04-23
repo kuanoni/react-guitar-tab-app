@@ -27,7 +27,7 @@ const initialState = {
 	selectedColumn: 1,
 	tuning: [28, 33, 38, 43, 47, 52],
 	tablature: [EMPTY_COLUMN, EMPTY_COLUMN],
-	history: [],
+	history: [{ selectedColumn: 1, tablature: [EMPTY_COLUMN, EMPTY_COLUMN] }],
 	holdingShift: false,
 	holdingCtrl: false,
 };
@@ -36,7 +36,7 @@ const destructureState = (state) => {
 	const newTablature = JSON.parse(JSON.stringify(state.tablature));
 	const newSelectedColumn = state.selectedColumn;
 	let { prevLineBreak, nextLineBreak } = findClosestLineBreakIndexes(state.tablature, state.selectedColumn);
-    if (prevLineBreak === 0) prevLineBreak -= 1;
+	if (prevLineBreak === 0) prevLineBreak -= 1;
 
 	return { newTablature, newSelectedColumn, prevLineBreak, nextLineBreak };
 };
@@ -96,18 +96,27 @@ export default function tabMakerReducer(state = initialState, action) {
 }
 
 const undoToHistory = (state) => {
+    let updatedState;
 	const previousState = state.history.at(-1);
 
-	if (previousState === undefined) {
+    if (previousState === undefined) {
 		return state;
 	}
 
-	const updatedState = {
-		...state,
-		selectedColumn: previousState.selectedColumn,
-		tablature: previousState.tablature,
-		history: state.history.slice(0, -1),
-	};
+    if (state.history.length === 1) {
+        updatedState = {
+            ...state,
+            selectedColumn: previousState.selectedColumn,
+            tablature: previousState.tablature,
+        };
+    } else {
+        updatedState = {
+            ...state,
+            selectedColumn: previousState.selectedColumn,
+            tablature: previousState.tablature,
+            history: state.history.slice(0, -1),
+        };
+    }
 
 	return updatedState;
 };
@@ -146,13 +155,11 @@ const changeSelectedColumn = (state, columnIndex) => {
 const moveSelectedColumn = (state, direction) => {
 	let { newTablature, newSelectedColumn, prevLineBreak, nextLineBreak } = destructureState(state);
 
-	if (direction + newSelectedColumn === prevLineBreak)
-		return state;
+	if (direction + newSelectedColumn === prevLineBreak) return state;
 
 	if (newSelectedColumn + direction === nextLineBreak || newTablature[newSelectedColumn + direction] === undefined) {
 		newTablature = insertEmptyColumn(newTablature, direction + newSelectedColumn);
 		newSelectedColumn += direction;
-	} else {
 	}
 
 	const updatedState = {
@@ -258,16 +265,15 @@ const setStringNote = (state, guitarString, note, spaces = SPACE_BETWEEN_NOTES) 
 	let newTablature = updateItemInSelectedColumn(state.tablature, state.selectedColumn, guitarString, note);
 
 	const updatedState = {
-        ...state,
+		...state,
 		tablature: newTablature,
 	};
-    
-    if (!state.holdingShift) {
-        return moveSelectedColumn(updatedState, spaces);
-    }
 
-    return saveChangesToHistory(state, updatedState);
+	if (!state.holdingShift) {
+		return moveSelectedColumn(updatedState, spaces);
+	}
 
+	return saveChangesToHistory(state, updatedState);
 };
 
 const addLetterToNote = (state, letter) => {
