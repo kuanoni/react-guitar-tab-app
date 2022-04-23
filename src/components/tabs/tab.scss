@@ -76,3 +76,14 @@
 		}
 	}
 }
+
+.copy-tab {
+    color: blue;
+    font-weight: 500;
+    user-select: none;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

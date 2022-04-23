@@ -48,9 +48,8 @@ const TabMaker = () => {
 			}
 
 			case 90: {
-				if (e.ctrlKey) {
+				if (e.ctrlKey)
 					dispatch({ type: 'tabMaker/undoToHistory' });
-				}
 				break;
 			}
 

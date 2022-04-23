@@ -3,6 +3,7 @@ import { LINE_BREAK_COLUMN, TUNINGS } from '../../GUITAR';
 import TabColumn from './TabColumn';
 import './tab.scss';
 import Controller from '../controller/Controller';
+import ExportToTextButton from '../controller/ExportToTextButton'
 
 const selectTablature = (state) => state.tabMaker.tablature;
 const selectSelectedColumn = (state) => state.tabMaker.selectedColumn;
@@ -64,8 +65,9 @@ const Tab = () => {
 
 	return (
 		<div className='tab-wrapper'>
-        <Controller />
+            <Controller />
 			<div className='tab'>{getTabLines()}</div>
+            <ExportToTextButton tablature={tablature} tunings={tunings} />
 		</div>
 	);
 };
