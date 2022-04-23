@@ -10,7 +10,10 @@ const FretButton = (props) => {
 			payload: { guitarString: props.guitarString, note: props.fretNum, spaces: 2 },
 		});
 
-		if (TUNING_SOUNDS[TUNINGS[props.fretNote]]) TUNING_SOUNDS[TUNINGS[props.fretNote]].play();
+		if (TUNING_SOUNDS[TUNINGS[props.fretNote]]) {
+            TUNING_SOUNDS[TUNINGS[props.fretNote]].currentTime = 0;
+            TUNING_SOUNDS[TUNINGS[props.fretNote]].play();
+        } 
 	};
 
     const addDot = () => {

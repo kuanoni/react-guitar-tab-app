@@ -1,8 +1,15 @@
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { EMPTY_NOTE_CHAR } from '../../GUITAR';
 
 const TabColumn = (props) => {
 	const dispatch = useDispatch();
+    const columnRef = useRef(null);
+
+    useEffect(() => {
+        columnRef.current.scrollIntoView();
+    }, [])
+    
 
 	const setSelectedColumn = (columnId) => {
 		dispatch({ type: 'tabMaker/changeSelectedColumn', payload: columnId });
@@ -66,7 +73,7 @@ const TabColumn = (props) => {
 	};
 
 	return (
-		<div className={props.selectedColumn === props.id ? 'columns selected' : 'columns'}>
+		<div ref={columnRef} className={props.selectedColumn === props.id ? 'columns selected' : 'columns'}>
 			{orderColumns().map((column, i) => wrapColumn(column, i))}
 		</div>
 	);

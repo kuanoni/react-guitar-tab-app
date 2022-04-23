@@ -1,15 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap');
 .tab-wrapper {
-	grid-area: tab;
+	display: contents;
     width: fit-content;
     max-width: 90vw;
-
 }
 
 .tab {
 	display: flex;
 	flex-direction: column;
-    max-width: 90vw;
+    max-width: 100%;
     overflow-x: auto;
     padding: 1rem;
     border: 1px #767676 solid;

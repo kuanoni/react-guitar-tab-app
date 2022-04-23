@@ -146,8 +146,6 @@ const changeSelectedColumn = (state, columnIndex) => {
 const moveSelectedColumn = (state, direction) => {
 	let { newTablature, newSelectedColumn, prevLineBreak, nextLineBreak } = destructureState(state);
 
-    console.log(direction + newSelectedColumn);
-
 	if (direction + newSelectedColumn === prevLineBreak)
 		return state;
 
@@ -155,7 +153,6 @@ const moveSelectedColumn = (state, direction) => {
 		newTablature = insertEmptyColumn(newTablature, direction + newSelectedColumn);
 		newSelectedColumn += direction;
 	} else {
-		return changeSelectedColumn(state, direction + state.selectedColumn);
 	}
 
 	const updatedState = {
@@ -232,7 +229,7 @@ const newLineBreak = (state) => {
 const deleteLastLineBreak = (state) => {
 	let { newTablature, newSelectedColumn, prevLineBreak, nextLineBreak } = destructureState(state);
 
-	if (nextLineBreak === null && prevLineBreak === 0) return state;
+	if (nextLineBreak === null && prevLineBreak === -1) return state;
 
 	if (prevLineBreak === 0) {
 		// beginning chunk

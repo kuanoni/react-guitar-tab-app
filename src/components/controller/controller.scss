@@ -4,12 +4,11 @@
 
 .controller {
     display: flex;
-    gap: .25rem;
+    gap: .5rem;
     min-width: fit-content;
     width: 100%;
-    border: 1px #475569 solid;
-    background-color: #475569;
-    padding: .25rem;
+    background-color: #0D0601 ;
+    padding: .4rem;
     margin-top: 1rem;
     align-self: flex-end;
 
@@ -19,22 +18,24 @@
         align-items: center;
         justify-content: center;
         aspect-ratio: 1 / 1;
-        width: 1.5rem;
-        height: 1.5rem;
-        background-color: #334155;
+        width: 2rem;
+        height: 2rem;
+        background-color: #372b24;
         border-radius: 4px;
         color: #fff;
         font-size: 18px;
         user-select: none;
+        transition: .1s ease;
         cursor: pointer;
 
         svg {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
         }
 
         &:hover {
             background-color: #475569;
+            transform: scale(1.05);
         }
     }
 }
