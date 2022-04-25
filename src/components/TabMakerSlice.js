@@ -207,16 +207,16 @@ const clearColumn = (state) => {
 	return saveChangesToHistory(state, updatedState);
 };
 
-const addSpaceColumns = (state, spaces = SPACE_BETWEEN_NOTES) => {
-	const newTablature = insertEmptyColumn(state.tablature, state.selectedColumn + 1, spaces);
+const addSpaceColumns = (state) => {
+    const newTablature = insertEmptyColumnAfter(state.tablature, state.selectedColumn);
 
 	const updatedState = {
 		...state,
 		tablature: newTablature,
-		selectedColumn: state.selectedColumn + spaces,
+        selectedColumn: state.selectedColumn + 1 
 	};
 
-	return saveChangesToHistory(state, updatedState);
+	return updatedState;
 };
 
 const changeColumnToDivider = (state) => {
