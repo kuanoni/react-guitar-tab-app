@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { EMPTY_NOTE_CHAR } from '../../GUITAR';
+import { EMPTY_NOTE_CHAR, symbolsToSnapTo } from '../../GUITAR';
 
 const TabColumn = (props) => {
 	const dispatch = useDispatch();
@@ -15,8 +15,8 @@ const TabColumn = (props) => {
 		dispatch({ type: 'tabMaker/changeSelectedColumn', payload: columnId });
 	};
 
-	const containsLetter = (column) => {
-		return column.some((note) => /[a-z]/i.test(note));
+	const containsSymbolToSnapTo = (column) => {
+		return column.some((note) => symbolsToSnapTo.includes(note));
 	};
 
 	const containsNumber = (column) => {
@@ -64,7 +64,7 @@ const TabColumn = (props) => {
 		const [column1, column2, column3] = makeColumns();
 
 		if (containsNumber(column1) && !containsNumber(column2)) {
-			if (containsLetter(column2)) {
+			if (containsSymbolToSnapTo(column2)) {
 				return [column3, column1, column2];
 			}
 		}

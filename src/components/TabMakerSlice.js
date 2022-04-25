@@ -1,5 +1,13 @@
 import { shallowEqual } from 'react-redux';
-import { EMPTY_COLUMN, EMPTY_NOTE_CHAR, LINE_BREAK_CHAR, LINE_BREAK_COLUMN, SPACE_BETWEEN_NOTES } from '../GUITAR';
+import {
+	EMPTY_COLUMN,
+	EMPTY_NOTE_CHAR,
+	LINE_BREAK_CHAR,
+	LINE_BREAK_COLUMN,
+	SPACE_BETWEEN_NOTES,
+	symbolsToSnapTo,
+	wrappingSymbols,
+} from '../GUITAR';
 import {
 	updateItemInSelectedColumn,
 	updateAllItemsInSelectedColumn,
@@ -90,33 +98,36 @@ export default function tabMakerReducer(state = initialState, action) {
 		case 'tabMaker/addLetterToNote':
 			return addLetterToNote(state, action.payload);
 
+		case 'tabMaker/wrapNote':
+			return wrapNote(state, action.payload.left, action.payload.right);
+
 		default:
 			return state;
 	}
 }
 
 const undoToHistory = (state) => {
-    let updatedState;
+	let updatedState;
 	const previousState = state.history.at(-1);
 
-    if (previousState === undefined) {
+	if (previousState === undefined) {
 		return state;
 	}
 
-    if (state.history.length === 1) {
-        updatedState = {
-            ...state,
-            selectedColumn: previousState.selectedColumn,
-            tablature: previousState.tablature,
-        };
-    } else {
-        updatedState = {
-            ...state,
-            selectedColumn: previousState.selectedColumn,
-            tablature: previousState.tablature,
-            history: state.history.slice(0, -1),
-        };
-    }
+	if (state.history.length === 1) {
+		updatedState = {
+			...state,
+			selectedColumn: previousState.selectedColumn,
+			tablature: previousState.tablature,
+		};
+	} else {
+		updatedState = {
+			...state,
+			selectedColumn: previousState.selectedColumn,
+			tablature: previousState.tablature,
+			history: state.history.slice(0, -1),
+		};
+	}
 
 	return updatedState;
 };
@@ -282,7 +293,7 @@ const addLetterToNote = (state, letter) => {
 
 	let columnToAddTo = state.tablature[state.selectedColumn - SPACE_BETWEEN_NOTES];
 	let newColumn = columnToAddTo.map((note) => {
-		if (note !== EMPTY_NOTE_CHAR && !/[a-z]/i.test(note)) {
+		if (note !== EMPTY_NOTE_CHAR && !symbolsToSnapTo.includes(note)) {
 			return note.toString() + letter;
 		}
 
@@ -290,6 +301,35 @@ const addLetterToNote = (state, letter) => {
 	});
 
 	newTablature[state.selectedColumn - SPACE_BETWEEN_NOTES] = newColumn;
+
+	const updatedState = {
+		...state,
+		tablature: newTablature,
+	};
+
+	return saveChangesToHistory(state, updatedState);
+};
+
+const wrapNote = (state, left, right) => {
+	if (state.selectedColumn < 1) return state;
+	let { newTablature } = destructureState(state);
+
+	let columnToAddTo = state.tablature[state.selectedColumn];
+	let newColumn = columnToAddTo.map((note) => {
+		const noteString = note.toString();
+		for (let i = 0; i < noteString.length; i++) {
+			if (symbolsToSnapTo.includes(noteString[i]) || wrappingSymbols.includes(noteString[i])) return noteString;
+		}
+
+		if (noteString !== EMPTY_NOTE_CHAR) {
+			console.log(note);
+			return left + note.toString() + right;
+		}
+
+		return noteString;
+	});
+
+	newTablature[state.selectedColumn] = newColumn;
 
 	const updatedState = {
 		...state,

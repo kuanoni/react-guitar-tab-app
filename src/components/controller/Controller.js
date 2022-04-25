@@ -10,6 +10,10 @@ import MoveSelectionLeftButton from './MoveSelectionLeftButton';
 import MoveSelectionRightButton from './MoveSelectionRightButton';
 import SpaceButton from './SpaceButton';
 import UndoButton from './UndoButton';
+import AddBendButton from './AddBendButton';
+import AddSlideDownButton from './AddSlideDownButton';
+import AddSlideUpButton from './AddSlideUpButton';
+import AddGhostNoteButton from './AddGhostNoteButton';
 
 const Controller = () => {
 	return (
@@ -20,6 +24,10 @@ const Controller = () => {
 				<MoveSelectionRightButton />
 				<AddHammerOnButton />
 				<AddPullOffButton />
+				<AddBendButton />
+				<AddSlideUpButton />
+				<AddSlideDownButton />
+                <AddGhostNoteButton />
 				<ClearColumnButton />
 				<ChangeToDivider />
 				<SpaceButton />
