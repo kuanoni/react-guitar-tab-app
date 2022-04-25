@@ -164,23 +164,37 @@ const changeSelectedColumn = (state, columnIndex) => {
 };
 
 const moveSelectedColumn = (state, direction) => {
-	let { newTablature, newSelectedColumn, prevLineBreak, nextLineBreak } = destructureState(state);
-
-	if (direction + newSelectedColumn === prevLineBreak) return state;
-
-	if (newSelectedColumn + direction === nextLineBreak || newTablature[newSelectedColumn + direction] === undefined) {
-		newTablature = insertEmptyColumn(newTablature, direction + newSelectedColumn);
-		newSelectedColumn += direction;
-	}
-
+    const newSelectedColumn = state.selectedColumn + direction;
+    const newTablature = addColumnsIfNecessary(state.tablature, state.selectedColumn, newSelectedColumn);
+    
 	const updatedState = {
 		...state,
 		tablature: newTablature,
 		selectedColumn: newSelectedColumn,
 	};
 
-	return saveChangesToHistory(state, updatedState);
-};
+	return updatedState;
+}
+
+const addColumnsIfNecessary = (tablature, prevColumn, newColumn) => {
+    if (prevColumn >= newColumn) return tablature;
+
+    let newTablature = JSON.parse(JSON.stringify(tablature));
+    const columnAfterPrev = newTablature[prevColumn + 1];
+    if (columnAfterPrev === undefined || shallowEqual(columnAfterPrev, LINE_BREAK_COLUMN)) {
+        const difference = newColumn - prevColumn;
+        for (let i = 0; i < difference; i++) {
+            newTablature = insertEmptyColumnAfter(newTablature, prevColumn);
+        }
+    }
+
+    return newTablature;
+}
+
+const insertEmptyColumnAfter = (tablature, index) => {
+    tablature.splice(index, 0, EMPTY_COLUMN);
+    return tablature;
+}
 
 const clearColumn = (state) => {
 	const newTablature = updateAllItemsInSelectedColumn(state.tablature, state.selectedColumn, EMPTY_NOTE_CHAR);
