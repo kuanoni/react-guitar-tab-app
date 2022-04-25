@@ -8,31 +8,20 @@ import {
 	symbolsToSnapTo,
 	wrappingSymbols,
 } from '../GUITAR';
+
 import {
-	updateItemInSelectedColumn,
 	updateAllItemsInSelectedColumn,
 	findClosestLineBreakIndexes,
 	appendEmptyColumns,
 	insertEmptyColumn,
 	saveChangesToHistory,
-    insertEmptyColumnAfter,
+    insertColumnAfter,
     addColumnsIfNecessary,
     setColumnNote,
+    setColumnAllNotes,
+    findClosestLineBreaks,
+    replaceColumnInTablature,
 } from './TabMakerSliceUtilities';
-
-const testTablature = [
-	EMPTY_COLUMN,
-	EMPTY_COLUMN,
-	EMPTY_COLUMN,
-	LINE_BREAK_COLUMN,
-	EMPTY_COLUMN,
-	EMPTY_COLUMN,
-	EMPTY_COLUMN,
-	LINE_BREAK_COLUMN,
-	EMPTY_COLUMN,
-	EMPTY_COLUMN,
-	EMPTY_COLUMN,
-];
 
 const initialState = {
 	selectedColumn: 1,
@@ -84,22 +73,19 @@ export default function tabMakerReducer(state = initialState, action) {
 			return addSpaceColumn(state);
 
 		case 'tabMaker/changeColumnToDivider':
-			return changeColumnToDivider(state);
+			return setColumnToDivider(state);
 
 		case 'tabMaker/newLineBreak':
-			return newLineBreak(state);
+			return addLine(state);
 
 		case 'tabMaker/deleteLastLineBreak':
-			return deleteLastLineBreak(state);
+			return deleteLine(state);
 
 		case 'tabMaker/setStringNote':
 			return setStringNote(state, action.payload.guitarString, action.payload.note);
 
-		case 'tabMaker/snapStringNoteToPrevious':
-			return snapStringNoteToPrevious(state, action.payload.guitarString, action.payload.note);
-
 		case 'tabMaker/addLetterToNote':
-			return addLetterToNote(state, action.payload);
+			return addSymbolToColumnNotes(state, action.payload);
 
 		case 'tabMaker/wrapNote':
 			return wrapNote(state, action.payload.left, action.payload.right);
@@ -166,147 +152,6 @@ const changeSelectedColumn = (state, columnIndex) => {
 	return updatedState;
 };
 
-const moveSelectedColumn = (state, direction) => {
-    const newSelectedColumn = state.selectedColumn + direction;
-    const newTablature = addColumnsIfNecessary(state.tablature, state.selectedColumn, newSelectedColumn);
-    
-	const updatedState = {
-		...state,
-		tablature: newTablature,
-		selectedColumn: newSelectedColumn,
-	};
-
-	return updatedState;
-}
-
-const clearColumn = (state) => {
-	const newTablature = updateAllItemsInSelectedColumn(state.tablature, state.selectedColumn, EMPTY_NOTE_CHAR);
-
-	const updatedState = {
-		...state,
-		tablature: newTablature,
-	};
-
-	return saveChangesToHistory(state, updatedState);
-};
-
-const addSpaceColumn = (state) => {
-    const newTablature = insertEmptyColumnAfter(state.tablature, state.selectedColumn);
-
-	const updatedState = {
-		...state,
-		tablature: newTablature,
-        selectedColumn: state.selectedColumn + 1 
-	};
-
-	return updatedState;
-};
-
-const changeColumnToDivider = (state) => {
-	let { newTablature, newSelectedColumn } = destructureState(state);
-
-	newTablature = updateAllItemsInSelectedColumn(newTablature, newSelectedColumn, '|');
-
-	if (isColumnNextToLineBreak(newTablature, newSelectedColumn)) {
-		newTablature = insertEmptyColumn(newTablature, newSelectedColumn + 1, SPACE_BETWEEN_NOTES);
-		newSelectedColumn += SPACE_BETWEEN_NOTES;
-	}
-
-	const updatedState = {
-		...state,
-		tablature: newTablature,
-		selectedColumn: newSelectedColumn,
-	};
-
-	return saveChangesToHistory(state, updatedState);
-};
-
-const newLineBreak = (state) => {
-	let { newTablature, newSelectedColumn, nextLineBreak } = destructureState(state);
-
-	if (nextLineBreak === null) nextLineBreak = newTablature.length;
-
-	newTablature = insertEmptyColumn(newTablature, nextLineBreak);
-	newSelectedColumn = nextLineBreak;
-	newTablature = updateAllItemsInSelectedColumn(newTablature, newSelectedColumn, LINE_BREAK_CHAR);
-	newTablature = insertEmptyColumn(newTablature, newSelectedColumn + 1, SPACE_BETWEEN_NOTES + 1);
-	newSelectedColumn += SPACE_BETWEEN_NOTES + 1;
-
-	const updatedState = {
-		...state,
-		tablature: newTablature,
-		selectedColumn: newSelectedColumn,
-	};
-
-	return saveChangesToHistory(state, updatedState);
-};
-
-const deleteLastLineBreak = (state) => {
-	let { newTablature, newSelectedColumn, prevLineBreak, nextLineBreak } = destructureState(state);
-
-	if (nextLineBreak === null && prevLineBreak === -1) return state;
-
-	if (prevLineBreak === 0) {
-		// beginning chunk
-		newTablature.splice(prevLineBreak, nextLineBreak - prevLineBreak + 1);
-		newSelectedColumn = 0;
-	} else if (nextLineBreak === null) {
-		// end chunk
-		newTablature.splice(prevLineBreak, newTablature.length - 1 - prevLineBreak + 1);
-		newSelectedColumn = prevLineBreak - 1;
-	} else {
-		// middle chunk
-		newTablature.splice(prevLineBreak + 1, nextLineBreak - prevLineBreak);
-		newSelectedColumn = prevLineBreak - 1;
-	}
-
-	const updatedState = {
-		...state,
-		tablature: newTablature,
-		selectedColumn: newSelectedColumn,
-	};
-
-	return saveChangesToHistory(state, updatedState);
-};
-
-const setStringNote = (state, guitarString, note) => {
-	const newTablature = setColumnNote(state.tablature, state.selectedColumn, guitarString, note);
-
-	let updatedState = {
-		...state,
-		tablature: newTablature,
-	};
-
-	if (!state.holdingShift) {
-		updatedState = moveSelectedColumn(updatedState, 1);
-	}
-
-	return updatedState;
-};
-
-const addLetterToNote = (state, letter) => {
-	if (state.selectedColumn < 1) return state;
-	let { newTablature } = destructureState(state);
-
-	let columnToAddTo = state.tablature[state.selectedColumn - SPACE_BETWEEN_NOTES];
-	let newColumn = columnToAddTo.map((note) => {
-		if (note !== EMPTY_NOTE_CHAR && !symbolsToSnapTo.includes(note)) {
-			return note.toString() + letter;
-		}
-
-		return note.toString();
-	});
-
-	newTablature[state.selectedColumn - SPACE_BETWEEN_NOTES] = newColumn;
-
-	const updatedState = {
-		...state,
-		tablature: newTablature,
-	};
-
-	return saveChangesToHistory(state, updatedState);
-};
-
 const wrapNote = (state, left, right) => {
 	if (state.selectedColumn < 1) return state;
 	let { newTablature } = destructureState(state);
@@ -336,27 +181,127 @@ const wrapNote = (state, left, right) => {
 	return saveChangesToHistory(state, updatedState);
 };
 
-const snapStringNoteToPrevious = (state, guitarString, note, spaces = SPACE_BETWEEN_NOTES) => {
-	if (state.selectedColumn < SPACE_BETWEEN_NOTES) return setStringNote(state, guitarString, note, spaces);
+const setStringNote = (state, guitarString, note) => {
+	const newTablature = setColumnNote(state.tablature, state.selectedColumn, guitarString, note);
 
-	let columnToSnapTo = state.tablature[state.selectedColumn - SPACE_BETWEEN_NOTES];
-
-	if (
-		state.tablature[state.selectedColumn] !== EMPTY_COLUMN ||
-		state.tablature[state.selectedColumn - 1] !== EMPTY_COLUMN ||
-		state.tablature[state.selectedColumn - 2] !== EMPTY_COLUMN ||
-		typeof columnToSnapTo[guitarString] !== 'number'
-	) {
-		return setStringNote(state, guitarString, note, spaces);
-	}
-
-	let newTablature = state.tablature.slice(0, state.selectedColumn - 1);
-
-	let newState = changeSelectedColumn(state, newTablature.length - 1);
-	newState = {
-		...newState,
+	let updatedState = {
+		...state,
 		tablature: newTablature,
 	};
 
-	return setStringNote(newState, guitarString, note, 1);
+	if (!state.holdingShift) {
+		updatedState = moveSelectedColumn(updatedState, 1);
+	}
+
+	return updatedState;
 };
+
+const addSymbolToColumnNotes = (state, symbol) => {
+    const columnToAddTo = state.selectedColumn - 1;
+    let newColumn = state.tablature[columnToAddTo].map(note => {
+        if (typeof(note) === 'number') return note + symbol;
+        return note;
+    });
+
+    const newTablature = replaceColumnInTablature(state.tablature, columnToAddTo, newColumn)
+
+    let updatedState = {
+		...state,
+		tablature: newTablature,
+	};
+
+    return updatedState;
+}
+
+const moveSelectedColumn = (state, direction) => {
+    let {prevLineBreak} = findClosestLineBreaks(state.tablature, state.selectedColumn);
+    const newSelectedColumn = state.selectedColumn + direction;
+
+    if (newSelectedColumn <= prevLineBreak) return state;
+
+    const newTablature = addColumnsIfNecessary(state.tablature, state.selectedColumn, newSelectedColumn);
+    
+	const updatedState = {
+		...state,
+		tablature: newTablature,
+		selectedColumn: newSelectedColumn,
+	};
+
+	return updatedState;
+}
+
+const deleteLine = (state) => {
+    let {prevLineBreak, nextLineBreak} = findClosestLineBreaks(state.tablature, state.selectedColumn);
+    let newTablature = JSON.parse(JSON.stringify(state.tablature));
+    let newSelectedColumn = prevLineBreak - 1;
+    
+    // requires different behavior if deleting the first line
+    if (prevLineBreak === -1) {
+        newSelectedColumn = 0;
+        prevLineBreak = 0;
+        nextLineBreak += 1;
+    }
+    
+    newTablature.splice(prevLineBreak, nextLineBreak - prevLineBreak);
+
+    const updatedState = {
+		...state,
+		tablature: newTablature,
+		selectedColumn: newSelectedColumn
+	};
+
+    return updatedState;
+}
+
+const addLine = (state) => {
+    let {nextLineBreak} = findClosestLineBreaks(state.tablature, state.selectedColumn);
+    nextLineBreak -= 1;
+
+    let newTablature = insertColumnAfter(state.tablature, nextLineBreak);
+    newTablature = insertColumnAfter(newTablature, nextLineBreak);
+    newTablature = insertColumnAfter(newTablature, nextLineBreak, LINE_BREAK_COLUMN);
+
+    const updatedState = {
+        ...state,
+        tablature: newTablature,
+        selectedColumn: nextLineBreak + 3
+    }
+
+    return updatedState;
+}
+
+const addSpaceColumn = (state) => {
+    const newTablature = insertColumnAfter(state.tablature, state.selectedColumn);
+
+	const updatedState = {
+		...state,
+		tablature: newTablature,
+        selectedColumn: state.selectedColumn + 1 
+	};
+
+	return updatedState;
+};
+
+const clearColumn = (state) => {
+	const newTablature = setColumnAllNotes(state.tablature, state.selectedColumn, EMPTY_NOTE_CHAR);
+
+	const updatedState = {
+		...state,
+		tablature: newTablature,
+	};
+
+	return updatedState;
+};
+
+const setColumnToDivider = (state) => {
+    const newTablature = setColumnAllNotes(state.tablature, state.selectedColumn, '|');
+
+    let updatedState = {
+        ...state,
+        tablature: newTablature
+    }
+
+    updatedState = moveSelectedColumn(updatedState, 1);
+
+    return updatedState;
+}
