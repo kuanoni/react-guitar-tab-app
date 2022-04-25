@@ -15,6 +15,9 @@ import {
 	appendEmptyColumns,
 	insertEmptyColumn,
 	saveChangesToHistory,
+    insertEmptyColumnAfter,
+    addColumnsIfNecessary,
+    setColumnNote,
 } from './TabMakerSliceUtilities';
 
 const testTablature = [
@@ -77,8 +80,8 @@ export default function tabMakerReducer(state = initialState, action) {
 		case 'tabMaker/clearSelectedColumn':
 			return clearColumn(state);
 
-		case 'tabMaker/addSpaceColumns':
-			return addSpaceColumns(state);
+		case 'tabMaker/addSpaceColumn':
+			return addSpaceColumn(state);
 
 		case 'tabMaker/changeColumnToDivider':
 			return changeColumnToDivider(state);
@@ -176,26 +179,6 @@ const moveSelectedColumn = (state, direction) => {
 	return updatedState;
 }
 
-const addColumnsIfNecessary = (tablature, prevColumn, newColumn) => {
-    if (prevColumn >= newColumn) return tablature;
-
-    let newTablature = JSON.parse(JSON.stringify(tablature));
-    const columnAfterPrev = newTablature[prevColumn + 1];
-    if (columnAfterPrev === undefined || shallowEqual(columnAfterPrev, LINE_BREAK_COLUMN)) {
-        const difference = newColumn - prevColumn;
-        for (let i = 0; i < difference; i++) {
-            newTablature = insertEmptyColumnAfter(newTablature, prevColumn);
-        }
-    }
-
-    return newTablature;
-}
-
-const insertEmptyColumnAfter = (tablature, index) => {
-    tablature.splice(index, 0, EMPTY_COLUMN);
-    return tablature;
-}
-
 const clearColumn = (state) => {
 	const newTablature = updateAllItemsInSelectedColumn(state.tablature, state.selectedColumn, EMPTY_NOTE_CHAR);
 
@@ -207,7 +190,7 @@ const clearColumn = (state) => {
 	return saveChangesToHistory(state, updatedState);
 };
 
-const addSpaceColumns = (state) => {
+const addSpaceColumn = (state) => {
     const newTablature = insertEmptyColumnAfter(state.tablature, state.selectedColumn);
 
 	const updatedState = {
@@ -286,19 +269,19 @@ const deleteLastLineBreak = (state) => {
 	return saveChangesToHistory(state, updatedState);
 };
 
-const setStringNote = (state, guitarString, note, spaces = SPACE_BETWEEN_NOTES) => {
-	let newTablature = updateItemInSelectedColumn(state.tablature, state.selectedColumn, guitarString, note);
+const setStringNote = (state, guitarString, note) => {
+	const newTablature = setColumnNote(state.tablature, state.selectedColumn, guitarString, note);
 
-	const updatedState = {
+	let updatedState = {
 		...state,
 		tablature: newTablature,
 	};
 
 	if (!state.holdingShift) {
-		return moveSelectedColumn(updatedState, spaces);
+		updatedState = moveSelectedColumn(updatedState, 1);
 	}
 
-	return saveChangesToHistory(state, updatedState);
+	return updatedState;
 };
 
 const addLetterToNote = (state, letter) => {

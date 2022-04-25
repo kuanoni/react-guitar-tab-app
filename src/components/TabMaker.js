@@ -37,7 +37,7 @@ const TabMaker = () => {
 
 			case 32: {
 				// Space
-				dispatch({ type: 'tabMaker/addSpaceColumns', payload: 1 });
+				dispatch({ type: 'tabMaker/addSpaceColumn' });
 				break;
 			}
 
