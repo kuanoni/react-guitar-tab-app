@@ -14,7 +14,7 @@ const initialState = {
 	selectedColumn: 1,
 	tuning: [28, 33, 38, 43, 47, 52],
 	tablature: [EMPTY_COLUMN, EMPTY_COLUMN],
-	history: [{ selectedColumn: 1, tablature: [EMPTY_COLUMN, EMPTY_COLUMN] }],
+	history: [],
 	holdingShift: false,
 	holdingCtrl: false,
 };
@@ -37,31 +37,31 @@ export default function tabMakerReducer(state = initialState, action) {
 			return changeSelectedColumn(state, action.payload);
 
 		case 'tabMaker/moveSelectedColumn':
-			return moveSelectedColumn(state, action.payload);
+			return saveChangesToHistory(state, moveSelectedColumn(state, action.payload));
 
 		case 'tabMaker/clearSelectedColumn':
-			return clearColumn(state);
+			return saveChangesToHistory(state, clearColumn(state));
 
 		case 'tabMaker/addSpaceColumn':
-			return addSpaceColumn(state);
+			return saveChangesToHistory(state, addSpaceColumn(state));
 
 		case 'tabMaker/changeColumnToDivider':
-			return setColumnToDivider(state);
+			return saveChangesToHistory(state, setColumnToDivider(state));
 
 		case 'tabMaker/newLineBreak':
-			return addLine(state);
+			return saveChangesToHistory(state, addLine(state));
 
 		case 'tabMaker/deleteLastLineBreak':
-			return deleteLine(state);
+			return saveChangesToHistory(state, deleteLine(state));
 
 		case 'tabMaker/setStringNote':
-			return setStringNote(state, action.payload.guitarString, action.payload.note);
+			return saveChangesToHistory(state, setStringNote(state, action.payload.guitarString, action.payload.note));
 
 		case 'tabMaker/addLetterToNote':
-			return addSymbolToColumnNotes(state, action.payload);
+			return saveChangesToHistory(state, addSymbolToColumnNotes(state, action.payload));
 
 		case 'tabMaker/wrapNote':
-			return wrapNote(state, action.payload.left, action.payload.right);
+			return saveChangesToHistory(state, wrapNote(state, action.payload.left, action.payload.right));
 
 		default:
 			return state;
@@ -69,27 +69,18 @@ export default function tabMakerReducer(state = initialState, action) {
 }
 
 const undoToHistory = (state) => {
-	let updatedState;
 	const previousState = state.history.at(-1);
 
 	if (previousState === undefined) {
 		return state;
 	}
 
-	if (state.history.length === 1) {
-		updatedState = {
-			...state,
-			selectedColumn: previousState.selectedColumn,
-			tablature: previousState.tablature,
-		};
-	} else {
-		updatedState = {
-			...state,
-			selectedColumn: previousState.selectedColumn,
-			tablature: previousState.tablature,
-			history: state.history.slice(0, -1),
-		};
-	}
+	const updatedState = {
+		...state,
+		selectedColumn: previousState.selectedColumn,
+		tablature: previousState.tablature,
+		history: state.history.slice(0, -1),
+	};
 
 	return updatedState;
 };
