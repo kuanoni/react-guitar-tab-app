@@ -1,6 +1,12 @@
+import { useSelector } from 'react-redux';
 import { CHORDS } from '../../GUITAR';
 
+
+const selectSavedChords = (state) => state.tabMaker.savedChords;
+
 const SelectChordDropdown = (props) => {
+    const savedChords = useSelector(selectSavedChords);
+
 	let options = [];
 	for (const key in CHORDS) {
 		options.push(
@@ -9,6 +15,14 @@ const SelectChordDropdown = (props) => {
 			</option>
 		);
 	}
+
+    savedChords.forEach((chord, i) => {
+        options.push(
+			<option key={i} value={chord}>
+				{chord.join('')}
+			</option>
+		);
+    });
 
     const onChange = e => {
         props.setSelectedChord(e.target.value);

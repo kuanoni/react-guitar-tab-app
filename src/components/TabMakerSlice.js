@@ -16,6 +16,7 @@ const initialState = {
 	tablature: [EMPTY_COLUMN, EMPTY_COLUMN],
 	history: [],
     copiedColumn: [],
+    savedChords: [],
 	holdingShift: false,
 	holdingCtrl: false,
 };
@@ -69,6 +70,9 @@ export default function tabMakerReducer(state = initialState, action) {
 
         case 'tabMaker/pasteCopiedColumn':
             return saveChangesToHistory(state, pasteCopiedColumn(state));
+
+        case 'tabMaker/saveSelectedChord':
+            return saveSelectedChord(state);
 
         case 'tabMaker/placeColumn':
             return saveChangesToHistory(state, placeColumn(state, action.payload));
@@ -286,6 +290,18 @@ const placeColumn = (state, column) => {
     }
 
     updatedState = moveSelectedColumn(updatedState, 1);
+
+    return updatedState;
+}
+
+const saveSelectedChord = (state) => {
+    const updatedState = {
+        ...state,
+        savedChords: [
+            ...state.savedChords,
+            state.tablature[state.selectedColumn]
+        ]
+    }
 
     return updatedState;
 }

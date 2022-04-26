@@ -17,6 +17,7 @@ import AddGhostNoteButton from './AddGhostNoteButton';
 import AddNaturalHarmonicButton from './AddNaturalHarmonicButton';
 import SelectChordDropdown from './SelectChordDropdown';
 import PlaceChordButton from './PlaceChordButton';
+import SaveSelectedChordButton from './SaveSelectedChordButton';
 
 const Controller = () => {
     const [selectedChord, setSelectedChord] = useState('');
@@ -42,6 +43,7 @@ const Controller = () => {
 				<DeleteBreakButton />
                 <SelectChordDropdown setSelectedChord={setSelectedChord} />
                 <PlaceChordButton selectedChord={selectedChord} />
+                <SaveSelectedChordButton />
 			</div>
 		</div>
 	);
