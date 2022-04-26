@@ -5,7 +5,7 @@ const SpaceButton = () => {
 	const dispatch = useDispatch();
 
 	const onClick = () => {
-		dispatch({ type: 'tabMaker/addSpaceColumns' });
+		dispatch({ type: 'tabMaker/addSpaceColumn' });
 	};
 
 	return <div className='control-button' onClick={onClick}><RiInsertColumnLeft /></div>;
