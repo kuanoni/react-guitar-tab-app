@@ -1,13 +1,18 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Fretboard from './fretboard/Fretboard';
 import Tab from './tabs/Tab';
 import './tabMaker.scss'
 
+const typingSelector = state => state.tabMaker.typing;
+
 const TabMaker = () => {
 	const dispatch = useDispatch();
+    const typing = useSelector(typingSelector);
 
 	const keyUpHandler = (e) => {
+        console.log(typing)
+        if (typing) return;
 		e.preventDefault();
 		switch (e.keyCode) {
 			case 39: {
@@ -75,6 +80,7 @@ const TabMaker = () => {
 	};
 
 	const keyDownHandler = (e) => {
+        if (typing) return;
 		e.preventDefault();
 		switch (e.keyCode) {
 			case 16: {
@@ -87,19 +93,18 @@ const TabMaker = () => {
 		}
 	};
 
-	useEffect(() => {
-		window.addEventListener('keyup', keyUpHandler, false);
-		window.addEventListener('keydown', keyDownHandler, false);
-		return () => {
-			document.removeEventListener('keyup', keyUpHandler);
-			document.removeEventListener('keydown', keyDownHandler);
-		};
-	});
+	// useEffect(() => {
+	// 	window.addEventListener('keyup', keyUpHandler, false);
+	// 	window.addEventListener('keydown', keyDownHandler, false);
+	// 	return () => {
+	// 		document.removeEventListener('keyup', keyUpHandler);
+	// 		document.removeEventListener('keydown', keyDownHandler);
+	// 	};
+	// });
 
 	return (
 		<div className='tab-maker'>
 			<Tab />
-			{/* <Controller /> */}
 			<Fretboard />
 		</div>
 	);

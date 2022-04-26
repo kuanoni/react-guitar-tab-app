@@ -18,8 +18,8 @@ const SelectChordDropdown = (props) => {
 
     savedChords.forEach((chord, i) => {
         options.push(
-			<option key={i} value={chord}>
-				{chord.join('')}
+			<option key={i} value={chord.column}>
+				{chord.name}
 			</option>
 		);
     });

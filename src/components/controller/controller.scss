@@ -11,14 +11,27 @@
 	margin-top: 1rem;
 	align-self: flex-end;
 
+    .divider {
+        width: 1px;
+        align-self: stretch;
+        background-color: #fff;
+        margin: 0 .25rem;
+    }
+
 	.chord-selector {
-		z-index: 5;
+		z-index: 1;
 		background-color: #0d0601;
 		color: #fff;
 		border-color: #fff;
         text-align: center;
-        margin-left: 2rem;
 	}
+
+    .chord-name-input {
+		background-color: #0d0601;
+		color: #fff;
+        border: 1px #fff solid;
+        padding: 0 .25rem;
+    }
 
 	.control-button {
 		box-sizing: border-box;

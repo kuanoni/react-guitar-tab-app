@@ -29,6 +29,7 @@ const Controller = () => {
 				<UndoButton />
 				<MoveSelectionLeftButton />
 				<MoveSelectionRightButton />
+                <div className="divider"></div>
 				<AddHammerOnButton />
 				<AddPullOffButton />
 				<AddBendButton />
@@ -36,14 +37,17 @@ const Controller = () => {
 				<AddSlideDownButton />
                 <AddGhostNoteButton />
                 <AddNaturalHarmonicButton />
+                <div className="divider"></div>
 				<ClearColumnButton />
 				<ChangeToDivider />
 				<SpaceButton />
 				<LineBreakButton />
 				<DeleteBreakButton />
+                <div className="divider"></div>
                 <SelectChordDropdown setSelectedChord={setSelectedChord} />
                 <PlaceChordButton selectedChord={selectedChord} />
                 <SaveSelectedChordButton />
+                <div className="divider"></div>
 			</div>
 		</div>
 	);
