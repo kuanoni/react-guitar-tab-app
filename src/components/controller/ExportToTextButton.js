@@ -1,10 +1,24 @@
-import { TUNINGS } from '../../GUITAR';
+import { TUNINGS, EMPTY_NOTE_CHAR, symbolsToSnapTo, wrappingSymbols } from '../../GUITAR';
 
 const ExportToTextButton = (props) => {
 
 	const onClick = () => {
         navigator.clipboard.writeText(makeTextTablature(props.tablature, props.tunings));
 	};
+
+    const containsSymbolToSnapTo = (note) => {
+        return symbolsToSnapTo.some(char => {
+            if (note.toString().includes(char)) return true;
+            return false;
+        })
+    }
+
+    const containsWrappingSymbol = (note) => {
+        return wrappingSymbols.some(char => {
+            if (note.toString().includes(char)) return true;
+            return false;
+        })
+    }
 
     const containsLetter = (note) => {
 		return /[a-z]/i.test(note);
@@ -14,21 +28,22 @@ const ExportToTextButton = (props) => {
         let guitarStrings = [[],[],[],[],[],[]];
 
         tablature.forEach(column => {
-            column.forEach((note, i) => {
-                if (containsLetter(note)) {
-                    if (note.length > 2) {
-                        guitarStrings[i].push(note);
-                    } else {
-                        guitarStrings[i].push('-' + note);
-                    }
-                } else {
-                    if (note.toString().length > 1) {
-                        guitarStrings[i].push(note + '-');
-                    } else {
-                        guitarStrings[i].push(note + '--');
-                    }
-                }
+            let longest = column.reduce((a, b) => {
+                return a.length > b.length ? a : b;
+            }).length;
+    
+            if (longest < 3 || !longest) longest = 3;
 
+            column.forEach((note, i) => {
+                let difference = longest - note.toString().length;
+
+                if (containsSymbolToSnapTo(note)) {
+                    guitarStrings[i].push(EMPTY_NOTE_CHAR.repeat(difference) + note)
+                } else if (containsWrappingSymbol(note)) {
+                    guitarStrings[i].push(note);
+                } else {
+                    guitarStrings[i].push(note + EMPTY_NOTE_CHAR.repeat(difference))
+                }
             });
         });
 

@@ -4,12 +4,11 @@ import { EMPTY_NOTE_CHAR, symbolsToSnapTo } from '../../GUITAR';
 
 const TabColumn = (props) => {
 	const dispatch = useDispatch();
-    const columnRef = useRef(null);
+	const columnRef = useRef(null);
 
-    useEffect(() => {
-        columnRef.current.scrollIntoView();
-    }, [])
-    
+	useEffect(() => {
+		columnRef.current.scrollIntoView();
+	}, []);
 
 	const setSelectedColumn = (columnId) => {
 		dispatch({ type: 'tabMaker/changeSelectedColumn', payload: columnId });
@@ -48,22 +47,21 @@ const TabColumn = (props) => {
 	const makeColumns = () => {
 		let columns = [[], [], [], []];
 
-        var longest = props.column.reduce((a, b) => {
-                return a.length > b.length ? a : b;
-            }
-        ).length;
+		var longest = props.column.reduce((a, b) => {
+			return a.length > b.length ? a : b;
+		}).length;
 
-        if (longest < 3) longest = 3;
+		if (longest < 3 || !longest) longest = 3;
 
-        props.column.forEach(note => {
-            for (let i = 0; i < longest; i++) {
-                if (note.toString()[i]) {
+		props.column.forEach((note) => {
+			for (let i = 0; i < longest; i++) {
+				if (note.toString()[i]) {
 					columns[i].push(note.toString()[i]);
 				} else {
 					columns[i].push(EMPTY_NOTE_CHAR);
 				}
-            }
-        });
+			}
+		});
 
 		return columns;
 	};
@@ -77,9 +75,9 @@ const TabColumn = (props) => {
 			}
 		}
 
-        if (column4.length !== 0) {
-            return [column1, column2, column3, column4];
-        }
+		if (column4.length !== 0) {
+			return [column1, column2, column3, column4];
+		}
 
 		return [column1, column2, column3];
 	};

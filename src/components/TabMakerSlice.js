@@ -68,7 +68,7 @@ export default function tabMakerReducer(state = initialState, action) {
             return copySelectedColumn(state);
 
         case 'tabMaker/pasteCopiedColumn':
-            return pasteCopiedColumn(state);
+            return saveChangesToHistory(state, pasteCopiedColumn(state));
 
 		default:
 			return state;

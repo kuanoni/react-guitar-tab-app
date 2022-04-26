@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import Controller from './controller/Controller';
 import Fretboard from './fretboard/Fretboard';
 import Tab from './tabs/Tab';
 import './tabMaker.scss'
