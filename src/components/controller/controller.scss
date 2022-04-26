@@ -1,41 +1,49 @@
 .controller-wrapper {
-
 }
 
 .controller {
-    display: flex;
-    gap: .5rem;
-    min-width: fit-content;
-    width: 100%;
-    background-color: #0D0601 ;
-    padding: .4rem;
-    margin-top: 1rem;
-    align-self: flex-end;
+	display: flex;
+	gap: 0.5rem;
+	min-width: fit-content;
+	width: 100%;
+	background-color: #0d0601;
+	padding: 0.4rem;
+	margin-top: 1rem;
+	align-self: flex-end;
 
-    .control-button {
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        aspect-ratio: 1 / 1;
-        width: 2rem;
-        height: 2rem;
-        background-color: #372b24;
-        border-radius: 4px;
-        color: #fff;
-        font-size: 18px;
-        user-select: none;
-        transition: .1s ease;
-        cursor: pointer;
+	.chord-selector {
+		z-index: 5;
+		background-color: #0d0601;
+		color: #fff;
+		border-color: #fff;
+        text-align: center;
+        margin-left: 2rem;
+	}
 
-        svg {
-            width: 20px;
-            height: 20px;
-        }
+	.control-button {
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		aspect-ratio: 1 / 1;
+		width: 2rem;
+		height: 2rem;
+		background-color: #372b24;
+		border-radius: 4px;
+		color: #fff;
+		font-size: 18px;
+		user-select: none;
+		transition: 0.1s ease;
+		cursor: pointer;
 
-        &:hover {
-            background-color: #475569;
-            transform: scale(1.05);
-        }
-    }
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+
+		&:hover {
+			background-color: #475569;
+			transform: scale(1.05);
+		}
+	}
 }

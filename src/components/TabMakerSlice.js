@@ -70,6 +70,9 @@ export default function tabMakerReducer(state = initialState, action) {
         case 'tabMaker/pasteCopiedColumn':
             return saveChangesToHistory(state, pasteCopiedColumn(state));
 
+        case 'tabMaker/placeColumn':
+            return saveChangesToHistory(state, placeColumn(state, action.payload));
+
 		default:
 			return state;
 	}
@@ -270,6 +273,19 @@ const pasteCopiedColumn = (state) => {
         ...state,
         tablature: newTablature
     }
+
+    return updatedState;
+}
+
+const placeColumn = (state, column) => {
+    const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, column);
+
+    let updatedState = {
+        ...state,
+        tablature: newTablature
+    }
+
+    updatedState = moveSelectedColumn(updatedState, 1);
 
     return updatedState;
 }

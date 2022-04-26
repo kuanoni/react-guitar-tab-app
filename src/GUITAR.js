@@ -21,6 +21,10 @@ function getTunings() {
 export const symbolsToSnapTo = ['h', 'p', 'b', '/', '\\'];
 export const wrappingSymbols = ['(', ')', '<', '>'];
 
+export const CHORDS = {
+    openEMinor: {name: 'Open E Minor', column: [0, 2, 2, 0, 0, 0]},
+}
+
 export const EMPTY_NOTE_CHAR = '-';
 export const EMPTY_COLUMN = [
 	EMPTY_NOTE_CHAR,
