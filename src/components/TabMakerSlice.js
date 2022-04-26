@@ -15,6 +15,7 @@ const initialState = {
 	tuning: [28, 33, 38, 43, 47, 52],
 	tablature: [EMPTY_COLUMN, EMPTY_COLUMN],
 	history: [],
+    copiedColumn: [],
 	holdingShift: false,
 	holdingCtrl: false,
 };
@@ -62,6 +63,12 @@ export default function tabMakerReducer(state = initialState, action) {
 
 		case 'tabMaker/wrapNote':
 			return saveChangesToHistory(state, wrapNote(state, action.payload.left, action.payload.right));
+
+        case 'tabMaker/copyColumn':
+            return copySelectedColumn(state);
+
+        case 'tabMaker/pasteCopiedColumn':
+            return pasteCopiedColumn(state);
 
 		default:
 			return state;
@@ -234,3 +241,23 @@ const setColumnToDivider = (state) => {
 
 	return updatedState;
 };
+
+const copySelectedColumn = (state) => {
+    const updatedState = {
+        ...state,
+        copiedColumn: state.tablature[state.selectedColumn]
+    }
+
+    return updatedState;
+}
+
+const pasteCopiedColumn = (state) => {
+    const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, state.copiedColumn);
+
+    const updatedState = {
+        ...state,
+        tablature: newTablature
+    }
+
+    return updatedState;
+}

@@ -58,6 +58,18 @@ const TabMaker = () => {
 				break;
 			}
 
+            case 67: {
+                if (e.ctrlKey)
+                    dispatch({ type: 'tabMaker/copyColumn' })
+                break;
+            }
+
+            case 86: {
+                if (e.ctrlKey)
+                    dispatch({ type: 'tabMaker/pasteCopiedColumn' })
+                break;
+            }
+
 			default:
 				return;
 		}
