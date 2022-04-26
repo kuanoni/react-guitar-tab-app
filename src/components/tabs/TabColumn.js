@@ -78,7 +78,6 @@ const TabColumn = (props) => {
 		}
 
         if (column4.length !== 0) {
-            console.log(column4.length);
             return [column1, column2, column3, column4];
         }
 

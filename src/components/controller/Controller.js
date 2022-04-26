@@ -14,6 +14,7 @@ import AddBendButton from './AddBendButton';
 import AddSlideDownButton from './AddSlideDownButton';
 import AddSlideUpButton from './AddSlideUpButton';
 import AddGhostNoteButton from './AddGhostNoteButton';
+import AddNaturalHarmonicButton from './AddNaturalHarmonicButton';
 
 const Controller = () => {
 	return (
@@ -28,6 +29,7 @@ const Controller = () => {
 				<AddSlideUpButton />
 				<AddSlideDownButton />
                 <AddGhostNoteButton />
+                <AddNaturalHarmonicButton />
 				<ClearColumnButton />
 				<ChangeToDivider />
 				<SpaceButton />
