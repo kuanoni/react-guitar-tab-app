@@ -114,7 +114,19 @@ const changeSelectedColumn = (state, columnIndex) => {
 };
 
 const wrapNote = (state, left, right) => {
-	return state;
+	let newColumn = state.tablature[state.selectedColumn].map((note) => {
+		if (typeof note === 'number') return left + note + right;
+		return note;
+	});
+
+    const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, newColumn);
+
+	let updatedState = {
+		...state,
+		tablature: newTablature,
+	};
+
+	return updatedState;
 };
 
 const setStringNote = (state, guitarString, note) => {

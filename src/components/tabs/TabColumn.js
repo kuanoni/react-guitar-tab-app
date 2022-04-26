@@ -46,28 +46,41 @@ const TabColumn = (props) => {
 	};
 
 	const makeColumns = () => {
-		let columns = [[], [], []];
-		props.column.forEach((note) => {
-			for (let i = 0; i < 3; i++) {
-				if (note.toString()[i]) {
+		let columns = [[], [], [], []];
+
+        var longest = props.column.reduce((a, b) => {
+                return a.length > b.length ? a : b;
+            }
+        ).length;
+
+        if (longest < 3) longest = 3;
+
+        props.column.forEach(note => {
+            for (let i = 0; i < longest; i++) {
+                if (note.toString()[i]) {
 					columns[i].push(note.toString()[i]);
 				} else {
 					columns[i].push(EMPTY_NOTE_CHAR);
 				}
-			}
-		});
+            }
+        });
 
 		return columns;
 	};
 
 	const orderColumns = () => {
-		const [column1, column2, column3] = makeColumns();
+		const [column1, column2, column3, column4] = makeColumns();
 
 		if (containsNumber(column1) && !containsNumber(column2)) {
 			if (containsSymbolToSnapTo(column2)) {
 				return [column3, column1, column2];
 			}
 		}
+
+        if (column4.length !== 0) {
+            console.log(column4.length);
+            return [column1, column2, column3, column4];
+        }
 
 		return [column1, column2, column3];
 	};
