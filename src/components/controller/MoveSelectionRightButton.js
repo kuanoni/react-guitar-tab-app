@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { RiArrowRightLine } from 'react-icons/ri';
+import ControlButton from './ControlButton';
 
 const MoveSelectionRightButton = () => {
 	const dispatch = useDispatch();
@@ -9,9 +10,9 @@ const MoveSelectionRightButton = () => {
 	};
 
 	return (
-		<div className='control-button' onClick={onClick}>
-			<RiArrowRightLine />
-		</div>
+		<ControlButton click={onClick}>
+            <RiArrowRightLine />
+        </ControlButton>
 	);
 };
 

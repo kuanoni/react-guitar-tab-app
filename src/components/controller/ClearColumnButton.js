@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { RiDeleteColumn } from 'react-icons/ri';
+import ControlButton from './ControlButton';
 
 const ClearColumnButton = () => {
 	const dispatch = useDispatch();
@@ -9,9 +10,9 @@ const ClearColumnButton = () => {
 	};
 
 	return (
-		<div className='control-button' onClick={onClick}>
-			<RiDeleteColumn />
-		</div>
+		<ControlButton click={onClick} buttonName={'Clear Column'}>
+            <RiDeleteColumn />
+        </ControlButton>
 	);
 };
 

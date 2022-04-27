@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { RiDeleteRow } from 'react-icons/ri';
+import ControlButton from './ControlButton';
 
 const DeleteBreakButton = () => {
 	const dispatch = useDispatch();
@@ -9,9 +10,9 @@ const DeleteBreakButton = () => {
 	};
 
 	return (
-		<div className='control-button' onClick={onClick}>
-			<RiDeleteRow />
-		</div>
+		<ControlButton click={onClick} buttonName={'Delete Line'}>
+            <RiDeleteRow />
+        </ControlButton>
 	);
 };
 

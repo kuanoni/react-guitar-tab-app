@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { RiAddFill } from 'react-icons/ri';
 import { useState } from 'react';
+import ControlButton from './ControlButton';
 
 const SaveSelectedChordButton = (props) => {
 	const dispatch = useDispatch();
@@ -25,9 +26,9 @@ const SaveSelectedChordButton = (props) => {
 				value={chordName}
 				onChange={handleInputChange}
 			/>
-			<div className='control-button' onClick={onClick}>
-				<RiAddFill />
-			</div>
+            <ControlButton click={onClick} buttonName={'Save Chord'}>
+                <RiAddFill />
+            </ControlButton>
 		</>
 	);
 };

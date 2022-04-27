@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import ControlButton from './ControlButton';
 
 const AddHammerOnButton = (props) => {
 	const dispatch = useDispatch();
@@ -10,10 +11,10 @@ const AddHammerOnButton = (props) => {
 		});
 	};
 
-	return (
-		<div className='control-button' onClick={onClick}>
-			h
-		</div>
+    return (
+		<ControlButton click={onClick} buttonName={'Hammer-On'}>
+            h
+        </ControlButton>
 	);
 };
 

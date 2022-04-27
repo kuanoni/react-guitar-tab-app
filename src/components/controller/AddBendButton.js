@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import ControlButton from './ControlButton';
 
 const AddBendButton = (props) => {
 	const dispatch = useDispatch();
@@ -11,9 +12,9 @@ const AddBendButton = (props) => {
 	};
 
 	return (
-		<div className='control-button' onClick={onClick}>
-			b
-		</div>
+		<ControlButton click={onClick} buttonName={'Bend'}>
+            b
+        </ControlButton>
 	);
 };
 

@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { RiSortDesc } from 'react-icons/ri';
+import ControlButton from './ControlButton';
 
 const PlaceChordButton = (props) => {
 	const dispatch = useDispatch();
@@ -12,10 +13,10 @@ const PlaceChordButton = (props) => {
 		dispatch({ type: 'tabMaker/placeColumn', payload: chord });
 	};
 
-	return (
-		<div className='control-button' onClick={onClick}>
-			<RiSortDesc />
-		</div>
+    return (
+		<ControlButton click={onClick} buttonName={'Place Chord'}>
+            <RiSortDesc />
+        </ControlButton>
 	);
 };
 

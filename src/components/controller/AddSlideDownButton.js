@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import ControlButton from './ControlButton';
 
 const AddSlideDownButton = (props) => {
 	const dispatch = useDispatch();
@@ -11,9 +12,9 @@ const AddSlideDownButton = (props) => {
 	};
 
 	return (
-		<div className='control-button' onClick={onClick}>
-			\
-		</div>
+		<ControlButton click={onClick} buttonName={'Slide Down'}>
+            \
+        </ControlButton>
 	);
 };
 
