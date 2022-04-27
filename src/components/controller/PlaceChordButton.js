@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { RiInboxUnarchiveLine } from "react-icons/ri";
+import { RiSortDesc } from "react-icons/ri";
 
 const PlaceChordButton = (props) => {
 	const dispatch = useDispatch();
@@ -12,7 +12,7 @@ const PlaceChordButton = (props) => {
 		dispatch({ type: 'tabMaker/placeColumn', payload: chord });
 	};
 
-	return <div className='control-button' onClick={onClick}><RiInboxUnarchiveLine /></div>;
+	return <div className='control-button' onClick={onClick}><RiSortDesc /></div>;
 };
 
 export default PlaceChordButton;

@@ -15,11 +15,11 @@ const initialState = {
 	tuning: [28, 33, 38, 43, 47, 52],
 	tablature: [EMPTY_COLUMN, EMPTY_COLUMN],
 	history: [],
-    copiedColumn: [],
-    savedChords: [],
+	copiedColumn: [],
+	savedChords: [],
 	holdingShift: false,
 	holdingCtrl: false,
-    typing: false,
+	typing: false,
 };
 
 export default function tabMakerReducer(state = initialState, action) {
@@ -35,6 +35,9 @@ export default function tabMakerReducer(state = initialState, action) {
 
 		case 'tabMaker/changeStringTuning':
 			return changeStringTuning(state, action.payload.guitarString, action.payload.tuning);
+
+		case 'tabMaker/changeGuitarTuning':
+			return { ...state, tuning: action.payload };
 
 		case 'tabMaker/changeSelectedColumn':
 			return changeSelectedColumn(state, action.payload);
@@ -66,18 +69,17 @@ export default function tabMakerReducer(state = initialState, action) {
 		case 'tabMaker/wrapNote':
 			return saveChangesToHistory(state, wrapNote(state, action.payload.left, action.payload.right));
 
-        case 'tabMaker/copyColumn':
-            return copySelectedColumn(state);
+		case 'tabMaker/copyColumn':
+			return copySelectedColumn(state);
 
-        case 'tabMaker/pasteCopiedColumn':
-            return saveChangesToHistory(state, pasteCopiedColumn(state));
+		case 'tabMaker/pasteCopiedColumn':
+			return saveChangesToHistory(state, pasteCopiedColumn(state));
 
-        case 'tabMaker/saveSelectedChord':
-            return saveSelectedChord(state, action.payload);
+		case 'tabMaker/saveSelectedChord':
+			return saveSelectedChord(state, action.payload);
 
-        case 'tabMaker/placeColumn':
-            return saveChangesToHistory(state, placeColumn(state, action.payload));
-
+		case 'tabMaker/placeColumn':
+			return saveChangesToHistory(state, placeColumn(state, action.payload));
 
 		default:
 			return state;
@@ -128,7 +130,7 @@ const wrapNote = (state, left, right) => {
 		return note;
 	});
 
-    const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, newColumn);
+	const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, newColumn);
 
 	let updatedState = {
 		...state,
@@ -264,46 +266,43 @@ const setColumnToDivider = (state) => {
 };
 
 const copySelectedColumn = (state) => {
-    const updatedState = {
-        ...state,
-        copiedColumn: state.tablature[state.selectedColumn]
-    }
+	const updatedState = {
+		...state,
+		copiedColumn: state.tablature[state.selectedColumn],
+	};
 
-    return updatedState;
-}
+	return updatedState;
+};
 
 const pasteCopiedColumn = (state) => {
-    const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, state.copiedColumn);
+	const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, state.copiedColumn);
 
-    const updatedState = {
-        ...state,
-        tablature: newTablature
-    }
+	const updatedState = {
+		...state,
+		tablature: newTablature,
+	};
 
-    return updatedState;
-}
+	return updatedState;
+};
 
 const placeColumn = (state, column) => {
-    const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, column);
+	const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, column);
 
-    let updatedState = {
-        ...state,
-        tablature: newTablature
-    }
+	let updatedState = {
+		...state,
+		tablature: newTablature,
+	};
 
-    updatedState = moveSelectedColumn(updatedState, 1);
+	updatedState = moveSelectedColumn(updatedState, 1);
 
-    return updatedState;
-}
+	return updatedState;
+};
 
 const saveSelectedChord = (state, name) => {
-    const updatedState = {
-        ...state,
-        savedChords: [
-            ...state.savedChords,
-            {name: name, column: state.tablature[state.selectedColumn]}
-        ]
-    }
+	const updatedState = {
+		...state,
+		savedChords: [...state.savedChords, { name: name, column: state.tablature[state.selectedColumn] }],
+	};
 
-    return updatedState;
-}
+	return updatedState;
+};

@@ -26,9 +26,9 @@ const Controller = () => {
 	return (
 		<div className='controller-wrapper'>
 			<div className='controller'>
-				<UndoButton />
 				<MoveSelectionLeftButton />
 				<MoveSelectionRightButton />
+				<UndoButton />
                 <div className="divider"></div>
 				<AddHammerOnButton />
 				<AddPullOffButton />
@@ -47,7 +47,6 @@ const Controller = () => {
                 <SelectChordDropdown setSelectedChord={setSelectedChord} />
                 <PlaceChordButton selectedChord={selectedChord} />
                 <SaveSelectedChordButton />
-                <div className="divider"></div>
 			</div>
 		</div>
 	);

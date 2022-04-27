@@ -1,19 +1,38 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FretboardString from './FretboardString';
 import './fretboard.scss';
 import { useState } from 'react';
+import { guitarTunings } from '../../GUITAR';
 
 const selectTuning = (state) => state.tabMaker.tuning;
 
 const Fretboard = () => {
+    const dispatch = useDispatch();
 	const tuning = useSelector(selectTuning);
     const [showNoteLabels, setShowNoteLabels] = useState(false);
+
+    let options = [];
+	for (const key in guitarTunings) {
+		options.push(
+			<option key={key} value={guitarTunings[key].tuning}>
+				{guitarTunings[key].name}
+			</option>
+		);
+	}
+
+    const handleChange = (e) => {
+        if (e.target.value === '') return;
+        const guitarTuning = e.target.value.split(',').map(x => parseInt(x))
+        dispatch({ type: 'tabMaker/changeGuitarTuning', payload: guitarTuning });
+    }
 
 	return (
 		<div className='fretboard-wrapper'>
 			<div className='fretboard'>
 				<div className='fretboard-labels'>
-					<span className='first'></span>
+                <select className='tunings-selector' onChange={handleChange}>
+                    {options}
+                </select>
 					{[...Array(22).keys()].map((i) => (
 						<span key={i}>{i}</span>
 					))}

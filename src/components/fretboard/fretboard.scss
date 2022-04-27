@@ -32,12 +32,20 @@
 				width: $fret-width;
                 color: white;
 			}
+
+            .tunings-selector {
+                z-index: 5;
+                min-width: $fret-min-width;
+				width: $fret-width;
+                background-color: #0D0601;
+                color: #fff;
+                border: none;
+            }
 		}
 
 		.fretboard-string {
             position: relative;
 			display: flex;
-            // width: fit-content;
             height: $fret-height;
             gap: $fret-gap;
 
