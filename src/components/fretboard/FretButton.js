@@ -35,7 +35,7 @@ const FretButton = (props) => {
 	return (
 		<div className='fretboard-btn' onClick={onClick}>
 			{addDot()}
-			{props.showNoteLabel && TUNINGS[props.fretNote]}
+			{/* {props.showNoteLabel && TUNINGS[props.fretNote]} */}
 		</div>
 	);
 };

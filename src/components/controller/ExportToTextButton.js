@@ -19,10 +19,6 @@ const ExportToTextButton = (props) => {
 		});
 	};
 
-	const containsLetter = (note) => {
-		return /[a-z]/i.test(note);
-	};
-
 	const makeTextTablature = (tablature, tunings) => {
 		let guitarStrings = [[], [], [], [], [], []];
 

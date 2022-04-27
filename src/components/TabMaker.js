@@ -7,11 +7,16 @@ import './tabMaker.scss';
 const TabMaker = () => {
 	const dispatch = useDispatch();
 
-	const keyUpHandler = (e) => {
-		if (document.body !== e.target) return;
+	const keyDownHandler = (e) => {
+		if (document.body !== e.target || e.repeat) return;
 		e.preventDefault();
 		switch (e.keyCode) {
-			case 39: {
+			case 16: {
+				dispatch({ type: 'tabMaker/setHoldingShift', payload: true });
+				break;
+			}
+
+            case 39: {
 				dispatch({ type: 'tabMaker/moveSelectedColumn', payload: 1 });
 				break;
 			}
@@ -66,25 +71,9 @@ const TabMaker = () => {
 		}
 	};
 
-	const keyDownHandler = (e) => {
-		if (document.body !== e.target) return;
-		e.preventDefault();
-		switch (e.keyCode) {
-			case 16: {
-				dispatch({ type: 'tabMaker/setHoldingShift', payload: true });
-				break;
-			}
-
-			default:
-				return;
-		}
-	};
-
 	useEffect(() => {
-		window.addEventListener('keyup', keyUpHandler, false);
 		window.addEventListener('keydown', keyDownHandler, false);
 		return () => {
-			document.removeEventListener('keyup', keyUpHandler);
 			document.removeEventListener('keydown', keyDownHandler);
 		};
 	}, []);

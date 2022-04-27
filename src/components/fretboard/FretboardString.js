@@ -50,7 +50,6 @@ const FretboardString = (props) => {
 						fretNum={i}
 						fretNote={fret}
 						guitarString={props.guitarString}
-						showNoteLabel={props.showNoteLabels}
 					/>
 				);
 			})}
