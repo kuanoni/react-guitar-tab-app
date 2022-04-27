@@ -8,7 +8,7 @@ const selectTuning = (state) => state.tabMaker.tuning;
 const FretboardString = (props) => {
 	const dispatch = useDispatch();
 	const tunings = useSelector(selectTuning);
-    const [stringTuning, setStringTuning] = useState(tunings[props.guitarString]);
+	const [stringTuning, setStringTuning] = useState(tunings[props.guitarString]);
 
 	const changeStringTuning = (e) => {
 		dispatch({
@@ -18,12 +18,12 @@ const FretboardString = (props) => {
 				tuning: parseInt(e.target.value),
 			},
 		});
-        setStringTuning(e.target.value);
+		setStringTuning(e.target.value);
 	};
 
-    useEffect(() => {
-        setStringTuning(tunings[props.guitarString]);
-    }, [tunings])
+	useEffect(() => {
+		setStringTuning(tunings[props.guitarString]);
+	}, [tunings]);
 
 	const stringTuningOptions = [...Array(84).keys()].map((num) => {
 		return (
@@ -42,9 +42,17 @@ const FretboardString = (props) => {
 			<select className='tuning-selector' value={stringTuning} onChange={changeStringTuning}>
 				{stringTuningOptions}
 			</select>
-            <div className={"string-line string-line-" + props.guitarString}></div>
+			<div className={'string-line string-line-' + props.guitarString}></div>
 			{fretNotes.map((fret, i) => {
-				return <FretButton key={fret} fretNum={i} fretNote={fret} guitarString={props.guitarString} showNoteLabel={props.showNoteLabels} />;
+				return (
+					<FretButton
+						key={fret}
+						fretNum={i}
+						fretNote={fret}
+						guitarString={props.guitarString}
+						showNoteLabel={props.showNoteLabels}
+					/>
+				);
 			})}
 		</div>
 	);

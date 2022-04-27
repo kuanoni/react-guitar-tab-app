@@ -10,7 +10,11 @@ const AddHammerOnButton = (props) => {
 		});
 	};
 
-	return <div className='control-button' onClick={onClick}>h</div>;
+	return (
+		<div className='control-button' onClick={onClick}>
+			h
+		</div>
+	);
 };
 
 export default AddHammerOnButton;

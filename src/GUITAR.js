@@ -22,13 +22,13 @@ export const symbolsToSnapTo = ['h', 'p', 'b', '/', '\\'];
 export const wrappingSymbols = ['(', ')', '<', '>'];
 
 export const guitarTunings = {
-    eStandard: {name: 'E Standard', tuning: [28, 33, 38, 43, 47, 52]},
-    dropD: {name: 'Drop D', tuning: [26, 33, 38, 43, 47, 52]},
-}
+	eStandard: { name: 'E Standard', tuning: [28, 33, 38, 43, 47, 52] },
+	dropD: { name: 'Drop D', tuning: [26, 33, 38, 43, 47, 52] },
+};
 
 export const CHORDS = {
-    openEMinor: {name: 'Open E Minor', column: [0, 2, 2, 0, 0, 0]},
-}
+	openEMinor: { name: 'Open E Minor', column: [0, 2, 2, 0, 0, 0] },
+};
 
 export const EMPTY_NOTE_CHAR = '-';
 export const EMPTY_COLUMN = [

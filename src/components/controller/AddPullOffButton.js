@@ -10,7 +10,11 @@ const AddPullOffButton = (props) => {
 		});
 	};
 
-	return <div className='control-button' onClick={onClick}>p</div>;
+	return (
+		<div className='control-button' onClick={onClick}>
+			p
+		</div>
+	);
 };
 
 export default AddPullOffButton;

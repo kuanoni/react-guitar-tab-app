@@ -1,5 +1,5 @@
 .controller-wrapper {
-    overflow-x: auto;
+	overflow-x: auto;
 }
 
 .controller {
@@ -12,28 +12,28 @@
 	margin-top: 1rem;
 	align-self: flex-end;
 
-    .divider {
-        width: 1px;
-        align-self: stretch;
-        background-color: #fff;
-        margin: 0 .25rem;
-    }
+	.divider {
+		width: 1px;
+		align-self: stretch;
+		background-color: #fff;
+		margin: 0 0.25rem;
+	}
 
 	.chord-selector {
 		z-index: 1;
 		background-color: #0d0601;
 		color: #fff;
 		border-color: #fff;
-        text-align: center;
+		text-align: center;
 	}
 
-    .chord-name-input {
+	.chord-name-input {
 		background-color: #0d0601;
 		color: #fff;
-        border: 1px #fff solid;
-        padding: 0 .25rem;
-        margin-left: 1rem;
-    }
+		border: 1px #fff solid;
+		padding: 0 0.25rem;
+		margin-left: 1rem;
+	}
 
 	.control-button {
 		box-sizing: border-box;

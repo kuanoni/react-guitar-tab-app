@@ -2,14 +2,13 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Fretboard from './fretboard/Fretboard';
 import Tab from './tabs/Tab';
-import './tabMaker.scss'
-
+import './tabMaker.scss';
 
 const TabMaker = () => {
 	const dispatch = useDispatch();
 
 	const keyUpHandler = (e) => {
-        if (document.body !== e.target) return;
+		if (document.body !== e.target) return;
 		e.preventDefault();
 		switch (e.keyCode) {
 			case 39: {
@@ -43,8 +42,7 @@ const TabMaker = () => {
 			}
 
 			case 90: {
-				if (e.ctrlKey)
-					dispatch({ type: 'tabMaker/undoToHistory' });
+				if (e.ctrlKey) dispatch({ type: 'tabMaker/undoToHistory' });
 				break;
 			}
 
@@ -53,17 +51,15 @@ const TabMaker = () => {
 				break;
 			}
 
-            case 67: {
-                if (e.ctrlKey)
-                    dispatch({ type: 'tabMaker/copyColumn' })
-                break;
-            }
+			case 67: {
+				if (e.ctrlKey) dispatch({ type: 'tabMaker/copyColumn' });
+				break;
+			}
 
-            case 86: {
-                if (e.ctrlKey)
-                    dispatch({ type: 'tabMaker/pasteCopiedColumn' })
-                break;
-            }
+			case 86: {
+				if (e.ctrlKey) dispatch({ type: 'tabMaker/pasteCopiedColumn' });
+				break;
+			}
 
 			default:
 				return;
@@ -71,7 +67,7 @@ const TabMaker = () => {
 	};
 
 	const keyDownHandler = (e) => {
-        if (document.body !== e.target) return;
+		if (document.body !== e.target) return;
 		e.preventDefault();
 		switch (e.keyCode) {
 			case 16: {

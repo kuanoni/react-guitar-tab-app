@@ -20,8 +20,7 @@ import PlaceChordButton from './PlaceChordButton';
 import SaveSelectedChordButton from './SaveSelectedChordButton';
 
 const Controller = () => {
-    const [selectedChord, setSelectedChord] = useState('');
-
+	const [selectedChord, setSelectedChord] = useState('');
 
 	return (
 		<div className='controller-wrapper'>
@@ -29,24 +28,24 @@ const Controller = () => {
 				<MoveSelectionLeftButton />
 				<MoveSelectionRightButton />
 				<UndoButton />
-                <div className="divider"></div>
+				<div className='divider'></div>
 				<AddHammerOnButton />
 				<AddPullOffButton />
 				<AddBendButton />
 				<AddSlideUpButton />
 				<AddSlideDownButton />
-                <AddGhostNoteButton />
-                <AddNaturalHarmonicButton />
-                <div className="divider"></div>
+				<AddGhostNoteButton />
+				<AddNaturalHarmonicButton />
+				<div className='divider'></div>
 				<ClearColumnButton />
 				<ChangeToDivider />
 				<SpaceButton />
 				<LineBreakButton />
 				<DeleteBreakButton />
-                <div className="divider"></div>
-                <SelectChordDropdown setSelectedChord={setSelectedChord} />
-                <PlaceChordButton selectedChord={selectedChord} />
-                <SaveSelectedChordButton />
+				<div className='divider'></div>
+				<SelectChordDropdown setSelectedChord={setSelectedChord} />
+				<PlaceChordButton selectedChord={selectedChord} />
+				<SaveSelectedChordButton />
 			</div>
 		</div>
 	);

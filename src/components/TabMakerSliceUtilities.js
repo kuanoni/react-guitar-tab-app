@@ -4,17 +4,17 @@ import { EMPTY_COLUMN, LINE_BREAK_COLUMN } from '../GUITAR';
 export const saveChangesToHistory = (oldState, updatedState) => {
 	let tablatureEqual = false;
 
-    if (oldState.tablature.length >= updatedState.tablature.length) {
-        tablatureEqual = oldState.tablature.every((column, i) => {
-            if (!shallowEqual(column, updatedState.tablature[i])) return false;
-            return true;
-        });
-    } else {
-        tablatureEqual = updatedState.tablature.every((column, i) => {
-            if (!shallowEqual(column, oldState.tablature[i])) return false;
-            return true;
-        });
-    }
+	if (oldState.tablature.length >= updatedState.tablature.length) {
+		tablatureEqual = oldState.tablature.every((column, i) => {
+			if (!shallowEqual(column, updatedState.tablature[i])) return false;
+			return true;
+		});
+	} else {
+		tablatureEqual = updatedState.tablature.every((column, i) => {
+			if (!shallowEqual(column, oldState.tablature[i])) return false;
+			return true;
+		});
+	}
 
 	if (tablatureEqual) return updatedState;
 
@@ -38,7 +38,7 @@ export const insertColumnBefore = (tablature, index, column = EMPTY_COLUMN) => {
 };
 
 export const insertColumnAfter = (tablature, index, column = EMPTY_COLUMN) => {
-    let newTablature = JSON.parse(JSON.stringify(tablature))
+	let newTablature = JSON.parse(JSON.stringify(tablature));
 	newTablature.splice(index + 1, 0, column);
 	return newTablature;
 };

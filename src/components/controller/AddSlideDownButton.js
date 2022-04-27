@@ -10,7 +10,11 @@ const AddSlideDownButton = (props) => {
 		});
 	};
 
-	return <div className='control-button' onClick={onClick}>\</div>;
+	return (
+		<div className='control-button' onClick={onClick}>
+			\
+		</div>
+	);
 };
 
 export default AddSlideDownButton;

@@ -10,7 +10,11 @@ const AddBendButton = (props) => {
 		});
 	};
 
-	return <div className='control-button' onClick={onClick}>b</div>;
+	return (
+		<div className='control-button' onClick={onClick}>
+			b
+		</div>
+	);
 };
 
 export default AddBendButton;

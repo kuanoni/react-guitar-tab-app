@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { RiCodeSFill } from "react-icons/ri";
+import { RiCodeSFill } from 'react-icons/ri';
 
 const AddNaturalHarmonicButton = (props) => {
 	const dispatch = useDispatch();
@@ -11,7 +11,11 @@ const AddNaturalHarmonicButton = (props) => {
 		});
 	};
 
-	return <div className='control-button' onClick={onClick}><RiCodeSFill /></div>;
+	return (
+		<div className='control-button' onClick={onClick}>
+			<RiCodeSFill />
+		</div>
+	);
 };
 
 export default AddNaturalHarmonicButton;

@@ -10,7 +10,11 @@ const AddSlideUpButton = (props) => {
 		});
 	};
 
-	return <div className='control-button' onClick={onClick}>/</div>;
+	return (
+		<div className='control-button' onClick={onClick}>
+			/
+		</div>
+	);
 };
 
 export default AddSlideUpButton;

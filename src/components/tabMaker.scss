@@ -1,11 +1,11 @@
 .tab-maker {
-    display: grid;
-    grid-template-areas: 
-        "fretboard"
-        "tab";
-    grid-auto-rows: min-content min-content min-content;
-    max-width: 1400px;
-    min-height: 100%;
-    height: 100vh;
-    padding: 1rem;
+	display: grid;
+	grid-template-areas:
+		'fretboard'
+		'tab';
+	grid-auto-rows: min-content min-content min-content;
+	max-width: 1400px;
+	min-height: 100%;
+	height: 100vh;
+	padding: 1rem;
 }
