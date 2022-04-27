@@ -65,6 +65,9 @@ export default function tabMakerReducer(state = initialState, action) {
 		case 'tabMaker/addLetterToNote':
 			return saveChangesToHistory(state, addSymbolToColumnNotes(state, action.payload));
 
+        case 'tabMaker/replaceNotesInColumn':
+            return saveChangesToHistory(state, replaceNotesInColumn(state, action.payload));
+
 		case 'tabMaker/wrapNote':
 			return saveChangesToHistory(state, wrapNote(state, action.payload.left, action.payload.right));
 
@@ -122,6 +125,22 @@ const changeSelectedColumn = (state, columnIndex) => {
 
 	return updatedState;
 };
+
+const replaceNotesInColumn = (state, replacer) => {
+    let newColumn = state.tablature[state.selectedColumn].map((note) => {
+		if (typeof note === 'number') return replacer;
+		return note;
+	});
+
+	const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, newColumn);
+
+	let updatedState = {
+		...state,
+		tablature: newTablature,
+	};
+
+	return updatedState;
+}
 
 const wrapNote = (state, left, right) => {
 	let newColumn = state.tablature[state.selectedColumn].map((note) => {

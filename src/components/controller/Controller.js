@@ -18,6 +18,7 @@ import AddNaturalHarmonicButton from './AddNaturalHarmonicButton';
 import SelectChordDropdown from './SelectChordDropdown';
 import PlaceChordButton from './PlaceChordButton';
 import SaveSelectedChordButton from './SaveSelectedChordButton';
+import AddMutedButton from './AddMutedButton';
 
 const Controller = () => {
 	const [selectedChord, setSelectedChord] = useState('');
@@ -31,6 +32,7 @@ const Controller = () => {
 				<div className='divider'></div>
 				<AddHammerOnButton />
 				<AddPullOffButton />
+                <AddMutedButton />
 				<AddBendButton />
 				<AddSlideUpButton />
 				<AddSlideDownButton />
