@@ -12,10 +12,12 @@ const FretButton = (props) => {
 
 		if (TUNING_SOUNDS[TUNINGS[props.fretNote]]) {
             TUNING_SOUNDS[TUNINGS[props.fretNote]].currentTime = 0;
+            TUNING_SOUNDS[TUNINGS[props.fretNote]].volume = 0.25;
             TUNING_SOUNDS[TUNINGS[props.fretNote]].play();
         } 
 	};
 
+    // add dots on the fretboard
     const addDot = () => {
         if (props.guitarString === 3 && props.fretNum === 3) return <div className="fret-dot"></div>;
         if (props.guitarString === 3 && props.fretNum === 5) return <div className="fret-dot"></div>;

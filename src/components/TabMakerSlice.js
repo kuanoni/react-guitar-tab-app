@@ -19,7 +19,6 @@ const initialState = {
 	savedChords: [],
 	holdingShift: false,
 	holdingCtrl: false,
-	typing: false,
 };
 
 export default function tabMakerReducer(state = initialState, action) {
