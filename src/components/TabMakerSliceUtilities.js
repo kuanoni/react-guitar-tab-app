@@ -43,31 +43,31 @@ export const insertColumnAfter = (tablature, index, column = EMPTY_COLUMN) => {
 	return newTablature;
 };
 
-export const addColumnsIfNecessary = (tablature, prevColumn, newColumn) => {
-	if (prevColumn >= newColumn) return tablature;
+export const addColumnsIfNecessary = (tablature, prevColumnIndex, newColumnIndex) => {
+	if (prevColumnIndex >= newColumnIndex) return tablature;
 
 	let newTablature = JSON.parse(JSON.stringify(tablature));
-	const columnAfterPrev = newTablature[prevColumn + 1];
+	const columnAfterPrev = newTablature[prevColumnIndex + 1];
 	if (columnAfterPrev === undefined || shallowEqual(columnAfterPrev, LINE_BREAK_COLUMN)) {
-		const difference = newColumn - prevColumn;
+		const difference = newColumnIndex - prevColumnIndex;
 		for (let i = 0; i < difference; i++) {
-			newTablature = insertColumnAfter(newTablature, prevColumn);
+			newTablature = insertColumnAfter(newTablature, prevColumnIndex);
 		}
 	}
 
 	return newTablature;
 };
 
-export const setColumnNote = (tablature, selectedColumn, guitarString, note) => {
+export const setColumnNote = (tablature, selectedColumnIndex, guitarString, note) => {
 	let newTablature = JSON.parse(JSON.stringify(tablature));
-	newTablature[selectedColumn][guitarString] = note;
+	newTablature[selectedColumnIndex].notes[guitarString] = note;
 	return newTablature;
 };
 
 export const setColumnAllNotes = (tablature, selectedColumn, note) => {
 	let newTablature = JSON.parse(JSON.stringify(tablature));
-	for (let i = 0; i < newTablature[selectedColumn].length; i++) {
-		newTablature[selectedColumn][i] = note;
+	for (let i = 0; i < newTablature[selectedColumn].notes.length; i++) {
+		newTablature[selectedColumn].notes[i] = note;
 	}
 
 	return newTablature;
@@ -80,13 +80,13 @@ export const replaceColumnInTablature = (tablature, selectedColumn, newColumn) =
 	return newTablature;
 };
 
-export const findClosestLineBreaks = (tablature, selectedColumn) => {
+export const findClosestLineBreaks = (tablature, selectedColumnIndex) => {
 	let prevLineBreak = null;
 	let nextLineBreak = null;
 
 	let lineBreakIndexes = [-1];
 	tablature.forEach((column, i) => {
-		if (shallowEqual(column, LINE_BREAK_COLUMN)) {
+		if (objectsEqual(column, LINE_BREAK_COLUMN)) {
 			lineBreakIndexes.push(i);
 		}
 	});
@@ -94,7 +94,7 @@ export const findClosestLineBreaks = (tablature, selectedColumn) => {
 	lineBreakIndexes.push(tablature.length);
 
 	lineBreakIndexes.every((i) => {
-		if (i < selectedColumn) {
+		if (i < selectedColumnIndex) {
 			prevLineBreak = i;
 			return true;
 		} else {
@@ -105,3 +105,5 @@ export const findClosestLineBreaks = (tablature, selectedColumn) => {
 
 	return { prevLineBreak, nextLineBreak };
 };
+
+const objectsEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);

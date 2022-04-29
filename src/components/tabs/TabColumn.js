@@ -47,13 +47,13 @@ const TabColumn = (props) => {
 	const makeColumns = () => {
 		let columns = [[], [], [], []];
 
-		var longest = props.column.reduce((a, b) => {
+		var longest = props.column.notes.reduce((a, b) => {
 			return a.length > b.length ? a : b;
 		}).length;
 
 		if (longest < 3 || !longest) longest = 3;
 
-		props.column.forEach((note) => {
+		props.column.notes.forEach((note) => {
 			for (let i = 0; i < longest; i++) {
 				if (note.toString()[i]) {
 					columns[i].push(note.toString()[i]);

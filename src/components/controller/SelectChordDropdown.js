@@ -9,7 +9,7 @@ const SelectChordDropdown = (props) => {
 	let options = [];
 	for (const key in CHORDS) {
 		options.push(
-			<option key={key} value={CHORDS[key].column}>
+			<option key={key} value={key}>
 				{CHORDS[key].name}
 			</option>
 		);
@@ -17,14 +17,14 @@ const SelectChordDropdown = (props) => {
 
 	savedChords.forEach((chord, i) => {
 		options.push(
-			<option key={i} value={chord.column}>
+			<option key={i} value={i}>
 				{chord.name}
 			</option>
 		);
 	});
 
 	const onChange = (e) => {
-		props.setSelectedChord(e.target.value);
+		props.setSelectedChord(savedChords[e.target.value]);
 	};
 
 	return (

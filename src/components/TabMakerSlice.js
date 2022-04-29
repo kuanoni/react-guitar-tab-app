@@ -127,10 +127,12 @@ const changeSelectedColumn = (state, columnIndex) => {
 };
 
 const replaceNotesInColumn = (state, replacer) => {
-    let newColumn = state.tablature[state.selectedColumn].map((note) => {
+    const newNotesColumn = state.tablature[state.selectedColumn].notes.map((note) => {
 		if (typeof note === 'number') return replacer;
 		return note;
 	});
+
+    const newColumn = {...state.tablature[state.selectedColumn], notes: newNotesColumn}
 
 	const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, newColumn);
 
@@ -143,10 +145,12 @@ const replaceNotesInColumn = (state, replacer) => {
 }
 
 const wrapNote = (state, left, right) => {
-	let newColumn = state.tablature[state.selectedColumn].map((note) => {
+	const newNotesColumn = state.tablature[state.selectedColumn].notes.map((note) => {
 		if (typeof note === 'number') return left + note + right;
 		return note;
 	});
+
+    const newColumn = {...state.tablature[state.selectedColumn], notes: newNotesColumn}
 
 	const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, newColumn);
 
@@ -175,10 +179,12 @@ const setStringNote = (state, guitarString, note) => {
 
 const addSymbolToColumnNotes = (state, symbol) => {
 	const columnToAddTo = state.selectedColumn - 1;
-	let newColumn = state.tablature[columnToAddTo].map((note) => {
+	let newNotesColumn = state.tablature[columnToAddTo].notes.map((note) => {
 		if (typeof note === 'number') return note + symbol;
 		return note;
 	});
+
+    const newColumn = {...state.tablature[state.selectedColumn], notes: newNotesColumn}
 
 	const newTablature = replaceColumnInTablature(state.tablature, columnToAddTo, newColumn);
 
@@ -191,17 +197,17 @@ const addSymbolToColumnNotes = (state, symbol) => {
 };
 
 const moveSelectedColumn = (state, direction) => {
-	let { prevLineBreak } = findClosestLineBreaks(state.tablature, state.selectedColumn);
-	const newSelectedColumn = state.selectedColumn + direction;
+	let { prevLineBreak: prevLineBreakIndex } = findClosestLineBreaks(state.tablature, state.selectedColumn);
+	const newSelectedColumnIndex = state.selectedColumn + direction;
 
-	if (newSelectedColumn <= prevLineBreak) return state;
+	if (newSelectedColumnIndex <= prevLineBreakIndex) return state;
 
-	const newTablature = addColumnsIfNecessary(state.tablature, state.selectedColumn, newSelectedColumn);
+	const newTablature = addColumnsIfNecessary(state.tablature, state.selectedColumn, newSelectedColumnIndex);
 
 	const updatedState = {
 		...state,
 		tablature: newTablature,
-		selectedColumn: newSelectedColumn,
+		selectedColumn: newSelectedColumnIndex,
 	};
 
 	return updatedState;
@@ -212,8 +218,8 @@ const deleteLine = (state) => {
 	let newTablature = JSON.parse(JSON.stringify(state.tablature));
 	let newSelectedColumn = prevLineBreak - 1;
 
-	// requires different behavior if deleting the first line
 	if (prevLineBreak === -1) {
+        if (nextLineBreak === newTablature.length) return state;
 		newSelectedColumn = 0;
 		prevLineBreak = 0;
 		nextLineBreak += 1;

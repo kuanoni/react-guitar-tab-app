@@ -42,7 +42,7 @@ const Tab = () => {
 
 		// slice tablature into chunks, separated by line-break markers: %
 		tablature.forEach((column, i) => {
-			if (shallowEqual(column, LINE_BREAK_COLUMN)) {
+			if (shallowEqual(column.notes, LINE_BREAK_COLUMN)) {
 				tablatureLines.push(tablature.slice(_i, i));
 				_i = i + 1;
 			}
