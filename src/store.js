@@ -7,8 +7,6 @@ function logger({ dispatch, getState }) {
 			// console.log('state before dispatch', getState());
 			// console.log('will dispatch', action);
 
-			// dispatch({ type: 'tabMaker/addToHistory', payload: getState().tabMaker.tablature });
-
 			const returnValue = next(action);
 
 			// console.log('state after dispatch', getState());
