@@ -1,4 +1,4 @@
-import { EMPTY_COLUMN, EMPTY_NOTE_CHAR, LINE_BREAK_COLUMN } from '../GUITAR';
+import { EMPTY_COLUMN, EMPTY_MODIFIER_CHAR, EMPTY_NOTE_CHAR, LINE_BREAK_COLUMN } from '../GUITAR';
 
 import {
 	saveChangesToHistory,
@@ -17,6 +17,8 @@ const initialState = {
 	history: [],
 	copiedColumn: [],
 	savedChords: [],
+	currentModifier: {},
+	modifierStart: null,
 	holdingShift: false,
 	holdingCtrl: false,
 };
@@ -65,8 +67,8 @@ export default function tabMakerReducer(state = initialState, action) {
 		case 'tabMaker/addLetterToNote':
 			return saveChangesToHistory(state, addSymbolToColumnNotes(state, action.payload));
 
-        case 'tabMaker/replaceNotesInColumn':
-            return saveChangesToHistory(state, replaceNotesInColumn(state, action.payload));
+		case 'tabMaker/replaceNotesInColumn':
+			return saveChangesToHistory(state, replaceNotesInColumn(state, action.payload));
 
 		case 'tabMaker/wrapNote':
 			return saveChangesToHistory(state, wrapNote(state, action.payload.left, action.payload.right));
@@ -83,10 +85,73 @@ export default function tabMakerReducer(state = initialState, action) {
 		case 'tabMaker/placeColumn':
 			return saveChangesToHistory(state, placeColumn(state, action.payload));
 
+		case 'tabMaker/startModifier':
+			return saveChangesToHistory(state, startModifier(state, action.payload));
+
+		case 'tabMaker/endModifier':
+			return saveChangesToHistory(state, endModifier(state));
+
 		default:
 			return state;
 	}
 }
+
+const startModifier = (state, modifier) => {
+    if (state.tablature[state.selectedColumn].modifier !== EMPTY_MODIFIER_CHAR) return state;
+
+	const newColumn = { ...state.tablature[state.selectedColumn], modifier: modifier.start };
+	const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, newColumn);
+
+	const updatedState = {
+		...state,
+		tablature: newTablature,
+		currentModifier: modifier,
+		modifierStart: state.selectedColumn,
+	};
+
+	return updatedState;
+};
+
+const endModifier = (state) => {
+	let newTablature = state.tablature;
+
+	if (state.modifierStart > state.selectedColumn) {
+        const newColumn = { ...state.tablature[state.modifierStart], modifier: EMPTY_MODIFIER_CHAR };
+		newTablature = replaceColumnInTablature(newTablature, state.modifierStart, newColumn);
+
+		return {
+			...state,
+            tablature: newTablature,
+			currentModifier: {},
+			modifierStart: null,
+		};
+    }
+
+	for (let i = state.modifierStart + 1; i < state.selectedColumn; i++) {
+		const newColumn = { ...state.tablature[i], modifier: state.currentModifier.middle };
+		newTablature = replaceColumnInTablature(newTablature, i, newColumn);
+	}
+
+	if (state.modifierStart === state.selectedColumn) {
+		newTablature = replaceColumnInTablature(newTablature, state.selectedColumn, {
+			...state.tablature[state.selectedColumn],
+			modifier: state.currentModifier.start,
+		});
+	} else {
+		newTablature = replaceColumnInTablature(newTablature, state.selectedColumn, {
+			...state.tablature[state.selectedColumn],
+			modifier: state.currentModifier.end,
+		});
+	}
+	const updatedState = {
+		...state,
+		tablature: newTablature,
+		currentModifier: {},
+		modifierStart: null,
+	};
+
+	return updatedState;
+};
 
 const undoToHistory = (state) => {
 	const previousState = state.history.at(-1);
@@ -127,12 +192,12 @@ const changeSelectedColumn = (state, columnIndex) => {
 };
 
 const replaceNotesInColumn = (state, replacer) => {
-    const newNotesColumn = state.tablature[state.selectedColumn].notes.map((note) => {
+	const newNotesColumn = state.tablature[state.selectedColumn].notes.map((note) => {
 		if (typeof note === 'number') return replacer;
 		return note;
 	});
 
-    const newColumn = {...state.tablature[state.selectedColumn], notes: newNotesColumn}
+	const newColumn = { ...state.tablature[state.selectedColumn], notes: newNotesColumn };
 
 	const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, newColumn);
 
@@ -142,7 +207,7 @@ const replaceNotesInColumn = (state, replacer) => {
 	};
 
 	return updatedState;
-}
+};
 
 const wrapNote = (state, left, right) => {
 	const newNotesColumn = state.tablature[state.selectedColumn].notes.map((note) => {
@@ -150,7 +215,7 @@ const wrapNote = (state, left, right) => {
 		return note;
 	});
 
-    const newColumn = {...state.tablature[state.selectedColumn], notes: newNotesColumn}
+	const newColumn = { ...state.tablature[state.selectedColumn], notes: newNotesColumn };
 
 	const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumn, newColumn);
 
@@ -184,7 +249,7 @@ const addSymbolToColumnNotes = (state, symbol) => {
 		return note;
 	});
 
-    const newColumn = {...state.tablature[state.selectedColumn], notes: newNotesColumn}
+	const newColumn = { ...state.tablature[state.selectedColumn], notes: newNotesColumn };
 
 	const newTablature = replaceColumnInTablature(state.tablature, columnToAddTo, newColumn);
 
@@ -219,7 +284,7 @@ const deleteLine = (state) => {
 	let newSelectedColumn = prevLineBreak - 1;
 
 	if (prevLineBreak === -1) {
-        if (nextLineBreak === newTablature.length) return state;
+		if (nextLineBreak === newTablature.length) return state;
 		newSelectedColumn = 0;
 		prevLineBreak = 0;
 		nextLineBreak += 1;
@@ -323,9 +388,11 @@ const placeColumn = (state, column) => {
 };
 
 const saveSelectedChord = (state, name) => {
+	const newColumn = { ...state.tablature[state.selectedColumn], modifier: EMPTY_MODIFIER_CHAR };
+
 	const updatedState = {
 		...state,
-		savedChords: [...state.savedChords, { name: name, column: state.tablature[state.selectedColumn] }],
+		savedChords: [...state.savedChords, { name: name, column: newColumn }],
 	};
 
 	return updatedState;
