@@ -8,8 +8,17 @@ import {
 } from '../../GUITAR';
 
 const ExportToTextButton = (props) => {
-	const onClick = () => {
+	const onClickClipboard = () => {
 		navigator.clipboard.writeText(makeTextTablature(props.tablature, props.tunings));
+	};
+
+	const onClickExport = () => {
+		const element = document.createElement('a');
+		const file = new Blob([makeTextTablature(props.tablature, props.tunings)], { type: 'text/plain' });
+		element.href = URL.createObjectURL(file);
+		element.download = 'guitar-tab.txt';
+		document.body.appendChild(element); // Required for this to work in FireFox
+		element.click();
 	};
 
 	const containsSymbolToSnapTo = (note) => {
@@ -41,8 +50,6 @@ const ExportToTextButton = (props) => {
 		});
 		tablatureLines.push(tablature.slice(_i, tablature.length));
 
-		console.log(tablatureLines);
-
 		let textArray = tablatureLines.map((tabLine) => {
 			let modifiers = ['   '];
 			let guitarStrings = [[], [], [], [], [], []];
@@ -69,7 +76,6 @@ const ExportToTextButton = (props) => {
 					modifiers.push(column.modifier.repeat(longest));
 				} else {
 					modifiers.push(column.modifier.slice(0, longest));
-					console.log(column.modifier.slice(0, longest));
 				}
 			});
 
@@ -82,13 +88,18 @@ const ExportToTextButton = (props) => {
 
 			return tabString + '\n';
 		});
-        return textArray.reduce((previousValue, currentValue) => previousValue + currentValue);
+		return textArray.reduce((previousValue, currentValue) => previousValue + currentValue);
 	};
 
 	return (
-		<div className='copy-tab' onClick={onClick}>
-			Copy tab to clipboard
-		</div>
+		<>
+			<div className='copy-tab' onClick={onClickClipboard}>
+				Copy tab to clipboard
+			</div>
+			<div className='copy-tab' onClick={onClickExport}>
+				Export tab to text file
+			</div>
+		</>
 	);
 };
 
