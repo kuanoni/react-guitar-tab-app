@@ -21,6 +21,7 @@ import SaveSelectedChordButton from './SaveSelectedChordButton';
 import AddMutedButton from './AddMutedButton';
 import PalmMuteButton from './PalmMuteButton';
 import VibratoButton from './VibratoButton';
+import DeleteModifierButton from './DeleteModifierButton';
 
 const Controller = () => {
 	const [selectedChord, setSelectedChord] = useState('');
@@ -42,6 +43,7 @@ const Controller = () => {
 				<AddNaturalHarmonicButton />
                 <PalmMuteButton />
                 <VibratoButton />
+                <DeleteModifierButton />
 				<div className='divider'></div>
 				<ClearColumnButton />
 				<ChangeToDivider />
