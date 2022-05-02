@@ -87,7 +87,7 @@ export default function tabMakerReducer(state = initialState, action) {
 			return saveChangesToHistory(state, placeColumn(state, action.payload));
 
 		case 'tabMaker/startModifier':
-			return saveChangesToHistory(state,startModifier(state, action.payload));
+			return saveChangesToHistory(state, startModifier(state, action.payload));
 
 		case 'tabMaker/endModifier':
 			return saveChangesToHistory(state, endModifier(state));
@@ -189,8 +189,8 @@ const undoToHistory = (state) => {
 		selectedColumn: previousState.selectedColumn,
 		tablature: previousState.tablature,
 		history: state.history.slice(0, -1),
-        // currentModifier: previousState.currentModifier,
-        // modifierStart: previousState.modifierStart
+        currentModifier: previousState.currentModifier,
+        modifierStart: previousState.modifierStart
 	};
 
 	return updatedState;
