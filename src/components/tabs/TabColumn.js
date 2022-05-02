@@ -64,7 +64,12 @@ const TabColumn = (props) => {
 		});
 
 		for (let i = 0; i < 4; i++) {
-			columns[i].push(props.column.modifier[i]);
+            if (i === 3) {
+                columns[i].push(props.column.modifier[i]);
+            } else {
+                columns[i].push(props.column.modifier[i]);
+            }
+			
 			if (i >= longest) columns[i] = [];
 		}
 

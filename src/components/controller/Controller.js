@@ -41,6 +41,7 @@ const Controller = () => {
 				<AddSlideDownButton />
 				<AddGhostNoteButton />
 				<AddNaturalHarmonicButton />
+				<div className='divider'></div>
                 <PalmMuteButton />
                 <VibratoButton />
                 <DeleteModifierButton />

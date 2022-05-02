@@ -1,4 +1,4 @@
-import { shallowEqual, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { LINE_BREAK_COLUMN, TUNINGS } from '../../GUITAR';
 import TabColumn from './TabColumn';
 import './tab.scss';

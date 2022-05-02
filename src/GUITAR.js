@@ -27,8 +27,8 @@ export const guitarTunings = {
 };
 
 export const modifiers = {
-    palmMute: { start: 'PM-', middle: '---', end: '-| ' },
-    vibrato: { start: 'V~~', middle: '~~~', end: '~~ ' }
+    palmMute: { start: 'PM--', middle: '----', end: '--| ', filler: '-' },
+    vibrato: { start: 'V~~~', middle: '~~~~', end: '~~~ ', filler: '~' }
 }
 
 export const EMPTY_MODIFIER_CHAR = ' ';
