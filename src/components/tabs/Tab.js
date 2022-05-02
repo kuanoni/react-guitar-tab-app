@@ -43,7 +43,7 @@ const Tab = () => {
 
 		// slice tablature into chunks, separated by line-break markers: %
 		tablature.forEach((column, i) => {
-			if (shallowEqual(column.notes, LINE_BREAK_COLUMN)) {
+			if (objectsEqual(column, LINE_BREAK_COLUMN)) {
 				tablatureLines.push(tablature.slice(_i, i));
 				_i = i + 1;
 			}
@@ -72,5 +72,7 @@ const Tab = () => {
 		</div>
 	);
 };
+
+const objectsEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
 export default Tab;

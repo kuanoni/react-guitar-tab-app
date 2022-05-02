@@ -3,19 +3,15 @@ import rootReducer from './reducer';
 
 function logger({ dispatch, getState }) {
 	return (next) => (action) => {
-		if (action.type !== 'tabMaker/addToHistory') {
-			// console.log('state before dispatch', getState());
-			// console.log('will dispatch', action);
+		//console.log('-------------------');
+		//console.log('state before dispatch', getState());
+		//console.log('will dispatch', action);
 
-			const returnValue = next(action);
+		const returnValue = next(action);
 
-			// console.log('state after dispatch', getState());
+		//console.log('state after dispatch', getState());
 
-			return returnValue;
-		} else {
-			const returnValue = next(action);
-			return returnValue;
-		}
+		return returnValue;
 	};
 }
 

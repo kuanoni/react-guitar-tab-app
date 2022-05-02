@@ -96,6 +96,11 @@ export default function tabMakerReducer(state = initialState, action) {
 	}
 }
 
+const deleteModifier = (state) => {
+    
+    return state;
+}
+
 const startModifier = (state, modifier) => {
     if (state.tablature[state.selectedColumn].modifier !== EMPTY_MODIFIER_CHAR) return state;
 
@@ -115,7 +120,9 @@ const startModifier = (state, modifier) => {
 const endModifier = (state) => {
 	let newTablature = state.tablature;
 
-	if (state.modifierStart > state.selectedColumn) {
+    const { prevLineBreak } = findClosestLineBreaks(newTablature, state.selectedColumn);
+
+	if ((state.modifierStart > state.selectedColumn) || (prevLineBreak !== -1 && prevLineBreak < state.selectedColumn)) {
         const newColumn = { ...state.tablature[state.modifierStart], modifier: EMPTY_MODIFIER_CHAR };
 		newTablature = replaceColumnInTablature(newTablature, state.modifierStart, newColumn);
 
