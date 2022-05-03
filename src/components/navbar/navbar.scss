@@ -1,0 +1,85 @@
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: .5rem 1rem;
+    background-color: black;
+    color: #fff;
+    box-shadow: 0 0 4px black;
+
+    .logo {
+        font-size: 26px;
+    }
+
+    svg {
+        font-size: 30px;
+        border: 2px #fff solid;
+        border-radius: 5px;
+        padding: .25rem;
+        transition: .1s ease;
+        cursor: pointer;
+
+        &:hover {
+            transform: scale(1.15);
+            background-color: #fff;
+            color: #000;
+            border-color: black;
+        }
+    }
+}
+
+.ReactModal__Overlay {
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    background-color: rgba(230, 230, 230, 0.384);
+    transition: opacity .3s ease-in-out;
+
+    &--after-open {
+        opacity: 1;
+    }
+
+    &--before-close {
+        opacity: 0;
+    }
+}
+
+.modal {
+    z-index: 101;
+    position: absolute;
+    top: 2.5%;
+    bottom: 2.5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 1000px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px rgb(223, 223, 223) solid;
+    border-radius: 5px;
+    outline: none;
+
+    .modal-exit {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 26px;
+        border: 1px #000 solid;
+        border-radius: 5px;
+        padding: .25rem;
+        transition: .2s ease;
+        cursor: pointer;
+
+        &:hover {
+            transform: scale(1.15);
+            background-color: #000;
+            color: #fff;
+            border-color: #000;
+        }
+    }
+}
