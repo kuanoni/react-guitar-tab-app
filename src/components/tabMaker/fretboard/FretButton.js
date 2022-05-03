@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { TUNINGS, TUNING_SOUNDS } from '../../GUITAR';
+import { TUNINGS, TUNING_SOUNDS } from '../../../GUITAR';
 
 const FretButton = (props) => {
 	const dispatch = useDispatch();

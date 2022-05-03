@@ -23,7 +23,7 @@ export const saveChangesToHistory = (oldState, updatedState) => {
 		history: [
 			...updatedState.history,
 			{
-				selectedColumn: oldState.selectedColumn,
+				selectedColumnIndex: oldState.selectedColumnIndex,
 				tablature: JSON.parse(JSON.stringify(oldState.tablature)),
 				currentModifier: oldState.currentModifier,
 				modifierStart: oldState.modifierStart,
@@ -83,8 +83,8 @@ export const replaceColumnInTablature = (tablature, selectedColumn, newColumn) =
 };
 
 export const findClosestLineBreaks = (tablature, selectedColumnIndex) => {
-	let prevLineBreak = null;
-	let nextLineBreak = null;
+	let prevLineBreakIndex = null;
+	let nextLineBreakIndex = null;
 
 	let lineBreakIndexes = [-1];
 	tablature.forEach((column, i) => {
@@ -97,34 +97,34 @@ export const findClosestLineBreaks = (tablature, selectedColumnIndex) => {
 
 	lineBreakIndexes.every((i) => {
 		if (i < selectedColumnIndex) {
-			prevLineBreak = i;
+			prevLineBreakIndex = i;
 			return true;
 		} else {
-			nextLineBreak = i;
+			nextLineBreakIndex = i;
 			return false;
 		}
 	});
 
-	return { prevLineBreak, nextLineBreak };
+	return { prevLineBreakIndex, nextLineBreakIndex };
 };
 
 export const findModifierStartAndEnd = (tablature, selectedColumn) => {
-	let { prevLineBreak, nextLineBreak } = findClosestLineBreaks(tablature, selectedColumn);
-	if (prevLineBreak === -1) prevLineBreak = 0;
+	let { prevLineBreakIndex, nextLineBreakIndex } = findClosestLineBreaks(tablature, selectedColumn);
+	if (prevLineBreakIndex === -1) prevLineBreakIndex = 0;
 
 	let modifierStart = 0;
 	let modifierEnd = tablature.length - 1;
 	const modifierStarts = Object.keys(modifiers).map((key) => modifiers[key].start);
 	const modifierEnds = Object.keys(modifiers).map((key) => modifiers[key].end);
 
-	for (let i = selectedColumn; i < nextLineBreak; i++) {
+	for (let i = selectedColumn; i < nextLineBreakIndex; i++) {
 		if (modifierEnds.includes(tablature[i].modifier)) {
 			modifierEnd = i;
 			break;
 		}
 	}
 
-	for (let i = selectedColumn; i > prevLineBreak; i--) {
+	for (let i = selectedColumn; i > prevLineBreakIndex; i--) {
 		if (modifierStarts.includes(tablature[i].modifier)) {
 			modifierStart = i;
 			break;
@@ -134,4 +134,4 @@ export const findModifierStartAndEnd = (tablature, selectedColumn) => {
 	return { modifierStart, modifierEnd };
 };
 
-const objectsEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+export const objectsEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);

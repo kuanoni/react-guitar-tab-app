@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { TUNINGS } from '../../GUITAR';
+import { TUNINGS } from '../../../GUITAR';
 import FretButton from './FretButton';
 
 const selectTuning = (state) => state.tabMaker.tuning;

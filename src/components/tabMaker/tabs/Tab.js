@@ -1,17 +1,18 @@
 import { useSelector } from 'react-redux';
-import { LINE_BREAK_COLUMN, TUNINGS } from '../../GUITAR';
+import { LINE_BREAK_COLUMN, TUNINGS } from '../../../GUITAR';
 import TabColumn from './TabColumn';
 import './tab.scss';
 import Controller from '../controller/Controller';
 import ExportToTextButton from '../controller/ExportToTextButton';
+import { objectsEqual } from '../../TabMakerSliceUtilities';
 
 const selectTablature = (state) => state.tabMaker.tablature;
-const selectSelectedColumn = (state) => state.tabMaker.selectedColumn;
+const selectSelectedColumnIndex = (state) => state.tabMaker.selectedColumnIndex;
 const selectTuning = (state) => state.tabMaker.tuning;
 
 const Tab = () => {
 	const tablature = useSelector(selectTablature);
-	const selectedColumn = useSelector(selectSelectedColumn);
+	const selectedColumnIndex = useSelector(selectSelectedColumnIndex);
 	const tunings = useSelector(selectTuning);
 
 	const tuningsElement = (
@@ -28,7 +29,7 @@ const Tab = () => {
 					key={i}
 					id={i + previousLineLength}
 					column={column}
-					selectedColumn={selectedColumn}
+					selectedColumn={selectedColumnIndex}
 					tuning={tunings}
 				/>
 			);
@@ -72,7 +73,5 @@ const Tab = () => {
 		</div>
 	);
 };
-
-const objectsEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
 export default Tab;

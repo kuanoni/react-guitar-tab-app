@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { CHORDS } from '../../GUITAR';
+import { CHORDS } from '../../../GUITAR';
 
 const selectSavedChords = (state) => state.tabMaker.savedChords;
 

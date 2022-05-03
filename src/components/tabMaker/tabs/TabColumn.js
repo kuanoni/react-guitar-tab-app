@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { EMPTY_NOTE_CHAR, symbolsToSnapTo } from '../../GUITAR';
+import { EMPTY_NOTE_CHAR, symbolsToSnapTo } from '../../../GUITAR';
 
 const TabColumn = (props) => {
 	const dispatch = useDispatch();

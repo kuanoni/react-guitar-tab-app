@@ -5,7 +5,8 @@ import {
 	wrappingSymbols,
 	EMPTY_MODIFIER_CHAR,
 	LINE_BREAK_COLUMN,
-} from '../../GUITAR';
+} from '../../../GUITAR';
+import { objectsEqual } from '../../TabMakerSliceUtilities';
 
 const ExportToTextButton = (props) => {
 	const onClickClipboard = () => {
@@ -34,8 +35,6 @@ const ExportToTextButton = (props) => {
 			return false;
 		});
 	};
-
-	const objectsEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
 	const makeTextTablature = (tablature, tunings) => {
 		let tablatureLines = [];

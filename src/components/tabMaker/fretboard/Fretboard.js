@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import FretboardString from './FretboardString';
-import { guitarTunings } from '../../GUITAR';
+import { guitarTunings } from '../../../GUITAR';
 import './fretboard.scss';
 
 const selectTuning = (state) => state.tabMaker.tuning;

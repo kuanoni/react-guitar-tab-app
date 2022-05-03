@@ -1,5 +1,5 @@
 import './App.css';
-import TabMaker from './components/TabMaker';
+import TabMaker from './components/tabMaker/TabMaker';
 
 function App() {
 	return (
