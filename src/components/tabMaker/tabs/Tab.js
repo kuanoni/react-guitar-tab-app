@@ -4,7 +4,7 @@ import TabColumn from './TabColumn';
 import './tab.scss';
 import Controller from '../controller/Controller';
 import ExportToTextButton from '../controller/ExportToTextButton';
-import { objectsEqual } from '../../TabMakerSliceUtilities';
+import { objectsEqual } from '../../../store/tabMakerReducer/TabMakerSliceUtilities';
 
 const selectTablature = (state) => state.tabMaker.tablature;
 const selectSelectedColumnIndex = (state) => state.tabMaker.selectedColumnIndex;

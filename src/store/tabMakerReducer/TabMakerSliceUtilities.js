@@ -1,5 +1,5 @@
 import { shallowEqual } from 'react-redux';
-import { EMPTY_COLUMN, LINE_BREAK_COLUMN, modifiers } from '../GUITAR';
+import { EMPTY_COLUMN, LINE_BREAK_COLUMN, modifiers } from '../../GUITAR';
 
 export const saveChangesToHistory = (oldState, updatedState) => {
 	let tablatureEqual = false;

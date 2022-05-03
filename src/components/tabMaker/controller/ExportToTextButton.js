@@ -6,7 +6,7 @@ import {
 	EMPTY_MODIFIER_CHAR,
 	LINE_BREAK_COLUMN,
 } from '../../../GUITAR';
-import { objectsEqual } from '../../TabMakerSliceUtilities';
+import { objectsEqual } from '../../../store/tabMakerReducer/TabMakerSliceUtilities';
 
 const ExportToTextButton = (props) => {
 	const onClickClipboard = () => {
