@@ -11,60 +11,68 @@ const TabMaker = () => {
 		const keyDownHandler = (e) => {
 			if (document.body !== e.target || e.repeat) return;
 			e.preventDefault();
-			switch (e.keyCode) {
-				case 16: {
+            switch (e.key.toUpperCase()) {
+                case 'ARROWLEFT':
+                case 'A': {
+                    if (e.ctrlKey) dispatch({ type: 'tabMaker/transposeNotes', payload: -1 });
+                    else dispatch({ type: 'tabMaker/moveSelectedColumn', payload: -1 });
+                    break;
+                }
+
+                case 'ARROWRIGHT':
+                case 'D': {
+                    if (e.ctrlKey) dispatch({ type: 'tabMaker/transposeNotes', payload: 1 });
+                    else dispatch({ type: 'tabMaker/moveSelectedColumn', payload: 1 });
+                    break;
+                }
+
+                case 'ARROWUP':
+                case 'W': {
+                    if (e.shiftKey) dispatch({ type: 'tabMaker/shiftNotes', payload: true });
+                    //else dispatch({ type: 'tabMaker/moveSelectedColumn', payload: -1 });
+                    break;
+                }
+
+                case 'ARROWDOWN':
+                case 'S': {
+                    if (e.shiftKey) dispatch({ type: 'tabMaker/shiftNotes', payload: false });
+                    //else dispatch({ type: 'tabMaker/moveSelectedColumn', payload: 1 });
+                    break;
+                }
+
+                case 'SHIFT': {
 					dispatch({ type: 'tabMaker/setHoldingShift', payload: true });
 					break;
 				}
 
-				case 39: {
-					dispatch({ type: 'tabMaker/moveSelectedColumn', payload: 1 });
-					break;
-				}
-
-				case 37: {
-					dispatch({ type: 'tabMaker/moveSelectedColumn', payload: -1 });
-					break;
-				}
-
-				case 68: {
-					dispatch({ type: 'tabMaker/moveSelectedColumn', payload: 1 });
-					break;
-				}
-
-				case 65: {
-					dispatch({ type: 'tabMaker/moveSelectedColumn', payload: -1 });
-					break;
-				}
-
-				case 32: {
+                case ' ': {
 					dispatch({ type: 'tabMaker/addSpaceColumn' });
 					break;
 				}
 
-				case 13: {
+				case 'ENTER': {
 					dispatch({ type: 'tabMaker/newLineBreak' });
 					break;
 				}
 
-				case 90: {
+                case 'Z': {
 					if (e.ctrlKey) dispatch({ type: 'tabMaker/undoToHistory' });
 					break;
 				}
 
-				case 67: {
+				case 'C': {
 					if (e.ctrlKey) dispatch({ type: 'tabMaker/copyColumn' });
 					break;
 				}
 
-				case 86: {
+				case 'V': {
 					if (e.ctrlKey) dispatch({ type: 'tabMaker/pasteCopiedColumn' });
 					break;
 				}
 
-				default:
-					return;
-			}
+                default:
+                    break;
+            }
 		};
 
 		const keyUpHandler = (e) => {

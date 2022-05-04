@@ -20,6 +20,7 @@ const Navbar = () => {
 				contentLabel='onRequestClose Example'
 				onRequestClose={handleCloseModal}
 				shouldCloseOnOverlayClick={true}
+                ariaHideApp={false}
 				className='modal'
 				overlayClassName='overlay'
 			>

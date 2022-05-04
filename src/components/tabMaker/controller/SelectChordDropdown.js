@@ -1,31 +1,28 @@
 import { useSelector } from 'react-redux';
-import { CHORDS } from '../../../GUITAR';
+import { CHORDS, EMPTY_COLUMN } from '../../../GUITAR';
 
 const selectSavedChords = (state) => state.tabMaker.savedChords;
 
 const SelectChordDropdown = (props) => {
 	const savedChords = useSelector(selectSavedChords);
 
-	let options = [];
+	let options = [{ name: '- - -', column: EMPTY_COLUMN }];
+
 	for (const key in CHORDS) {
-		options.push(
-            CHORDS[key]
-		);
+		options.push(CHORDS[key]);
 	}
 
 	savedChords.forEach((chord, i) => {
-		options.push(
-            chord
-		);
+		options.push(chord);
 	});
 
-    const optionsElements = options.map((chord, i) => {
-        return (
-            <option key={i} value={i}>
-                {chord.name}
-            </option>
-        )
-    })
+	const optionsElements = options.map((chord, i) => {
+		return (
+			<option key={i} value={i}>
+				{chord.name}
+			</option>
+		);
+	});
 
 	const onChange = (e) => {
 		props.setSelectedChord(options[e.target.value]);
@@ -33,7 +30,6 @@ const SelectChordDropdown = (props) => {
 
 	return (
 		<select className='chord-selector' name='chord' onChange={onChange}>
-			<option value=''>- - -</option>
 			{optionsElements}
 		</select>
 	);

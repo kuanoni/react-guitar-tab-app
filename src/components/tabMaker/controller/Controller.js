@@ -22,6 +22,7 @@ import AddMutedButton from './AddMutedButton';
 import PalmMuteButton from './PalmMuteButton';
 import VibratoButton from './VibratoButton';
 import DeleteModifierButton from './DeleteModifierButton';
+import TestButton from './TestButton';
 
 const Controller = () => {
 	const [selectedChord, setSelectedChord] = useState('');
@@ -32,6 +33,7 @@ const Controller = () => {
 				<MoveSelectionLeftButton />
 				<MoveSelectionRightButton />
 				<UndoButton />
+                <TestButton />
 				<div className='divider'></div>
 				<AddHammerOnButton />
 				<AddPullOffButton />
@@ -52,9 +54,9 @@ const Controller = () => {
 				<LineBreakButton />
 				<DeleteBreakButton />
 				<div className='divider'></div>
-				<SelectChordDropdown setSelectedChord={setSelectedChord} />
+				<SelectChordDropdown selectedChord={selectedChord} setSelectedChord={setSelectedChord} />
 				<PlaceChordButton selectedChord={selectedChord} />
-				<SaveSelectedChordButton />
+				<SaveSelectedChordButton setSelectedChord={setSelectedChord} />
 			</div>
 		</div>
 	);

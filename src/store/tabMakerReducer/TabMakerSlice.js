@@ -8,7 +8,7 @@ import {
 	setColumnAllNotes,
 	findClosestLineBreaks,
 	replaceColumnInTablature,
-    findModifierStartAndEnd,
+	findModifierStartAndEnd,
 } from './TabMakerSliceUtilities';
 
 const initialState = {
@@ -92,34 +92,81 @@ export default function tabMakerReducer(state = initialState, action) {
 		case 'tabMaker/endModifier':
 			return saveChangesToHistory(state, endModifier(state));
 
-        case 'tabMaker/deleteModifier':
-            return saveChangesToHistory(state, deleteModifier(state));
+		case 'tabMaker/deleteModifier':
+			return saveChangesToHistory(state, deleteModifier(state));
+
+		case 'tabMaker/shiftNotes':
+			return saveChangesToHistory(state, shiftNotes(state, action.payload));
+
+		case 'tabMaker/transposeNotes':
+			return saveChangesToHistory(state, transposeNotes(state, action.payload));
 
 		default:
 			return state;
 	}
 }
 
-const deleteModifier = (state) => {
-    if (state.tablature[state.selectedColumnIndex].modifier === EMPTY_MODIFIER_CHAR) return state;
-    const { modifierStart, modifierEnd } = findModifierStartAndEnd(state.tablature, state.selectedColumnIndex);
-    let newTablature = state.tablature;
+const transposeNotes = (state, amount) => {
+	const selectedColumnNotes = JSON.parse(JSON.stringify(state.tablature[state.selectedColumnIndex].notes));
+	const newNotes = selectedColumnNotes.map((note) => {
+		const noteNum = note.toString().replace(/\D/g, '');
+		if (noteNum === '') return note;
 
-    for (let i = modifierStart; i <= modifierEnd; i++) {
-        const newColumn = { ...newTablature[i], modifier: EMPTY_MODIFIER_CHAR };
-        newTablature = replaceColumnInTablature(newTablature, i, newColumn);
-    }
+		const extraChars = note.toString().split(noteNum);
+		const result =
+			extraChars[0] + (parseInt(noteNum) + amount < 0 ? 0 : parseInt(noteNum) + amount) + extraChars[1];
 
-    const updatedState = {
+		if (parseInt(result).toString() === result) return parseInt(result);
+		return result;
+	});
+
+	const newColumn = { ...state.tablature[state.selectedColumnIndex], notes: newNotes };
+	const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumnIndex, newColumn);
+
+	const updatedState = {
 		...state,
-		tablature: newTablature
-    }
+		tablature: newTablature,
+	};
 
-    return updatedState;
-}
+	return updatedState;
+};
+
+const shiftNotes = (state, reverse = false) => {
+	let selectedColumnNotes = JSON.parse(JSON.stringify(state.tablature[state.selectedColumnIndex].notes));
+	if (reverse) selectedColumnNotes.unshift(selectedColumnNotes.pop());
+	else selectedColumnNotes.push(selectedColumnNotes.shift());
+
+	const newColumn = { ...state.tablature[state.selectedColumnIndex], notes: selectedColumnNotes };
+	const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumnIndex, newColumn);
+
+	const updatedState = {
+		...state,
+		tablature: newTablature,
+	};
+
+	return updatedState;
+};
+
+const deleteModifier = (state) => {
+	if (state.tablature[state.selectedColumnIndex].modifier === EMPTY_MODIFIER_CHAR) return state;
+	const { modifierStart, modifierEnd } = findModifierStartAndEnd(state.tablature, state.selectedColumnIndex);
+	let newTablature = state.tablature;
+
+	for (let i = modifierStart; i <= modifierEnd; i++) {
+		const newColumn = { ...newTablature[i], modifier: EMPTY_MODIFIER_CHAR };
+		newTablature = replaceColumnInTablature(newTablature, i, newColumn);
+	}
+
+	const updatedState = {
+		...state,
+		tablature: newTablature,
+	};
+
+	return updatedState;
+};
 
 const startModifier = (state, modifier) => {
-    if (state.tablature[state.selectedColumnIndex].modifier !== EMPTY_MODIFIER_CHAR) return state;
+	if (state.tablature[state.selectedColumnIndex].modifier !== EMPTY_MODIFIER_CHAR) return state;
 
 	const newColumn = { ...state.tablature[state.selectedColumnIndex], modifier: modifier.start };
 	const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumnIndex, newColumn);
@@ -136,20 +183,23 @@ const startModifier = (state, modifier) => {
 
 const endModifier = (state) => {
 	let newTablature = state.tablature;
-    const { prevLineBreakIndex } = findClosestLineBreaks(newTablature, state.selectedColumnIndex);
+	const { prevLineBreakIndex } = findClosestLineBreaks(newTablature, state.selectedColumnIndex);
 
-    // remove the modifier start if ending modifier is before start, or ending is crossing a line break
-	if ((state.modifierStart > state.selectedColumnIndex) || (prevLineBreakIndex !== -1 && prevLineBreakIndex > state.modifierStart)) {
-        const newColumn = { ...state.tablature[state.modifierStart], modifier: EMPTY_MODIFIER_CHAR };
+	// remove the modifier start if ending modifier is before start, or ending is crossing a line break
+	if (
+		state.modifierStart > state.selectedColumnIndex ||
+		(prevLineBreakIndex !== -1 && prevLineBreakIndex > state.modifierStart)
+	) {
+		const newColumn = { ...state.tablature[state.modifierStart], modifier: EMPTY_MODIFIER_CHAR };
 		newTablature = replaceColumnInTablature(newTablature, state.modifierStart, newColumn);
 
 		return {
 			...state,
-            tablature: newTablature,
+			tablature: newTablature,
 			currentModifier: {},
 			modifierStart: null,
 		};
-    }
+	}
 
 	for (let i = state.modifierStart + 1; i < state.selectedColumnIndex; i++) {
 		const newColumn = { ...state.tablature[i], modifier: state.currentModifier.middle };
@@ -189,8 +239,8 @@ const undoToHistory = (state) => {
 		selectedColumnIndex: previousState.selectedColumnIndex,
 		tablature: previousState.tablature,
 		history: state.history.slice(0, -1),
-        currentModifier: previousState.currentModifier,
-        modifierStart: previousState.modifierStart
+		currentModifier: previousState.currentModifier,
+		modifierStart: previousState.modifierStart,
 	};
 
 	return updatedState;
