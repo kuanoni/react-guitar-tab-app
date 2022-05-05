@@ -14,14 +14,14 @@ const TabMaker = () => {
             switch (e.key.toUpperCase()) {
                 case 'ARROWLEFT':
                 case 'A': {
-                    if (e.ctrlKey) dispatch({ type: 'tabMaker/transposeNotes', payload: -1 });
+                    if (e.shiftKey) dispatch({ type: 'tabMaker/transposeNotes', payload: -1 });
                     else dispatch({ type: 'tabMaker/moveSelectedColumn', payload: -1 });
                     break;
                 }
 
                 case 'ARROWRIGHT':
                 case 'D': {
-                    if (e.ctrlKey) dispatch({ type: 'tabMaker/transposeNotes', payload: 1 });
+                    if (e.shiftKey) dispatch({ type: 'tabMaker/transposeNotes', payload: 1 });
                     else dispatch({ type: 'tabMaker/moveSelectedColumn', payload: 1 });
                     break;
                 }
@@ -29,14 +29,14 @@ const TabMaker = () => {
                 case 'ARROWUP':
                 case 'W': {
                     if (e.shiftKey) dispatch({ type: 'tabMaker/shiftNotes', payload: true });
-                    //else dispatch({ type: 'tabMaker/moveSelectedColumn', payload: -1 });
+                    else dispatch({ type: 'tabMaker/moveSelectedColumn', payload: -1 });
                     break;
                 }
 
                 case 'ARROWDOWN':
                 case 'S': {
                     if (e.shiftKey) dispatch({ type: 'tabMaker/shiftNotes', payload: false });
-                    //else dispatch({ type: 'tabMaker/moveSelectedColumn', payload: 1 });
+                    else dispatch({ type: 'tabMaker/moveSelectedColumn', payload: 1 });
                     break;
                 }
 

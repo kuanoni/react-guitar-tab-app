@@ -30,6 +30,50 @@ const HelpModalContent = () => {
 				</div>
 				<div className='keybinding'>
 					<div>
+						<div className='key'>Shift</div> + <div className='key'>A</div>
+					</div>
+					<div className='keybinding-text'>Transpose Down</div>
+				</div>
+				<div className='keybinding'>
+					<div>
+						<div className='key'>Shift</div> + <div className='key'>D</div>
+					</div>
+					<div className='keybinding-text'>Transpose Up</div>
+				</div>
+				<div className='keybinding'>
+					<div>
+						<div className='key'>Shift</div> + <div className='key'>W</div>
+					</div>
+					<div className='keybinding-text'>Shift notes up</div>
+				</div>
+				<div className='keybinding'>
+					<div>
+						<div className='key'>Shift</div> + <div className='key'>S</div>
+					</div>
+					<div className='keybinding-text'>Shift notes down</div>
+				</div>
+				<div className='keybinding'>
+					<div className='key'>Space</div>
+					<div className='keybinding-text'>Add space</div>
+				</div>
+				<div className='keybinding'>
+					<div className='key'>Enter</div>
+					<div className='keybinding-text'>New line</div>
+				</div>
+				<div className='keybinding'>
+					<div>
+						<div className='key'>Ctrl</div> + <div className='key'>C</div>
+					</div>
+					<div className='keybinding-text'>Copy selection</div>
+				</div>
+				<div className='keybinding'>
+					<div>
+						<div className='key'>Ctrl</div> + <div className='key'>V</div>
+					</div>
+					<div className='keybinding-text'>Paste</div>
+				</div>
+				<div className='keybinding'>
+					<div>
 						<div className='key'>Ctrl</div> + <div className='key'>Z</div>
 					</div>
 					<div className='keybinding-text'>Undo</div>
