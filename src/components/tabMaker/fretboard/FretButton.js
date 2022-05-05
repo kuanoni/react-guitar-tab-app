@@ -1,8 +1,11 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TUNINGS, TUNING_SOUNDS } from '../../../GUITAR';
+
+const audioMutedSelector = state => state.tabMaker.audioMuted;
 
 const FretButton = (props) => {
 	const dispatch = useDispatch();
+    const audioMuted = useSelector(audioMutedSelector);
 
 	const onClick = () => {
 		dispatch({
@@ -10,7 +13,7 @@ const FretButton = (props) => {
 			payload: { guitarString: props.guitarString, note: props.fretNum, spaces: 2 },
 		});
 
-		if (TUNING_SOUNDS[TUNINGS[props.fretNote]]) {
+		if (TUNING_SOUNDS[TUNINGS[props.fretNote]] && !audioMuted) {
 			TUNING_SOUNDS[TUNINGS[props.fretNote]].currentTime = 0;
 			TUNING_SOUNDS[TUNINGS[props.fretNote]].volume = 0.25;
 			TUNING_SOUNDS[TUNINGS[props.fretNote]].play();

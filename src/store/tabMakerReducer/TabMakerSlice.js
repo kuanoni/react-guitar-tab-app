@@ -22,6 +22,7 @@ const initialState = {
 	modifierStart: null,
 	holdingShift: false,
 	holdingCtrl: false,
+    audioMuted: false
 };
 
 export default function tabMakerReducer(state = initialState, action) {
@@ -101,6 +102,9 @@ export default function tabMakerReducer(state = initialState, action) {
 		case 'tabMaker/transposeNotes':
 			return saveChangesToHistory(state, transposeNotes(state, action.payload));
 
+        case 'tabMaker/setAudioMuted':
+            return { ...state, audioMuted: action.payload };
+            
 		default:
 			return state;
 	}
