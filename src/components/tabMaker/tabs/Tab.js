@@ -17,7 +17,7 @@ const Tab = () => {
 
 	const tuningsElement = (
 		<div className='tunings'>
-        <div></div>
+			<div></div>
 			{tunings.map((tuning, i) => <div key={i}>{TUNINGS[tuning].slice(0, 1) + '|'}</div>).reverse()}
 		</div>
 	);
@@ -66,11 +66,10 @@ const Tab = () => {
 	};
 
 	return (
-		<div className='tab-wrapper'>
-			<Controller />
+		<>
 			<div className='tab'>{getTabLines()}</div>
 			<ExportToTextButton tablature={tablature} tunings={tunings} />
-		</div>
+		</>
 	);
 };
 
