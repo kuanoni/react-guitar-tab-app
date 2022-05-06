@@ -23,6 +23,7 @@ import PalmMuteButton from './PalmMuteButton';
 import VibratoButton from './VibratoButton';
 import DeleteModifierButton from './DeleteModifierButton';
 import TestButton from './TestButton';
+import DeleteColumnButton from './DeleteColumnButton';
 
 const Controller = () => {
 	const [selectedChord, setSelectedChord] = useState('');
@@ -33,7 +34,7 @@ const Controller = () => {
 				<MoveSelectionLeftButton />
 				<MoveSelectionRightButton />
 				<UndoButton />
-                <TestButton />
+                {/* <TestButton /> */}
 				<div className='divider'></div>
 				<AddHammerOnButton />
 				<AddPullOffButton />
@@ -49,6 +50,7 @@ const Controller = () => {
                 <DeleteModifierButton />
 				<div className='divider'></div>
 				<ClearColumnButton />
+                <DeleteColumnButton />
 				<ChangeToDivider />
 				<SpaceButton />
 				<LineBreakButton />

@@ -57,10 +57,16 @@
             background-color: #647894;
         }
 
-		svg {
+		svg, .icon {
 			width: 20px;
 			height: 20px;
 		}
+
+        .icon {
+            width: 28px;
+            height: 28px;
+            filter: invert(1);
+        }
 
         .tooltip {
             z-index: 10;

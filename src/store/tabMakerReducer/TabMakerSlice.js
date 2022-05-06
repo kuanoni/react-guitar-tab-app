@@ -105,9 +105,31 @@ export default function tabMakerReducer(state = initialState, action) {
         case 'tabMaker/setAudioMuted':
             return { ...state, audioMuted: action.payload };
             
+        case 'tabMaker/deleteSelectedColumn':
+            return saveChangesToHistory(state, deleteSelectedColumn(state));
+
 		default:
 			return state;
 	}
+}
+
+const deleteSelectedColumn = (state) => {
+    if (state.selectedColumnIndex === 0) return state;
+    let newSelectedColumnIndex = state.selectedColumnIndex;
+    let newTablature = JSON.parse(JSON.stringify(state.tablature));
+    newTablature.splice(state.selectedColumnIndex, 1);
+
+    console.log(newSelectedColumnIndex, newTablature.length)
+    if (newSelectedColumnIndex >= newTablature.length) newSelectedColumnIndex = newTablature.length - 1;
+    console.log(newSelectedColumnIndex,newTablature.length -1 )
+
+    const updatedState = {
+        ...state,
+        tablature: newTablature,
+        selectedColumnIndex: newSelectedColumnIndex
+    }
+
+    return updatedState;
 }
 
 const transposeNotes = (state, amount) => {

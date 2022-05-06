@@ -3,19 +3,19 @@ import { RiDeleteColumn } from 'react-icons/ri';
 import ControlButton from './ControlButton';
 import CustomIcon from './CustomIcon';
 
-const ClearColumnButton = () => {
+const DeleteColumnButton = () => {
 	const dispatch = useDispatch();
 
 	const onClick = () => {
-		dispatch({ type: 'tabMaker/clearSelectedColumn' });
+		dispatch({ type: 'tabMaker/deleteSelectedColumn' });
 	};
 
 	return (
-		<ControlButton click={onClick} buttonName={'Clear Column'}>
+		<ControlButton click={onClick} buttonName={'Delete Column'}>
             {/* <RiDeleteColumn /> */}
-            <CustomIcon svgPath='column_clear' />
+            <CustomIcon svgPath='column_delete' />
         </ControlButton>
 	);
 };
 
-export default ClearColumnButton;
+export default DeleteColumnButton;

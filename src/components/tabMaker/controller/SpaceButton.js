@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { RiInsertColumnLeft } from 'react-icons/ri';
 import ControlButton from './ControlButton';
+import CustomIcon from './CustomIcon';
 
 const SpaceButton = () => {
 	const dispatch = useDispatch();
@@ -11,7 +12,8 @@ const SpaceButton = () => {
 
     return (
 		<ControlButton click={onClick} buttonName={'Add Space'}>
-            <RiInsertColumnLeft />
+            {/* <RiInsertColumnLeft /> */}
+            <CustomIcon svgPath='column_add' />
         </ControlButton>
 	);
 };

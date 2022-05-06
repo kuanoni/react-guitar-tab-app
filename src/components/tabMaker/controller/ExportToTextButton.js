@@ -87,7 +87,11 @@ const ExportToTextButton = (props) => {
 
 			return tabString + '\n';
 		});
-		return textArray.reduce((previousValue, currentValue) => previousValue + currentValue);
+
+        let textTab = textArray.reduce((previousValue, currentValue) => previousValue + currentValue);
+        textTab += '\n~| Created with text-tabber.com |~'
+
+		return textTab;
 	};
 
 	return (

@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { RiLayoutColumnLine } from 'react-icons/ri';
 import ControlButton from './ControlButton';
+import CustomIcon from './CustomIcon';
 
 const ChangeToDivider = () => {
 	const dispatch = useDispatch();
@@ -11,7 +12,8 @@ const ChangeToDivider = () => {
 
 	return (
 		<ControlButton click={onClick} buttonName={'Add Divider'}>
-            <RiLayoutColumnLine />
+            {/* <RiLayoutColumnLine /> */}
+            <CustomIcon svgPath='column_divider' />
         </ControlButton>
 	);
 };
