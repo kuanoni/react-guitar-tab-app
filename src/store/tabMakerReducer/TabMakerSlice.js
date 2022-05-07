@@ -492,7 +492,7 @@ const placeColumn = (state, column) => {
 };
 
 const saveSelectedChord = (state, name) => {
-	const newColumn = { ...state.tablature[state.selectedColumnIndex], modifier: EMPTY_MODIFIER_CHAR };
+	const newColumn = { ...state.tablature[state.selectedColumnIndex], modifier: EMPTY_MODIFIER };
 
 	const updatedState = {
 		...state,

@@ -62,5 +62,5 @@ export const LINE_BREAK_COLUMN = {
 export const SPACE_BETWEEN_NOTES = 1;
 
 export const CHORDS = {
-	openEMinor: { name: 'Open E Minor', column: { modifier: EMPTY_MODIFIER_CHAR, notes: [0, 2, 2, 0, 0, 0] } },
+	openEMinor: { name: 'Open E Minor', column: { modifier: EMPTY_MODIFIER, notes: [0, 2, 2, 0, 0, 0] } },
 };

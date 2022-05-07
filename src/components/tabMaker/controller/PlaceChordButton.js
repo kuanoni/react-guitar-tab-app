@@ -6,7 +6,8 @@ const PlaceChordButton = (props) => {
 	const dispatch = useDispatch();
 
 	const onClick = () => {
-		dispatch({ type: 'tabMaker/placeColumn', payload: props.selectedChord.column });
+        if (props.selectedChord);
+		    dispatch({ type: 'tabMaker/placeColumn', payload: props.selectedChord.column });
 	};
 
     return (
