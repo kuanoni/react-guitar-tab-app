@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { RiInsertRowBottom } from 'react-icons/ri';
 import ControlButton from './ControlButton';
+import CustomIcon from './CustomIcon';
 
 const LineBreakButton = () => {
 	const dispatch = useDispatch();
@@ -11,8 +11,8 @@ const LineBreakButton = () => {
 
 	return (
 		<ControlButton click={onClick} buttonName={'New Line'}>
-            <RiInsertRowBottom />
-        </ControlButton>
+			<CustomIcon svgPath='line_add' />
+		</ControlButton>
 	);
 };
 

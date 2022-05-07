@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { RiDeleteRow } from 'react-icons/ri';
 import ControlButton from './ControlButton';
+import CustomIcon from './CustomIcon';
 
 const DeleteBreakButton = () => {
 	const dispatch = useDispatch();
@@ -11,8 +11,8 @@ const DeleteBreakButton = () => {
 
 	return (
 		<ControlButton click={onClick} buttonName={'Delete Line'}>
-            <RiDeleteRow />
-        </ControlButton>
+			<CustomIcon svgPath='line_delete' />
+		</ControlButton>
 	);
 };
 

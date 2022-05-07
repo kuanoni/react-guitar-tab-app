@@ -1,4 +1,4 @@
-import { EMPTY_COLUMN, EMPTY_MODIFIER, EMPTY_MODIFIER_CHAR, EMPTY_NOTE_CHAR, LINE_BREAK_COLUMN } from '../../GUITAR';
+import { EMPTY_COLUMN, EMPTY_MODIFIER, EMPTY_NOTE_CHAR, LINE_BREAK_COLUMN } from '../../GUITAR';
 
 import {
 	saveChangesToHistory,
@@ -9,22 +9,22 @@ import {
 	findClosestLineBreaks,
 	replaceColumnInTablature,
 	findModifierStartAndEnd,
-    objectsEqual,
+	objectsEqual,
 } from './TabMakerSliceUtilities';
 
 const initialState = {
 	selectedColumnIndex: 1,
 	tuning: [28, 33, 38, 43, 47, 52],
-	tablature: [ EMPTY_COLUMN, EMPTY_COLUMN ],
+	tablature: [EMPTY_COLUMN, EMPTY_COLUMN],
 	history: [],
 	copiedColumn: [],
 	savedChords: [],
-    spaces: 1,
+	spaces: 1,
 	currentModifier: {},
 	modifierStart: null,
 	holdingShift: false,
 	holdingCtrl: false,
-    audioMuted: false
+	audioMuted: false,
 };
 
 export default function tabMakerReducer(state = initialState, action) {
@@ -35,8 +35,8 @@ export default function tabMakerReducer(state = initialState, action) {
 		case 'tabMaker/setHoldingCtrl':
 			return { ...state, holdingCtrl: action.payload };
 
-        case 'tabMaker/setAudioMuted':
-            return { ...state, audioMuted: action.payload };
+		case 'tabMaker/setAudioMuted':
+			return { ...state, audioMuted: action.payload };
 
 		case 'tabMaker/undoToHistory':
 			return undoToHistory(state);
@@ -55,9 +55,9 @@ export default function tabMakerReducer(state = initialState, action) {
 
 		case 'tabMaker/clearSelectedColumn':
 			return saveChangesToHistory(state, clearColumn(state));
-            
-        case 'tabMaker/deleteSelectedColumn':
-            return saveChangesToHistory(state, deleteSelectedColumn(state));
+
+		case 'tabMaker/deleteSelectedColumn':
+			return saveChangesToHistory(state, deleteSelectedColumn(state));
 
 		case 'tabMaker/addSpaceColumn':
 			return saveChangesToHistory(state, addSpaceColumn(state));
@@ -116,23 +116,23 @@ export default function tabMakerReducer(state = initialState, action) {
 }
 
 const deleteSelectedColumn = (state) => {
-    if (state.selectedColumnIndex === 0) return state;
-    let newSelectedColumnIndex = state.selectedColumnIndex;
-    let newTablature = JSON.parse(JSON.stringify(state.tablature));
-    newTablature.splice(state.selectedColumnIndex, 1);
+	if (state.selectedColumnIndex === 0) return state;
+	let newSelectedColumnIndex = state.selectedColumnIndex;
+	let newTablature = JSON.parse(JSON.stringify(state.tablature));
+	newTablature.splice(state.selectedColumnIndex, 1);
 
-    console.log(newSelectedColumnIndex, newTablature.length)
-    if (newSelectedColumnIndex >= newTablature.length) newSelectedColumnIndex = newTablature.length - 1;
-    console.log(newSelectedColumnIndex,newTablature.length -1 )
+	console.log(newSelectedColumnIndex, newTablature.length);
+	if (newSelectedColumnIndex >= newTablature.length) newSelectedColumnIndex = newTablature.length - 1;
+	console.log(newSelectedColumnIndex, newTablature.length - 1);
 
-    const updatedState = {
-        ...state,
-        tablature: newTablature,
-        selectedColumnIndex: newSelectedColumnIndex
-    }
+	const updatedState = {
+		...state,
+		tablature: newTablature,
+		selectedColumnIndex: newSelectedColumnIndex,
+	};
 
-    return updatedState;
-}
+	return updatedState;
+};
 
 const transposeNotes = (state, amount) => {
 	const selectedColumnNotes = JSON.parse(JSON.stringify(state.tablature[state.selectedColumnIndex].notes));
@@ -196,7 +196,10 @@ const deleteModifier = (state) => {
 const startModifier = (state, modifier) => {
 	if (!objectsEqual(state.tablature[state.selectedColumnIndex].modifier, EMPTY_MODIFIER)) return state;
 
-	const newColumn = { ...state.tablature[state.selectedColumnIndex], modifier: {type: 'start', modifierStrings: modifier} };
+	const newColumn = {
+		...state.tablature[state.selectedColumnIndex],
+		modifier: { type: 'start', modifierStrings: modifier },
+	};
 	const newTablature = replaceColumnInTablature(state.tablature, state.selectedColumnIndex, newColumn);
 
 	const updatedState = {
@@ -230,19 +233,22 @@ const endModifier = (state) => {
 	}
 
 	for (let i = state.modifierStart + 1; i < state.selectedColumnIndex; i++) {
-		const newColumn = { ...state.tablature[i], modifier: {type: 'middle', modifierStrings: state.currentModifier} };
+		const newColumn = {
+			...state.tablature[i],
+			modifier: { type: 'middle', modifierStrings: state.currentModifier },
+		};
 		newTablature = replaceColumnInTablature(newTablature, i, newColumn);
 	}
 
 	if (state.modifierStart === state.selectedColumnIndex) {
 		newTablature = replaceColumnInTablature(newTablature, state.selectedColumnIndex, {
 			...state.tablature[state.selectedColumnIndex],
-			modifier: {type: 'start', modifierStrings: state.currentModifier},
+			modifier: { type: 'start', modifierStrings: state.currentModifier },
 		});
 	} else {
 		newTablature = replaceColumnInTablature(newTablature, state.selectedColumnIndex, {
 			...state.tablature[state.selectedColumnIndex],
-			modifier: {type: 'end', modifierStrings: state.currentModifier},
+			modifier: { type: 'end', modifierStrings: state.currentModifier },
 		});
 	}
 	const updatedState = {
