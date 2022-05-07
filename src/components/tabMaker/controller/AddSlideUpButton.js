@@ -13,8 +13,8 @@ const AddSlideUpButton = (props) => {
 
 	return (
 		<ControlButton click={onClick} buttonName={'Slide Up'}>
-            /
-        </ControlButton>
+			/
+		</ControlButton>
 	);
 };
 

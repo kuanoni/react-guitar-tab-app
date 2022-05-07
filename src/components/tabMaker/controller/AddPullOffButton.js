@@ -13,8 +13,8 @@ const AddPullOffButton = (props) => {
 
 	return (
 		<ControlButton click={onClick} buttonName={'Pulloff'}>
-            p
-        </ControlButton>
+			p
+		</ControlButton>
 	);
 };
 

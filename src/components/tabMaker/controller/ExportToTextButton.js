@@ -1,10 +1,4 @@
-import {
-	TUNINGS,
-	EMPTY_NOTE_CHAR,
-	symbolsToSnapTo,
-	EMPTY_NOTE_COLUMN,
-	LINE_BREAK_COLUMN,
-} from '../../../GUITAR';
+import { TUNINGS, EMPTY_NOTE_CHAR, symbolsToSnapTo, EMPTY_NOTE_COLUMN, LINE_BREAK_COLUMN } from '../../../GUITAR';
 import { objectsEqual } from '../../../store/tabMakerReducer/TabMakerSliceUtilities';
 
 const ExportToTextButton = (props) => {
@@ -28,12 +22,12 @@ const ExportToTextButton = (props) => {
 		});
 	};
 
-    const makeNotesColumns = (column) => {
+	const makeNotesColumns = (column) => {
 		let columnWidth = column.notes
 			.reduce((a, b) => {
 				return a.toString().length > b.toString().length ? a : b;
-			}).toString().length;
-
+			})
+			.toString().length;
 
 		let notesColumns = [];
 		for (let i = 0; i < columnWidth; i++) {
@@ -49,34 +43,34 @@ const ExportToTextButton = (props) => {
 		});
 
 		if (!containsSymbolToSnapTo(notesColumns.at(-1))) {
-            for (let i = 0; i < 1; i++) {
-                notesColumns.push(JSON.parse(JSON.stringify(EMPTY_NOTE_COLUMN)));
-            }
-        }
+			for (let i = 0; i < 1; i++) {
+				notesColumns.push(JSON.parse(JSON.stringify(EMPTY_NOTE_COLUMN)));
+			}
+		}
 
 		notesColumns.forEach((col, i) => {
-            const modifierStrings = column.modifier.modifierStrings;
-            const modifierType = column.modifier.type;
+			const modifierStrings = column.modifier.modifierStrings;
+			const modifierType = column.modifier.type;
 
-            if (modifierType === 'end') {
-                // put the 'end' marker at the last column
-                if (i === notesColumns.length - 1) col.push(modifierStrings['end']);
-                else col.push(modifierStrings['filler']);
-            } else {
-                if (modifierStrings[modifierType][i]) col.push(modifierStrings[modifierType][i]);
-                else col.push(modifierStrings['filler']);
-            }
+			if (modifierType === 'end') {
+				// put the 'end' marker at the last column
+				if (i === notesColumns.length - 1) col.push(modifierStrings['end']);
+				else col.push(modifierStrings['filler']);
+			} else {
+				if (modifierStrings[modifierType][i]) col.push(modifierStrings[modifierType][i]);
+				else col.push(modifierStrings['filler']);
+			}
 		});
 
 		return notesColumns;
 	};
 
 	const makeTextTablature = (tablature, tunings) => {
-        tunings = tunings.reverse();
+		tunings = tunings.reverse();
 		let tablatureLines = [];
 		let _i = 0;
 
-        let textTablature = '';
+		let textTablature = '';
 
 		// slice tablature into chunks, separated by line-break markers: %
 		tablature.forEach((column, i) => {
@@ -90,23 +84,23 @@ const ExportToTextButton = (props) => {
 		let textArray = tablatureLines.map((tabLine) => {
 			let guitarStrings = [[], [], [], [], [], [], []];
 
-            tabLine.forEach(column => {
-                const columns = makeNotesColumns(column);
-                columns.forEach(column => {
-                    column.forEach((note, i) => guitarStrings[i].push(note))
-                })
-            })
+			tabLine.forEach((column) => {
+				const columns = makeNotesColumns(column);
+				columns.forEach((column) => {
+					column.forEach((note, i) => guitarStrings[i].push(note));
+				});
+			});
 
-            let tabString = '';
+			let tabString = '';
 
-            guitarStrings.reverse().forEach((guitarString, i) => {
-                if (TUNINGS[tunings[i-1]]) tabString += TUNINGS[tunings[i-1]] + '|';
-                else tabString += '   ';
-                tabString += guitarString.reduce((previousValue, currentValue) => previousValue + currentValue);
-                tabString += '\n';
-            })
+			guitarStrings.reverse().forEach((guitarString, i) => {
+				if (TUNINGS[tunings[i - 1]]) tabString += TUNINGS[tunings[i - 1]] + '|';
+				else tabString += '   ';
+				tabString += guitarString.reduce((previousValue, currentValue) => previousValue + currentValue);
+				tabString += '\n';
+			});
 
-            return tabString + '\n';
+			return tabString + '\n';
 		});
 
 		textTablature += textArray.reduce((previousValue, currentValue) => previousValue + currentValue);

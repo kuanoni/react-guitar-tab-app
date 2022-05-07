@@ -6,14 +6,14 @@ const PlaceChordButton = (props) => {
 	const dispatch = useDispatch();
 
 	const onClick = () => {
-        if (props.selectedChord);
-		    dispatch({ type: 'tabMaker/placeColumn', payload: props.selectedChord.column });
+		if (props.selectedChord);
+		dispatch({ type: 'tabMaker/placeColumn', payload: props.selectedChord.column });
 	};
 
-    return (
+	return (
 		<ControlButton click={onClick} buttonName={'Place Chord'}>
-            <RiSortDesc />
-        </ControlButton>
+			<RiSortDesc />
+		</ControlButton>
 	);
 };
 

@@ -12,9 +12,9 @@ const ClearColumnButton = () => {
 
 	return (
 		<ControlButton click={onClick} buttonName={'Clear Column'}>
-            {/* <RiDeleteColumn /> */}
-            <CustomIcon svgPath='column_clear' />
-        </ControlButton>
+			{/* <RiDeleteColumn /> */}
+			<CustomIcon svgPath='column_clear' />
+		</ControlButton>
 	);
 };
 

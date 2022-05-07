@@ -13,8 +13,8 @@ const AddSlideDownButton = (props) => {
 
 	return (
 		<ControlButton click={onClick} buttonName={'Slide Down'}>
-            \
-        </ControlButton>
+			\
+		</ControlButton>
 	);
 };
 

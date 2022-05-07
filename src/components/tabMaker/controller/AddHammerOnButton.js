@@ -11,10 +11,10 @@ const AddHammerOnButton = (props) => {
 		});
 	};
 
-    return (
+	return (
 		<ControlButton click={onClick} buttonName={'Hammer-On'}>
-            h
-        </ControlButton>
+			h
+		</ControlButton>
 	);
 };
 

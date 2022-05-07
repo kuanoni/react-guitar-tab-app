@@ -13,8 +13,8 @@ const AddMutedButton = (props) => {
 
 	return (
 		<ControlButton click={onClick} buttonName={'Muted'}>
-            x
-        </ControlButton>
+			x
+		</ControlButton>
 	);
 };
 

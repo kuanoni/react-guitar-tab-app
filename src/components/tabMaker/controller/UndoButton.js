@@ -9,10 +9,10 @@ const UndoButton = () => {
 		dispatch({ type: 'tabMaker/undoToHistory' });
 	};
 
-    return (
+	return (
 		<ControlButton click={onClick} buttonName={'Undo'}>
-            <RiArrowGoBackLine />
-        </ControlButton>
+			<RiArrowGoBackLine />
+		</ControlButton>
 	);
 };
 

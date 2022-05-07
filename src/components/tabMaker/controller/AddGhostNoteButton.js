@@ -12,10 +12,10 @@ const AddGhostNoteButton = (props) => {
 		});
 	};
 
-    return (
+	return (
 		<ControlButton click={onClick} buttonName={'Ghost Note'}>
-            <RiParenthesesFill />
-        </ControlButton>
+			<RiParenthesesFill />
+		</ControlButton>
 	);
 };
 

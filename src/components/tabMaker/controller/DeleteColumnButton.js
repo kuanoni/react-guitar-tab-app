@@ -12,9 +12,9 @@ const DeleteColumnButton = () => {
 
 	return (
 		<ControlButton click={onClick} buttonName={'Delete Column'}>
-            {/* <RiDeleteColumn /> */}
-            <CustomIcon svgPath='column_delete' />
-        </ControlButton>
+			{/* <RiDeleteColumn /> */}
+			<CustomIcon svgPath='column_delete' />
+		</ControlButton>
 	);
 };
 

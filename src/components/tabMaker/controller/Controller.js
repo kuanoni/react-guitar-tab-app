@@ -34,23 +34,23 @@ const Controller = () => {
 				<MoveSelectionLeftButton />
 				<MoveSelectionRightButton />
 				<UndoButton />
-                {/* <TestButton /> */}
+				{/* <TestButton /> */}
 				<div className='divider'></div>
 				<AddHammerOnButton />
 				<AddPullOffButton />
-                <AddMutedButton />
+				<AddMutedButton />
 				<AddBendButton />
 				<AddSlideUpButton />
 				<AddSlideDownButton />
 				<AddGhostNoteButton />
 				<AddNaturalHarmonicButton />
 				<div className='divider'></div>
-                <PalmMuteButton />
-                <VibratoButton />
-                <DeleteModifierButton />
+				<PalmMuteButton />
+				<VibratoButton />
+				<DeleteModifierButton />
 				<div className='divider'></div>
 				<ClearColumnButton />
-                <DeleteColumnButton />
+				<DeleteColumnButton />
 				<ChangeToDivider />
 				<SpaceButton />
 				<LineBreakButton />

@@ -11,8 +11,8 @@ const MoveSelectionLeftButton = () => {
 
 	return (
 		<ControlButton click={onClick}>
-            <RiArrowLeftLine />
-        </ControlButton>
+			<RiArrowLeftLine />
+		</ControlButton>
 	);
 };
 

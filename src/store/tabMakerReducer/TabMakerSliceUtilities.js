@@ -127,7 +127,7 @@ export const findModifierStartAndEnd = (tablature, selectedColumn) => {
 			modifierStart = i;
 			break;
 		}
-	}   
+	}
 
 	return { modifierStart, modifierEnd };
 };

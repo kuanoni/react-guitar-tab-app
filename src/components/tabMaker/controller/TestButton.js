@@ -10,8 +10,8 @@ const TestButton = () => {
 
 	return (
 		<ControlButton click={onClick} buttonName={'Test'}>
-            T
-        </ControlButton>
+			T
+		</ControlButton>
 	);
 };
 

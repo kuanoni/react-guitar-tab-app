@@ -10,11 +10,11 @@ const SpaceButton = () => {
 		dispatch({ type: 'tabMaker/addSpaceColumn' });
 	};
 
-    return (
+	return (
 		<ControlButton click={onClick} buttonName={'Add Space'}>
-            {/* <RiInsertColumnLeft /> */}
-            <CustomIcon svgPath='column_add' />
-        </ControlButton>
+			{/* <RiInsertColumnLeft /> */}
+			<CustomIcon svgPath='column_add' />
+		</ControlButton>
 	);
 };
 

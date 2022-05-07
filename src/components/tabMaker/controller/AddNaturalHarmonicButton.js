@@ -14,8 +14,8 @@ const AddNaturalHarmonicButton = (props) => {
 
 	return (
 		<ControlButton click={onClick} buttonName={'Natural Harmonic'}>
-            <RiCodeSFill />
-        </ControlButton>
+			<RiCodeSFill />
+		</ControlButton>
 	);
 };
 

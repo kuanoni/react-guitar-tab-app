@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { RiCloseFill } from 'react-icons/ri'
+import { RiCloseFill } from 'react-icons/ri';
 import ControlButton from './ControlButton';
 
 const DeleteModifierButton = (props) => {
@@ -7,14 +7,14 @@ const DeleteModifierButton = (props) => {
 
 	const onClick = () => {
 		dispatch({
-			type: 'tabMaker/deleteModifier'
+			type: 'tabMaker/deleteModifier',
 		});
 	};
 
 	return (
 		<ControlButton click={onClick} buttonName={'Delete Modifier'}>
-            <RiCloseFill />
-        </ControlButton>
+			<RiCloseFill />
+		</ControlButton>
 	);
 };
 

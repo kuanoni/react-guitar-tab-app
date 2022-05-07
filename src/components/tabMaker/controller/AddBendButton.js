@@ -13,8 +13,8 @@ const AddBendButton = (props) => {
 
 	return (
 		<ControlButton click={onClick} buttonName={'Bend'}>
-            b
-        </ControlButton>
+			b
+		</ControlButton>
 	);
 };
 
