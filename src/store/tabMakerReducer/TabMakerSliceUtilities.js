@@ -1,5 +1,5 @@
 import { shallowEqual } from 'react-redux';
-import { EMPTY_COLUMN, LINE_BREAK_COLUMN, modifiers } from '../../GUITAR';
+import { EMPTY_COLUMN, LINE_BREAK_COLUMN } from '../../GUITAR';
 
 export const saveChangesToHistory = (oldState, updatedState) => {
 	let tablatureEqual = false;
@@ -114,22 +114,20 @@ export const findModifierStartAndEnd = (tablature, selectedColumn) => {
 
 	let modifierStart = 0;
 	let modifierEnd = tablature.length - 1;
-	const modifierStarts = Object.keys(modifiers).map((key) => modifiers[key].start);
-	const modifierEnds = Object.keys(modifiers).map((key) => modifiers[key].end);
 
 	for (let i = selectedColumn; i < nextLineBreakIndex; i++) {
-		if (modifierEnds.includes(tablature[i].modifier)) {
+		if (tablature[i].modifier.type === 'end') {
 			modifierEnd = i;
 			break;
 		}
 	}
 
 	for (let i = selectedColumn; i > prevLineBreakIndex; i--) {
-		if (modifierStarts.includes(tablature[i].modifier)) {
+		if (tablature[i].modifier.type === 'start') {
 			modifierStart = i;
 			break;
 		}
-	}
+	}   
 
 	return { modifierStart, modifierEnd };
 };

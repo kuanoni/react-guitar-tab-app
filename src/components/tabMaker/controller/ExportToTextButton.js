@@ -2,8 +2,7 @@ import {
 	TUNINGS,
 	EMPTY_NOTE_CHAR,
 	symbolsToSnapTo,
-	wrappingSymbols,
-	EMPTY_MODIFIER_CHAR,
+	EMPTY_NOTE_COLUMN,
 	LINE_BREAK_COLUMN,
 } from '../../../GUITAR';
 import { objectsEqual } from '../../../store/tabMakerReducer/TabMakerSliceUtilities';
@@ -29,16 +28,55 @@ const ExportToTextButton = (props) => {
 		});
 	};
 
-	const containsWrappingSymbol = (note) => {
-		return wrappingSymbols.some((char) => {
-			if (note.toString().includes(char)) return true;
-			return false;
+    const makeNotesColumns = (column) => {
+		let columnWidth = column.notes
+			.reduce((a, b) => {
+				return a.toString().length > b.toString().length ? a : b;
+			}).toString().length;
+
+
+		let notesColumns = [];
+		for (let i = 0; i < columnWidth; i++) {
+			notesColumns.push([]);
+		}
+
+		column.notes.forEach((note) => {
+			const noteString = note.toString();
+			for (let i = 0; i < columnWidth; i++) {
+				if (noteString[i]) notesColumns[i].push(noteString[i]);
+				else notesColumns[i].push(EMPTY_NOTE_CHAR);
+			}
 		});
+
+		if (!containsSymbolToSnapTo(notesColumns.at(-1))) {
+            for (let i = 0; i < 1; i++) {
+                notesColumns.push(JSON.parse(JSON.stringify(EMPTY_NOTE_COLUMN)));
+            }
+        }
+
+		notesColumns.forEach((col, i) => {
+            const modifierStrings = column.modifier.modifierStrings;
+            const modifierType = column.modifier.type;
+
+            if (modifierType === 'end') {
+                // put the 'end' marker at the last column
+                if (i === notesColumns.length - 1) col.push(modifierStrings['end']);
+                else col.push(modifierStrings['filler']);
+            } else {
+                if (modifierStrings[modifierType][i]) col.push(modifierStrings[modifierType][i]);
+                else col.push(modifierStrings['filler']);
+            }
+		});
+
+		return notesColumns;
 	};
 
 	const makeTextTablature = (tablature, tunings) => {
+        tunings = tunings.reverse();
 		let tablatureLines = [];
 		let _i = 0;
+
+        let textTablature = '';
 
 		// slice tablature into chunks, separated by line-break markers: %
 		tablature.forEach((column, i) => {
@@ -50,48 +88,31 @@ const ExportToTextButton = (props) => {
 		tablatureLines.push(tablature.slice(_i, tablature.length));
 
 		let textArray = tablatureLines.map((tabLine) => {
-			let modifiers = ['   '];
-			let guitarStrings = [[], [], [], [], [], []];
-			tabLine.forEach((column) => {
-				let longest = column.notes.reduce((a, b) => {
-					return a.length > b.length ? a : b;
-				}).length;
+			let guitarStrings = [[], [], [], [], [], [], []];
 
-				if (longest < 3 || !longest) longest = 3;
+            tabLine.forEach(column => {
+                const columns = makeNotesColumns(column);
+                columns.forEach(column => {
+                    column.forEach((note, i) => guitarStrings[i].push(note))
+                })
+            })
 
-				column.notes.forEach((note, i) => {
-					let difference = longest - note.toString().length;
+            let tabString = '';
 
-					if (containsSymbolToSnapTo(note)) {
-						guitarStrings[i].push(EMPTY_NOTE_CHAR.repeat(difference) + note);
-					} else if (containsWrappingSymbol(note)) {
-						guitarStrings[i].push(note);
-					} else {
-						guitarStrings[i].push(note + EMPTY_NOTE_CHAR.repeat(difference));
-					}
-				});
+            guitarStrings.reverse().forEach((guitarString, i) => {
+                if (TUNINGS[tunings[i-1]]) tabString += TUNINGS[tunings[i-1]] + '|';
+                else tabString += '   ';
+                tabString += guitarString.reduce((previousValue, currentValue) => previousValue + currentValue);
+                tabString += '\n';
+            })
 
-				if (column.modifier === EMPTY_MODIFIER_CHAR) {
-					modifiers.push(column.modifier.repeat(longest));
-				} else {
-					modifiers.push(column.modifier.slice(0, longest));
-				}
-			});
-
-			let tabString = modifiers.join('') + '\n';
-			let tuningsRev = tunings.reverse();
-
-			guitarStrings.reverse().forEach((str, i) => {
-				tabString += TUNINGS[tuningsRev[i]] + '|' + str.join('') + '\n';
-			});
-
-			return tabString + '\n';
+            return tabString + '\n';
 		});
 
-        let textTab = textArray.reduce((previousValue, currentValue) => previousValue + currentValue);
-        textTab += '\n~| Created with text-tabber.com |~'
+		textTablature += textArray.reduce((previousValue, currentValue) => previousValue + currentValue);
+		textTablature += '\n~| Created with text-tabber.com |~';
 
-		return textTab;
+		return textTablature;
 	};
 
 	return (
