@@ -36,12 +36,12 @@ const TabColumn = (props) => {
 		});
 	};
 
-    const makeNotesColumns = () => {
+	const makeNotesColumns = () => {
 		let columnWidth = props.column.notes
 			.reduce((a, b) => {
 				return a.toString().length > b.toString().length ? a : b;
-			}).toString().length;
-
+			})
+			.toString().length;
 
 		let notesColumns = [];
 		for (let i = 0; i < columnWidth; i++) {
@@ -57,23 +57,23 @@ const TabColumn = (props) => {
 		});
 
 		if (!containsSymbolToSnapTo(notesColumns.at(-1))) {
-            for (let i = 0; i < props.spaces; i++) {
-                notesColumns.push(JSON.parse(JSON.stringify(EMPTY_NOTE_COLUMN)));
-            }
-        }
+			for (let i = 0; i < props.spaces; i++) {
+				notesColumns.push(JSON.parse(JSON.stringify(EMPTY_NOTE_COLUMN)));
+			}
+		}
 
 		notesColumns.forEach((column, i) => {
-            const modifierStrings = props.column.modifier.modifierStrings;
-            const modifierType = props.column.modifier.type;
+			const modifierStrings = props.column.modifier.modifierStrings;
+			const modifierType = props.column.modifier.type;
 
-            if (modifierType === 'end') {
-                // put the 'end' marker at the last column
-                if (i === notesColumns.length - 1) column.push(modifierStrings['end']);
-                else column.push(modifierStrings['filler']);
-            } else {
-                if (modifierStrings[modifierType][i]) column.push(modifierStrings[modifierType][i]);
-                else column.push(modifierStrings['filler']);
-            }
+			if (modifierType === 'end') {
+				// put the 'end' marker at the last column
+				if (i === notesColumns.length - 1) column.push(modifierStrings['end']);
+				else column.push(modifierStrings['filler']);
+			} else {
+				if (modifierStrings[modifierType][i]) column.push(modifierStrings[modifierType][i]);
+				else column.push(modifierStrings['filler']);
+			}
 		});
 
 		return notesColumns;

@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { TUNINGS, TUNING_SOUNDS } from '../../../GUITAR';
 
-const audioMutedSelector = state => state.tabMaker.audioMuted;
+const audioMutedSelector = (state) => state.tabMaker.audioMuted;
 
 const FretButton = (props) => {
 	const dispatch = useDispatch();
-    const audioMuted = useSelector(audioMutedSelector);
+	const audioMuted = useSelector(audioMutedSelector);
 
 	const onClick = () => {
 		dispatch({

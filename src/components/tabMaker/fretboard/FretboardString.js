@@ -44,14 +44,7 @@ const FretboardString = (props) => {
 			</select>
 			<div className={'string-line string-line-' + props.guitarString}></div>
 			{fretNotes.map((fret, i) => {
-				return (
-					<FretButton
-						key={fret}
-						fretNum={i}
-						fretNote={fret}
-						guitarString={props.guitarString}
-					/>
-				);
+				return <FretButton key={fret} fretNum={i} fretNote={fret} guitarString={props.guitarString} />;
 			})}
 		</div>
 	);
