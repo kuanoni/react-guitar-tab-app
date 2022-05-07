@@ -1,19 +1,20 @@
 import { useSelector } from 'react-redux';
 import { LINE_BREAK_COLUMN, TUNINGS } from '../../../GUITAR';
 import TabColumn from './TabColumn';
-import './tab.scss';
-import Controller from '../controller/Controller';
 import ExportToTextButton from '../controller/ExportToTextButton';
 import { objectsEqual } from '../../../store/tabMakerReducer/TabMakerSliceUtilities';
+import './tab.scss';
 
 const selectTablature = (state) => state.tabMaker.tablature;
 const selectSelectedColumnIndex = (state) => state.tabMaker.selectedColumnIndex;
 const selectTuning = (state) => state.tabMaker.tuning;
+const selectSpaces = state => state.tabMaker.spaces;
 
 const Tab = () => {
 	const tablature = useSelector(selectTablature);
 	const selectedColumnIndex = useSelector(selectSelectedColumnIndex);
 	const tunings = useSelector(selectTuning);
+	const spaces = useSelector(selectSpaces);
 
 	const tuningsElement = (
 		<div className='tunings'>
@@ -31,6 +32,7 @@ const Tab = () => {
 					column={column}
 					selectedColumn={selectedColumnIndex}
 					tuning={tunings}
+                    spaces={spaces}
 				/>
 			);
 		});

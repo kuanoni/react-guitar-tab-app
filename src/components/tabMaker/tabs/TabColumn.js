@@ -1,100 +1,95 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { EMPTY_NOTE_CHAR, symbolsToSnapTo } from '../../../GUITAR';
+import { EMPTY_NOTE_CHAR, EMPTY_NOTE_COLUMN, symbolsToSnapTo } from '../../../GUITAR';
 
 const TabColumn = (props) => {
 	const dispatch = useDispatch();
 	const columnRef = useRef(null);
 
 	useEffect(() => {
-		columnRef.current.scrollIntoView();
+		columnRef.current.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
 	}, []);
 
 	const setSelectedColumn = (columnId) => {
 		dispatch({ type: 'tabMaker/changeSelectedColumn', payload: columnId });
 	};
 
-	const containsSymbolToSnapTo = (column) => {
-		return column.some((note) => symbolsToSnapTo.includes(note));
-	};
-
-	const containsNumber = (column) => {
-		return column.some((note) => {
-			return parseInt(note);
-		});
+	const containsSymbolToSnapTo = (notes) => {
+		return notes.some((note) => symbolsToSnapTo.includes(note));
 	};
 
 	const wrapColumn = (column, i) => {
 		return (
 			<div key={i} className='tab-column' onClick={() => setSelectedColumn(props.id)}>
-				{wrapColumnNotes(column)}
+				{wrapColumnNotes(column).reverse()}
 			</div>
 		);
 	};
 
-	const wrapColumnNotes = (column) => {
-		return column
-			.map((note, i) => {
-				return (
-					<div key={i} className='note'>
-						{note}
-					</div>
-				);
-			})
-			.reverse();
+	const wrapColumnNotes = (notesColumn) => {
+		return notesColumn.map((note, i) => {
+			return (
+				<div key={i} className='note'>
+					{note}
+				</div>
+			);
+		});
 	};
 
-	const makeColumns = () => {
-		let columns = [[], [], [], []];
+	const makeNotesColumns = () => {
+		let columnWidth = props.column.notes
+			.reduce((a, b) => {
+				return a.toString().length > b.toString().length ? a : b;
+			}).toString().length;
 
-		var longest = props.column.notes.reduce((a, b) => {
-			return a.length > b.length ? a : b;
-		}).length;
 
-		if (longest < 3 || !longest) longest = 3;
+		let notesColumns = [];
+		for (let i = 0; i < columnWidth; i++) {
+			notesColumns.push([]);
+		}
 
 		props.column.notes.forEach((note) => {
-			for (let i = 0; i < longest; i++) {
-				if (note.toString()[i]) {
-					columns[i].push(note.toString()[i]);
-				} else {
-					columns[i].push(EMPTY_NOTE_CHAR);
-				}
+			const noteString = note.toString();
+			for (let i = 0; i < columnWidth; i++) {
+				if (noteString[i]) notesColumns[i].push(noteString[i]);
+				else notesColumns[i].push(EMPTY_NOTE_CHAR);
 			}
 		});
 
-		for (let i = 0; i < 4; i++) {
-            if (i === 3) {
-                columns[i].push(props.column.modifier[i]);
-            } else {
-                columns[i].push(props.column.modifier[i]);
+		if (!containsSymbolToSnapTo(notesColumns.at(-1))) {
+            for (let i = 0; i < props.spaces; i++) {
+                notesColumns.push(JSON.parse(JSON.stringify(EMPTY_NOTE_COLUMN)));
             }
-			
-			if (i >= longest) columns[i] = [];
-		}
+        }
 
-		return columns;
+		notesColumns.forEach((column, i) => {
+            const modifierStrings = props.column.modifier.modifierStrings;
+            const modifierType = props.column.modifier.type;
+
+            if (modifierType === 'end') {
+                // put the 'end' marker at the last column
+                if (i === notesColumns.length - 1) column.push(modifierStrings['end']);
+                else column.push(modifierStrings['filler']);
+            } else {
+                if (modifierStrings[modifierType][i]) column.push(modifierStrings[modifierType][i]);
+                else column.push(modifierStrings['filler']);
+            }
+		});
+
+		return notesColumns;
 	};
 
-	const orderColumns = () => {
-		const [column1, column2, column3, column4] = makeColumns();
+	const makeColumnElements = () => {
+		const notesColumns = makeNotesColumns();
 
-		if (containsNumber(column1) && !containsNumber(column2)) {
-			if (containsSymbolToSnapTo(column2)) {
-				return [column3, column1, column2];
-			}
-		}
-
-		if (column4.length !== 0) {
-			return [column1, column2, column3, column4];
-		}
-
-		return [column1, column2, column3];
+		return notesColumns.map((notesColumn, i) => {
+			return wrapColumn(wrapColumnNotes(notesColumn), i);
+		});
 	};
 
 	return (
 		<div ref={columnRef} className={props.selectedColumn === props.id ? 'columns selected' : 'columns'}>
-			{orderColumns().map((column, i) => wrapColumn(column, i))}
+			{makeColumnElements()}
 		</div>
 	);
 };
