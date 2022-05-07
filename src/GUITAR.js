@@ -38,7 +38,7 @@ export const EMPTY_MODIFIER = {
 };
 export const modifiers = {
 	palmMute: { start: 'PM', middle: '-', end: '|', filler: '-' },
-	vibrato: { start: '~~~~', middle: '~~~~~', end: '~~~~ ', filler: '~' },
+	vibrato: { start: '~', middle: '~', end: '~', filler: '~' },
 };
 
 export const EMPTY_NOTE_CHAR = '-';

@@ -36,7 +36,7 @@ const TabColumn = (props) => {
 		});
 	};
 
-	const makeNotesColumns = () => {
+    const makeNotesColumns = () => {
 		let columnWidth = props.column.notes
 			.reduce((a, b) => {
 				return a.toString().length > b.toString().length ? a : b;
