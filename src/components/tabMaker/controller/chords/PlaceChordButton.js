@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { RiSortDesc } from 'react-icons/ri';
-import ControlButton from './ControlButton';
+import ControlButton from '../ControlButton';
 
 const PlaceChordButton = (props) => {
 	const dispatch = useDispatch();

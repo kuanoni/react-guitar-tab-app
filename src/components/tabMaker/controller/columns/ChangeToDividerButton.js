@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux';
-import ControlButton from './ControlButton';
-import CustomIcon from './CustomIcon';
+import ControlButton from '../ControlButton';
+import CustomIcon from '../CustomIcon';
 
-const ChangeToDivider = () => {
+const ChangeColumnToDivider = () => {
 	const dispatch = useDispatch();
 
 	const onClick = () => {
@@ -16,4 +16,4 @@ const ChangeToDivider = () => {
 	);
 };
 
-export default ChangeToDivider;
+export default ChangeColumnToDivider;

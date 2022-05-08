@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { RiArrowLeftLine } from 'react-icons/ri';
-import ControlButton from './ControlButton';
+import ControlButton from '../ControlButton';
 
 const MoveSelectionLeftButton = () => {
 	const dispatch = useDispatch();

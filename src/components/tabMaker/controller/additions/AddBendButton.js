@@ -1,21 +1,21 @@
 import { useDispatch } from 'react-redux';
-import ControlButton from './ControlButton';
+import ControlButton from '../ControlButton';
 
-const AddSlideUpButton = (props) => {
+const AddBendButton = (props) => {
 	const dispatch = useDispatch();
 
 	const onClick = () => {
 		dispatch({
 			type: 'tabMaker/addLetterToNote',
-			payload: '/',
+			payload: 'b',
 		});
 	};
 
 	return (
-		<ControlButton click={onClick} buttonName={'Slide Up'}>
-			/
+		<ControlButton click={onClick} buttonName={'Bend'}>
+			b
 		</ControlButton>
 	);
 };
 
-export default AddSlideUpButton;
+export default AddBendButton;

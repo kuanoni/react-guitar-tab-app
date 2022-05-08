@@ -19,7 +19,7 @@ const Tab = () => {
 	const tuningsElement = (
 		<div className='tunings'>
 			<div></div>
-			{tunings.map((tuning, i) => <div key={i}>{TUNINGS[tuning].slice(0, 1) + '|'}</div>).reverse()}
+			{[...tunings.map((tuning, i) => <div key={i}>{TUNINGS[tuning].slice(0, 1) + '|'}</div>)].reverse()}
 		</div>
 	);
 

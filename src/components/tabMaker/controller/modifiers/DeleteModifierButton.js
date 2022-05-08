@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { RiCloseFill } from 'react-icons/ri';
-import ControlButton from './ControlButton';
+import ControlButton from '../ControlButton';
 
 const DeleteModifierButton = (props) => {
 	const dispatch = useDispatch();

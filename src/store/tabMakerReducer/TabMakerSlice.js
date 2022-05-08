@@ -121,9 +121,7 @@ const deleteSelectedColumn = (state) => {
 	let newTablature = JSON.parse(JSON.stringify(state.tablature));
 	newTablature.splice(state.selectedColumnIndex, 1);
 
-	console.log(newSelectedColumnIndex, newTablature.length);
 	if (newSelectedColumnIndex >= newTablature.length) newSelectedColumnIndex = newTablature.length - 1;
-	console.log(newSelectedColumnIndex, newTablature.length - 1);
 
 	const updatedState = {
 		...state,

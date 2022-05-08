@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import ControlButton from './ControlButton';
+import ControlButton from '../ControlButton';
 
 const AddSlideDownButton = (props) => {
 	const dispatch = useDispatch();

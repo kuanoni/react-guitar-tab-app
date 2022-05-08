@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import ControlButton from './ControlButton';
-import CustomIcon from './CustomIcon';
+import ControlButton from '../ControlButton';
+import CustomIcon from '../CustomIcon';
 
 const DeleteBreakButton = () => {
 	const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { RiParenthesesFill } from 'react-icons/ri';
-import ControlButton from './ControlButton';
+import ControlButton from '../ControlButton';
 
 const AddGhostNoteButton = (props) => {
 	const dispatch = useDispatch();

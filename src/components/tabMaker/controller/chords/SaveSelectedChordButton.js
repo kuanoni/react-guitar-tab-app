@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { RiAddFill } from 'react-icons/ri';
-import { useEffect, useRef, useState } from 'react';
-import ControlButton from './ControlButton';
+import { useEffect, useRef } from 'react';
+import ControlButton from '../ControlButton';
 
 const SaveSelectedChordButton = (props) => {
 	const dispatch = useDispatch();

@@ -1,29 +1,33 @@
 import React, { useState } from 'react';
 import './controller.scss';
-import AddHammerOnButton from './AddHammerOnButton';
-import AddPullOffButton from './AddPullOffButton';
-import ChangeToDivider from './ChangeToDividerButton';
-import ClearColumnButton from './ClearColumnButton';
-import DeleteBreakButton from './DeleteBreakButton';
-import LineBreakButton from './LineBreakButton';
-import MoveSelectionLeftButton from './MoveSelectionLeftButton';
-import MoveSelectionRightButton from './MoveSelectionRightButton';
-import SpaceButton from './SpaceButton';
-import UndoButton from './UndoButton';
-import AddBendButton from './AddBendButton';
-import AddSlideDownButton from './AddSlideDownButton';
-import AddSlideUpButton from './AddSlideUpButton';
-import AddGhostNoteButton from './AddGhostNoteButton';
-import AddNaturalHarmonicButton from './AddNaturalHarmonicButton';
-import SelectChordDropdown from './SelectChordDropdown';
-import PlaceChordButton from './PlaceChordButton';
-import SaveSelectedChordButton from './SaveSelectedChordButton';
-import AddMutedButton from './AddMutedButton';
-import PalmMuteButton from './PalmMuteButton';
-import VibratoButton from './VibratoButton';
-import DeleteModifierButton from './DeleteModifierButton';
-import TestButton from './TestButton';
-import DeleteColumnButton from './DeleteColumnButton';
+
+import MoveSelectionLeftButton from './general/MoveSelectionLeftButton';
+import MoveSelectionRightButton from './general/MoveSelectionRightButton';
+import UndoButton from './general/UndoButton';
+
+import AddHammerOnButton from './additions/AddHammerOnButton';
+import AddPullOffButton from './additions/AddPullOffButton';
+import AddMutedButton from './additions/AddMutedButton';
+import AddBendButton from './additions/AddBendButton';
+import AddSlideUpButton from './additions/AddSlideUpButton';
+import AddSlideDownButton from './additions/AddSlideDownButton';
+import AddGhostNoteButton from './wrappers/AddGhostNoteButton';
+import AddNaturalHarmonicButton from './wrappers/AddNaturalHarmonicButton';
+
+import PalmMuteButton from './modifiers/PalmMuteButton';
+import VibratoButton from './modifiers/VibratoButton';
+import DeleteModifierButton from './modifiers/DeleteModifierButton';
+
+import ClearColumnButton from './columns/ClearColumnButton';
+import DeleteColumnButton from './columns/DeleteColumnButton';
+import ChangeToDividerButton from './columns/ChangeToDividerButton';
+import AddSpaceColumnButton from './columns/AddSpaceColumnButton';
+import LineBreakButton from './lines/LineBreakButton';
+import DeleteBreakButton from './lines/DeleteBreakButton';
+
+import SelectChordDropdown from './chords/SelectChordDropdown';
+import PlaceChordButton from './chords/PlaceChordButton';
+import SaveSelectedChordButton from './chords/SaveSelectedChordButton';
 
 const Controller = () => {
 	const [selectedChord, setSelectedChord] = useState('');
@@ -51,8 +55,8 @@ const Controller = () => {
 				<div className='divider'></div>
 				<ClearColumnButton />
 				<DeleteColumnButton />
-				<ChangeToDivider />
-				<SpaceButton />
+				<ChangeToDividerButton />
+				<AddSpaceColumnButton />
 				<LineBreakButton />
 				<DeleteBreakButton />
 				<div className='divider'></div>

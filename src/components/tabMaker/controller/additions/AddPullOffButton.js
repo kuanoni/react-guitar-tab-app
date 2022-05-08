@@ -1,21 +1,21 @@
 import { useDispatch } from 'react-redux';
-import ControlButton from './ControlButton';
+import ControlButton from '../ControlButton';
 
-const AddHammerOnButton = (props) => {
+const AddPullOffButton = (props) => {
 	const dispatch = useDispatch();
 
 	const onClick = () => {
 		dispatch({
 			type: 'tabMaker/addLetterToNote',
-			payload: 'h',
+			payload: 'p',
 		});
 	};
 
 	return (
-		<ControlButton click={onClick} buttonName={'Hammer-On'}>
-			h
+		<ControlButton click={onClick} buttonName={'Pulloff'}>
+			p
 		</ControlButton>
 	);
 };
 
-export default AddHammerOnButton;
+export default AddPullOffButton;

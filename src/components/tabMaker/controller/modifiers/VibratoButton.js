@@ -1,4 +1,4 @@
-import { modifiers } from '../../../GUITAR';
+import { modifiers } from '../../../../GUITAR';
 import ModifierButton from './ModifierButton';
 
 const VibratoButton = () => {

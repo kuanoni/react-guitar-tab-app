@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { RiDeleteColumn } from 'react-icons/ri';
-import ControlButton from './ControlButton';
-import CustomIcon from './CustomIcon';
+import ControlButton from '../ControlButton';
+import CustomIcon from '../CustomIcon';
 
 const ClearColumnButton = () => {
 	const dispatch = useDispatch();
