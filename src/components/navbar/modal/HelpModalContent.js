@@ -1,3 +1,6 @@
+import modifiersExample from './imgs/modifiers_example.gif';
+import chordsExample from './imgs/chords.png';
+import tuningsExample from './imgs/tunings.png';
 import './modal.scss';
 
 const HelpModalContent = () => {
@@ -5,18 +8,29 @@ const HelpModalContent = () => {
 		<div className='modal-content'>
 			<h1>Help</h1>
 			<div className='divider-horizontal'></div>
-			<p>
-				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consectetur reiciendis inventore adipisci
-				placeat maiores. Optio molestiae distinctio vero placeat dolores adipisci architecto cum consectetur
-				facere, natus ratione sit dolor amet repellat ipsum aut, blanditiis maxime magnam nulla incidunt, ex
-				iusto.
-			</p>
-			<p>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae sunt cumque obcaecati dicta dolore
-				veritatis deleniti itaque iusto, unde voluptatum quidem, corrupti repudiandae in est velit excepturi
-				temporibus, illum mollitia! Labore a tenetur vel dolorem consectetur magnam, dolore repellendus cumque
-				excepturi nostrum in ipsam magni architecto temporibus aliquid ab? Debitis?
-			</p>
+			<div className='help-content'>
+				<ul>
+					<li className='tip'>
+						Click on a fret on the fretboard and it will add the corresponding note to the selected column
+						in the tablature.
+						<ul>
+							<li>Holding <b>SHIFT</b> will allow you to enter multiple notes into the same column.</li>
+						</ul>
+					</li>
+                    <li className='tip'>The left side of the fretboard allows you to change the tunings of each string.</li>
+                    <img src={tuningsExample} alt='tunings selectors' />
+                    <li className='tip'>
+                        Select a chord with the dropdown and place it by clicking the button next to it.
+                        <ul>
+                            <li>Add the selected column to the list by giving it a name and saving it.</li>
+                        </ul>
+                    </li>
+                    <img src={chordsExample} alt='chord selection dropdown and chord name input' />
+                    <li className='tip'>Modifiers like palm muting, which will appear above the notes in your tablature, can be added by clicking the PM button. Click the PM button to start the modifier on the selected column, then select a different column and click it again.</li>
+				    <img src={modifiersExample} alt='gif showing how to add palm muting' />
+				</ul>
+			</div>
+
 			<h1>Keybindings</h1>
 			<div className='divider-horizontal'></div>
 			<div className='keybindings'>
@@ -30,13 +44,15 @@ const HelpModalContent = () => {
 				</div>
 				<div className='keybinding'>
 					<div>
-						<div className='key'>Shift</div> + <div className='key'>A</div>
+						<div className='key'>Shift</div> + <div className='key'>{'<'}</div> /{' '}
+						<div className='key'>A</div>
 					</div>
 					<div className='keybinding-text'>Transpose Down</div>
 				</div>
 				<div className='keybinding'>
 					<div>
-						<div className='key'>Shift</div> + <div className='key'>D</div>
+						<div className='key'>Shift</div> + <div className='key'>{'>'}</div> /{' '}
+						<div className='key'>D</div>
 					</div>
 					<div className='keybinding-text'>Transpose Up</div>
 				</div>
@@ -79,7 +95,7 @@ const HelpModalContent = () => {
 					<div className='keybinding-text'>Undo</div>
 				</div>
 			</div>
-			<h1>Changes</h1>
+			{/* <h1>Changes</h1>
 			<div className='divider-horizontal'></div>
 			<div className='changes-content'>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Id enim repudiandae deleniti sed numquam
@@ -106,7 +122,7 @@ const HelpModalContent = () => {
 				quo dolorem voluptatum aliquid nemo ea cupiditate amet ut voluptatem cum excepturi, consectetur delectus
 				tenetur eveniet deleniti id! Porro ea similique voluptatum eius quisquam incidunt dolorem ratione
 				quibusdam.
-			</div>
+			</div> */}
 		</div>
 	);
 };
