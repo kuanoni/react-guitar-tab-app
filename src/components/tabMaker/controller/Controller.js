@@ -30,6 +30,7 @@ import PlaceChordButton from './chords/PlaceChordButton';
 import SaveSelectedChordButton from './chords/SaveSelectedChordButton';
 import AddTapButton from './additions/AddTapButton';
 import AutomoveToggle from './general/AutomoveToggle';
+import SelectSpacesDropdown from './general/SelectSpacesDropdown';
 
 const Controller = () => {
 	const [selectedChord, setSelectedChord] = useState('');
@@ -64,6 +65,8 @@ const Controller = () => {
 				<DeleteBreakButton />
                 <div className="divider"></div>
                 <AutomoveToggle />
+                <div className="divider"></div>
+                <SelectSpacesDropdown />
             </div>
             <div className="controller">
 				<SelectChordDropdown selectedChord={selectedChord} setSelectedChord={setSelectedChord} />

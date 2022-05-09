@@ -8,7 +8,7 @@ import './tab.scss';
 const selectTablature = (state) => state.tabMaker.tablature;
 const selectSelectedColumnIndex = (state) => state.tabMaker.selectedColumnIndex;
 const selectTuning = (state) => state.tabMaker.tuning;
-const selectSpaces = (state) => state.tabMaker.spaces;
+const selectSpaces = (state) => state.tabMaker.innerSpaces;
 
 const Tab = () => {
 	const tablature = useSelector(selectTablature);

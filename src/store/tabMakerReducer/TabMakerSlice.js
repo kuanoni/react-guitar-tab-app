@@ -19,6 +19,7 @@ const initialState = {
 	history: [],
 	copiedColumn: [],
 	savedChords: [],
+    innerSpaces: 1,
 	spaces: 1,
 	currentModifier: {},
 	modifierStart: null,
@@ -112,7 +113,10 @@ export default function tabMakerReducer(state = initialState, action) {
 			return saveChangesToHistory(state, transposeNotes(state, action.payload));
 
         case 'tabMaker/toggleAutomove':
-            return { ...state, automove: !state.automove }
+            return { ...state, automove: !state.automove };
+
+        case 'tabMaker/setSpaces':
+            return { ...state, spaces: action.payload };
 
 		default:
 			return state;
@@ -348,7 +352,7 @@ const setStringNote = (state, guitarString, note) => {
 	};
 
 	if (state.automove && !state.holdingShift) {
-		updatedState = moveSelectedColumn(updatedState, 1);
+		updatedState = moveSelectedColumn(updatedState, state.spaces);
 	}
 
 	return updatedState;
@@ -462,7 +466,7 @@ const setColumnToDivider = (state) => {
 	};
 
     if (state.automove && !state.holdingShift) {
-		updatedState = moveSelectedColumn(updatedState, 1);
+		updatedState = moveSelectedColumn(updatedState, state.spaces);
 	}
 
 	return updatedState;
@@ -495,9 +499,9 @@ const placeColumn = (state, column) => {
 		...state,
 		tablature: newTablature,
 	};
-    
+
     if (state.automove && !state.holdingShift) {
-		updatedState = moveSelectedColumn(updatedState, 1);
+		updatedState = moveSelectedColumn(updatedState, state.spaces);
 	}
 
 	return updatedState;
