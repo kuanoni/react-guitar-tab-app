@@ -28,6 +28,8 @@ import DeleteBreakButton from './lines/DeleteBreakButton';
 import SelectChordDropdown from './chords/SelectChordDropdown';
 import PlaceChordButton from './chords/PlaceChordButton';
 import SaveSelectedChordButton from './chords/SaveSelectedChordButton';
+import AddTapButton from './additions/AddTapButton';
+import AutomoveToggle from './general/AutomoveToggle';
 
 const Controller = () => {
 	const [selectedChord, setSelectedChord] = useState('');
@@ -42,6 +44,7 @@ const Controller = () => {
 				<div className='divider'></div>
 				<AddHammerOnButton />
 				<AddPullOffButton />
+                <AddTapButton />
 				<AddMutedButton />
 				<AddBendButton />
 				<AddSlideUpButton />
@@ -52,6 +55,11 @@ const Controller = () => {
 				<PalmMuteButton />
 				<VibratoButton />
 				<DeleteModifierButton />
+			</div>
+            <div className="controller">
+				<SelectChordDropdown selectedChord={selectedChord} setSelectedChord={setSelectedChord} />
+				<PlaceChordButton selectedChord={selectedChord} />
+				<SaveSelectedChordButton setSelectedChord={setSelectedChord} />
 				<div className='divider'></div>
 				<ClearColumnButton />
 				<DeleteColumnButton />
@@ -59,11 +67,9 @@ const Controller = () => {
 				<AddSpaceColumnButton />
 				<LineBreakButton />
 				<DeleteBreakButton />
-				<div className='divider'></div>
-				<SelectChordDropdown selectedChord={selectedChord} setSelectedChord={setSelectedChord} />
-				<PlaceChordButton selectedChord={selectedChord} />
-				<SaveSelectedChordButton setSelectedChord={setSelectedChord} />
-			</div>
+                <div className="divider"></div>
+                <AutomoveToggle />
+            </div>
 		</div>
 	);
 };
