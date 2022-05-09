@@ -36,12 +36,12 @@ const Controller = () => {
 
 	return (
 		<div className='controller-wrapper'>
-			<div className='controller'>
+        <div className="controller-scroll">
+            <div className='controller'>
 				<MoveSelectionLeftButton />
 				<MoveSelectionRightButton />
 				<UndoButton />
 				{/* <TestButton /> */}
-				<div className='divider'></div>
 				<AddHammerOnButton />
 				<AddPullOffButton />
                 <AddTapButton />
@@ -51,16 +51,11 @@ const Controller = () => {
 				<AddSlideDownButton />
 				<AddGhostNoteButton />
 				<AddNaturalHarmonicButton />
-				<div className='divider'></div>
 				<PalmMuteButton />
 				<VibratoButton />
 				<DeleteModifierButton />
 			</div>
             <div className="controller">
-				<SelectChordDropdown selectedChord={selectedChord} setSelectedChord={setSelectedChord} />
-				<PlaceChordButton selectedChord={selectedChord} />
-				<SaveSelectedChordButton setSelectedChord={setSelectedChord} />
-				<div className='divider'></div>
 				<ClearColumnButton />
 				<DeleteColumnButton />
 				<ChangeToDividerButton />
@@ -70,6 +65,13 @@ const Controller = () => {
                 <div className="divider"></div>
                 <AutomoveToggle />
             </div>
+            <div className="controller">
+				<SelectChordDropdown selectedChord={selectedChord} setSelectedChord={setSelectedChord} />
+				<PlaceChordButton selectedChord={selectedChord} />
+				<SaveSelectedChordButton setSelectedChord={setSelectedChord} />
+            </div>
+        </div>
+			
 		</div>
 	);
 };

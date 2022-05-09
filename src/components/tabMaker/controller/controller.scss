@@ -1,6 +1,15 @@
 .controller-wrapper {
-	overflow-x: auto;
-    margin-top: 2rem;
+    z-index: 10;
+    display: block;
+    padding-top: 2.5rem;
+    margin-top: -2.5rem;
+    overflow-x: auto;
+}
+
+.controller-scroll {
+    min-width: fit-content;
+    width: auto;
+	background-color: #0d0601;
 }
 
 .controller {
@@ -85,8 +94,11 @@
 			color: #000;
 			width: max-content;
 			padding: 0.25rem;
+            border: 1px #000 solid;
 			border-radius: 6px;
+            border-bottom-left-radius: 0px;
 			position: absolute;
+            left: 0px;
 			bottom: 2.5rem;
             pointer-events: none;
 			opacity: 0;
