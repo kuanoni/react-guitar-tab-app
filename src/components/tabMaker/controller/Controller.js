@@ -64,9 +64,9 @@ const Controller = () => {
 				<LineBreakButton />
 				<DeleteBreakButton />
                 <div className="divider"></div>
-                <AutomoveToggle />
-                <div className="divider"></div>
                 <SelectSpacesDropdown />
+                <div className="divider"></div>
+                <AutomoveToggle />
             </div>
             <div className="controller">
 				<SelectChordDropdown selectedChord={selectedChord} setSelectedChord={setSelectedChord} />

@@ -49,12 +49,19 @@ const TabColumn = (props) => {
 		}
 
 		props.column.notes.forEach((note) => {
-			const noteString = note.toString();
+			let noteString = note.toString();
+
+            // lines up symbols to snap to between single digit notes and double digit notes in the same column
+			if (containsSymbolToSnapTo(noteString.split('')) && noteString.length < columnWidth)
+				noteString = noteString.slice(0, 1) + EMPTY_NOTE_CHAR.repeat(columnWidth - noteString.length) + noteString.slice(1);
+
 			for (let i = 0; i < columnWidth; i++) {
 				if (noteString[i]) notesColumns[i].push(noteString[i]);
 				else notesColumns[i].push(EMPTY_NOTE_CHAR);
 			}
 		});
+
+		// console.table(notesColumns)
 
 		if (!containsSymbolToSnapTo(notesColumns.at(-1))) {
 			for (let i = 0; i < props.spaces; i++) {

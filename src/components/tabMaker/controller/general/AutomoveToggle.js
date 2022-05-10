@@ -13,7 +13,7 @@ const AutomoveToggle = () => {
 
 	return (
 		<>
-			<label htmlFor='automove'>Auto-move column?</label>
+			<label htmlFor='automove'>Auto-spaces: </label>
 			<input className='checkbox' type='checkbox' name='automove' onChange={onChange} defaultChecked={automove} />
 		</>
 	);
