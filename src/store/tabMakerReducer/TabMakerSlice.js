@@ -118,6 +118,9 @@ export default function tabMakerReducer(state = initialState, action) {
         case 'tabMaker/setSpaces':
             return { ...state, spaces: action.payload };
 
+        case 'tabMaker/resetTablature': 
+            return { ...state, tablature: [EMPTY_COLUMN, EMPTY_COLUMN], selectedColumnIndex: 1 };
+
 		default:
 			return state;
 	}
