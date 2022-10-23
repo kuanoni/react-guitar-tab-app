@@ -7,7 +7,11 @@ An application used to easily write text-based tablature for guitar. Made with R
 -   UI implemented using React & Sass
 -   State management via Redux
 
-## Project Screen Shot(s)
+## Live Example
+
+[https://text-tabber.com/](https://text-tabber.com/)
+
+## Project Screen Shot
 
 ![Example tablature](screenshot_01.png)
 
