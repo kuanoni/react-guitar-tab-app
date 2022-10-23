@@ -10,7 +10,7 @@ const ResetTablatureButton = () => {
 	};
 
 	return (
-		<ControlButton click={onClick} buttonName={'Reset ALL Tablature'}>
+		<ControlButton click={onClick} buttonName={'Reset Tablature'}>
 			<CustomIcon svgPath='reset' />
 		</ControlButton>
 	);
